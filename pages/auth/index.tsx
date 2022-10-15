@@ -9,6 +9,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 
 // illustration
+import RobotImage from '../../public/robot.svg'
 import AccessBotIllustration from '../../public/loginillustration.svg'
 
 type Props = {}
@@ -45,7 +46,7 @@ function Auth({}: Props) {
   }
 
   return (
-    <div className='max-h-screen h-screen flex bg-gray-50'>
+    <div className='max-h-screen h-screen flex bg-gray-50 relative'>
       <Head>
         <title>Login to NeuralSight</title>
       </Head>
@@ -57,7 +58,7 @@ function Auth({}: Props) {
         animate={{
           opacity: 1,
         }}
-        className='w-[45%] h-full items-center flex flex-col justify-evenly container mx-auto px-6 lg:px-12 xl:px-24 overflow-hidden'
+        className='w-100 lg:w-[45%] h-full items-center flex flex-col justify-evenly container mx-auto md:px-12 px-12 xl:px-24 overflow-hidden'
       >
         <div className='flex flex-col space-y-2 text-center justify-center w-full items-center'>
           {/* Inputs */}
@@ -113,7 +114,13 @@ function Auth({}: Props) {
             }
           />
           <div className='w-full flex justify-between px-4 items-center'>
-            <input type='checkbox' />
+            <div className='flex text-zinc-500 font-medium gap-x-2 text-sm lg:text-base justify-center items'>
+              <input
+                type='checkbox'
+                className='appearance-none checked:bg-primary-light/30'
+              />{' '}
+              Remember me
+            </div>
             <Link href={'/reset'}>
               <p className='cursor-pointer font-medium text-sm lg:text-base lowercase text-primary-light hover:text-primary-dark transition-all duration-200 '>
                 forgot password?
@@ -147,7 +154,7 @@ function Auth({}: Props) {
           </Link>
         </p>
       </motion.section>
-      <section className='w-[55%] h-full relative bg-accent/50 flex justify-center items-center overflow-hidden'>
+      <section className='hidden lg:block w-[55%] h-full relative bg-accent/50 flex justify-center items-center overflow-hidden'>
         <motion.div
           initial={{
             x: 400,
@@ -202,6 +209,17 @@ function Auth({}: Props) {
           </motion.div>
         </div>
       </section>
+
+      {/* Small device robot and sun */}
+      <div className='block lg:hidden absolute h-96 w-60 -top-10 -left-[7.8em] rotate-[25deg]'>
+        <Image
+          src={RobotImage}
+          alt='a robot'
+          layout='fill'
+          objectFit='contain'
+        />
+      </div>
+      <div className='block lg:hidden absolute rounded-full h-80 w-80 bg-primary-light -top-[13em] -right-[13em] blur-3xl' />
     </div>
   )
 }
