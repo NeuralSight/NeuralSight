@@ -29,7 +29,7 @@ module.exports = {
           light: '#16C2D5',
           dark: '#10217D',
         },
-        accent: '#D7BAAD',
+        accent: { one: '#D7BAAD', two: '#3F3D56' },
       },
     },
   },
