@@ -11,6 +11,8 @@ import Image from 'next/image'
 // illustration
 import RobotImage from '../../public/robot.svg'
 import AccessBotIllustration from '../../public/loginillustration.svg'
+import Button from '../../components/Button'
+import ThirdPartyBtn from '../../components/auth/ThirdPartyBtn'
 
 type Props = {}
 
@@ -48,6 +50,7 @@ function Auth({}: Props) {
   return (
     <div className='max-h-screen h-screen flex bg-gray-50 relative'>
       <Head>
+        <meta></meta>
         <title>Login to NeuralSight</title>
       </Head>
       <motion.section
@@ -71,7 +74,7 @@ function Auth({}: Props) {
             Hello Again!
           </h3>
           {/* Description Text */}
-          <p className='font-medium text-sm lg:text-base lowercase text-slate-400'>
+          <p className=' text-sm lg:text-base lowercase text-slate-400'>
             Welcome back, please enter your details
           </p>
         </div>
@@ -129,21 +132,16 @@ function Auth({}: Props) {
           </div>
         </form>
         <div className='flex flex-col w-full h-auto space-y-6 '>
-          <button className=' w-full max-h-[24px] flex cursor-pointer rounded-xl border border-primary-light hover:border-primary-dark bg-primary-light hover:bg-primary-dark py-6 px-24 items-center justify-center transition-all duration-200 ease-in-out shadow-md shadow-primary-light/25 hover:shadow-primary-dark/25 hover:shadow'>
-            <span className='text-white font-bold text-sm lg:text-base capitalize'>
-              login
-            </span>
-          </button>
-          <button
-            type='button'
-            className='flex  cursor-pointer w-auto max-h-6 py-6 px-20 rounded-xl bg-transparent border-[2px] border-zinc-500/50 text-sm lg:text-base font-medium text-zinc-500 justify-center items-center hover:bg-slate-400/10 transition-all duration-200 ease-in-out group '
-          >
+          <Button type='button' outlined={false}>
+            login
+          </Button>
+          <ThirdPartyBtn type='button'>
             <Icon
               icon='flat-color-icons:google'
               className='pr-2 h-7 w-7 group-hover:transform group-hover:animate-bounce ease-in-out duration-200'
             />{' '}
             Sign with Google
-          </button>
+          </ThirdPartyBtn>
         </div>
         <p className='text-sm lg:text-base text-slate-400 font-medium'>
           Want to give it a try?{' '}
@@ -154,7 +152,7 @@ function Auth({}: Props) {
           </Link>
         </p>
       </motion.section>
-      <section className='hidden lg:block w-[55%] h-full relative bg-accent/50 flex justify-center items-center overflow-hidden'>
+      <section className='hidden lg:flex w-[55%] h-full relative bg-accent-one/50 justify-center items-center overflow-hidden'>
         <motion.div
           initial={{
             x: 400,
@@ -167,7 +165,7 @@ function Auth({}: Props) {
             x: 0,
             opacity: 1,
           }}
-          className='h-96 w-96 hover:bg-primary-light bg-primary-dark/100 rounded-full '
+          className='h-96 w-96 bg-primary-dark/90 rounded-full '
         />
 
         <div className='absolute top-0 left-0 z-10 w-full h-full'>
@@ -183,7 +181,7 @@ function Auth({}: Props) {
             animate={{
               opacity: 1,
             }}
-            className='h-1/3 lg:h-[40%] 2xl:h-[49.5%] w-full relative bottom-0 bg-white/20  backdrop-blur-lg lg:bg-transparent lg:backdrop-blur-0'
+            className='h-1/3 lg:h-[40%] 2xl:h-[49.3%] w-full relative bottom-0 bg-white/20  backdrop-blur-lg lg:bg-transparent lg:backdrop-blur-0'
           >
             <Image
               src={AccessBotIllustration}
@@ -202,7 +200,7 @@ function Auth({}: Props) {
             animate={{
               y: 0,
             }}
-            className='h-1/3 lg:h-[60%] 2xl:h-[50.5%] w-full bg-white/20  backdrop-blur-lg '
+            className='h-1/3 lg:h-[60%] 2xl:h-[50.7%] w-full bg-white/20  backdrop-blur-lg '
           >
             {/* glass Botton */}
             {/* text can be added here */}
