@@ -161,9 +161,9 @@ function ChangePassword({}: Props) {
         </form>
         <p className='text-sm lg:text-base text-slate-400 font-medium'>
           Go back to{' '}
-          <Link href='#'>
+          <Link href='/auth'>
             <span className='cursor-pointer capitalize text-primary-light hover:text-primary-dark transition-all duration-200'>
-              Login
+              login page
             </span>
           </Link>
         </p>

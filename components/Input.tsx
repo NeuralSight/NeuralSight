@@ -1,6 +1,7 @@
 import {
   FormControl,
   InputLabel,
+  Box,
   OutlinedInput,
   InputAdornment,
 } from '@mui/material'
@@ -43,7 +44,7 @@ const CustomFormControl = styled(FormControl)({
 const CustomOutlinedInput = styled(OutlinedInput)({})
 /**
  * Input field
- * @param props.type text | number| email | tel | all type of input
+ * @param props.type 'text' | 'tel' | 'password' | 'number' | 'email'
  *
  * @returns
  */
@@ -51,34 +52,38 @@ const InputRadius = '10px'
 
 const InputField = (props: Props) => {
   return (
-    <CustomFormControl
-      sx={{ width: 'auto', m: 1, borderRadius: InputRadius }}
-      className='rounded-lg'
-      variant='outlined'
-      size='medium'
+    <Box
+      sx={{ maxWidth: '100%', width: 'auto', m: 1, borderRadius: InputRadius }}
     >
-      <InputLabel
-        htmlFor={props.id}
-        sx={{
-          textDecoration: 'capitalized',
-          width: 'fit',
-          textAlign: 'center',
-        }}
+      <CustomFormControl
+        fullWidth
+        className='rounded-lg'
+        variant='outlined'
+        size='medium'
       >
-        {props.label}
-      </InputLabel>
-      <OutlinedInput
-        sx={{ borderRadius: InputRadius }}
-        id={props.id}
-        type={props.type}
-        value={props.value}
-        onChange={props.handleChange}
-        endAdornment={
-          <InputAdornment position='end'>{props.icon}</InputAdornment>
-        }
-        label='Password'
-      />
-    </CustomFormControl>
+        <InputLabel
+          htmlFor={props.id}
+          sx={{
+            textDecoration: 'capitalized',
+            width: 'fit',
+            textAlign: 'center',
+          }}
+        >
+          {props.label}
+        </InputLabel>
+        <OutlinedInput
+          sx={{ borderRadius: InputRadius }}
+          id={props.id}
+          type={props.type}
+          value={props.value}
+          onChange={props.handleChange}
+          endAdornment={
+            <InputAdornment position='end'>{props.icon}</InputAdornment>
+          }
+          label={props.label}
+        />
+      </CustomFormControl>
+    </Box>
   )
 }
 
