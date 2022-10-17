@@ -132,13 +132,18 @@ function Auth({}: Props) {
           </div>
         </form>
         <div className='flex flex-col w-full h-auto space-y-6 '>
-          <Button type='button' outlined={false}>
+          <Button
+            type='button'
+            outlined={false}
+            disable={values.email == '' || values.password == '' ? true : false}
+          >
             login
           </Button>
           <ThirdPartyBtn type='button'>
+            {/* animate google icon to rotate once */}
             <Icon
               icon='flat-color-icons:google'
-              className='pr-2 h-7 w-7 group-hover:transform group-hover:animate-bounce ease-in-out duration-200'
+              className='pr-2 h-7 w-7 group-hover:transform ease-in-out duration-200'
             />{' '}
             Sign with Google
           </ThirdPartyBtn>
