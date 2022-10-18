@@ -13,7 +13,7 @@ const headers = new Headers({ 'Content-Type': 'application/json' })
 
 const loginUser = async (user: AuthUser) => {
   const response = await fetch(
-    `${process.env.NEXT_APP_NEURALSIGHT_API_BASE_URL}/v1/login/access-token`,
+    `${process.env.NEURALSIGHT_API_BASE_URL}/v1/login/access-token`,
     {
       method: 'POST',
       headers: headers,
