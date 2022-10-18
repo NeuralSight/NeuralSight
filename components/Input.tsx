@@ -6,16 +6,17 @@ import {
   InputAdornment,
 } from '@mui/material'
 import React from 'react'
-import { UseFormRegister } from 'react-hook-form/dist/types'
+import { UseFormRegisterReturn } from 'react-hook-form/dist/types'
 import styled from '@emotion/styled'
 import { FieldValue } from 'react-hook-form/dist/types/fields'
 
 type Props = {
   id: string
   label: string | undefined
-  type: 'text' | 'tel' | 'password' | 'number' | 'email'
-  register: object
-  icon: React.ReactNode
+  type?: 'text' | 'tel' | 'password' | 'number' | 'email'
+  register?: object | undefined
+  ref?: React.RefObject<unknown> | undefined
+  icon?: React.ReactNode | undefined
 }
 
 const CustomFormControl = styled(FormControl)({
@@ -55,6 +56,7 @@ const InputField = (props: Props) => {
       sx={{ maxWidth: '100%', width: 'auto', m: 1, borderRadius: InputRadius }}
     >
       <CustomFormControl
+        color='warning'
         fullWidth
         className='rounded-lg'
         variant='outlined'
@@ -73,6 +75,7 @@ const InputField = (props: Props) => {
         <OutlinedInput
           sx={{ borderRadius: InputRadius }}
           id={props.id}
+          ref={props.ref}
           type={props.type}
           {...props.register}
           endAdornment={
