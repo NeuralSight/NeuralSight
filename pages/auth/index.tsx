@@ -1,12 +1,13 @@
 import React from 'react'
 import { Icon } from '@iconify/react'
-import { duration, IconButton } from '@mui/material'
+import { IconButton } from '@mui/material'
 import Head from 'next/head'
 import Logo from '../../components/auth/Logo'
 import InputField from '../../components/Input'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { useForm, SubmitHandler } from 'react-hook-form'
 
 // illustration
 import RobotImage from '../../public/robot.svg'
@@ -19,26 +20,25 @@ type Props = {}
 type State = {
   email: string
   password: string
-  showPassword: boolean
 }
 
 function Auth({}: Props) {
-  const [values, setValues] = React.useState<State>({
-    email: '',
-    password: '',
-    showPassword: false,
-  })
-  const handleChange =
-    (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      // handle any change of all the inputs inside the object
-      setValues({ ...values, [prop]: event.target.value })
-    }
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<State>()
+  const [showPassword, setShowPassword] = React.useState<boolean>(false)
 
+  // (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   // handle any change of all the inputs inside the object
+  //   setValues({ ...values, [prop]: event.target.value })
+  // }
+  const onSubmit: SubmitHandler<State> = (data) => console.log(data)
+  console.log(errors)
   const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword,
-    })
+    setShowPassword(!showPassword)
   }
 
   const handleMouseDownPassword = (
@@ -78,13 +78,18 @@ function Auth({}: Props) {
             Welcome back, please enter your details
           </p>
         </div>
-        <form className='flex flex-col w-full h-auto space-y-6 '>
+        <form
+          className='flex flex-col w-full h-auto space-y-6 '
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <InputField
             id='email'
             label='email'
             type='email'
-            value={values.email}
-            handleChange={handleChange('email')}
+            register={register('email', {
+              required: true,
+              pattern: /^\S+@\S+$/i,
+            })}
             icon={
               <Icon icon='carbon:email' className='h-7 w-7 text-zinc-500/50' />
             }
@@ -92,9 +97,12 @@ function Auth({}: Props) {
           <InputField
             id='password'
             label='password'
-            type={values.showPassword ? 'text' : 'password'}
-            value={values.password}
-            handleChange={handleChange('password')}
+            type={showPassword ? 'text' : 'password'}
+            register={register('password', {
+              required: true,
+              min: 8,
+              pattern: / "^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"/i,
+            })}
             icon={
               <IconButton
                 aria-label='toggle password visibility'
@@ -102,7 +110,7 @@ function Auth({}: Props) {
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
               >
-                {values.showPassword ? (
+                {showPassword ? (
                   <Icon
                     icon='ic:baseline-visibility-off'
                     className='h-[30px]  w-[30px]  text-zinc-500/50'
@@ -130,24 +138,29 @@ function Auth({}: Props) {
               </p>
             </Link>
           </div>
+          <div className='flex flex-col w-full h-auto space-y-6 '>
+            <Button
+              type='submit'
+              outlined={false}
+              disable={
+                errors.email?.message || errors.email?.type == 'required'
+                  ? true
+                  : false
+              }
+            >
+              login
+            </Button>
+            <ThirdPartyBtn type='button'>
+              {/* animate google icon to rotate once */}
+              <Icon
+                icon='flat-color-icons:google'
+                className='pr-2 h-7 w-7 group-hover:transform ease-in-out duration-200'
+              />{' '}
+              Sign with Google
+            </ThirdPartyBtn>
+          </div>
         </form>
-        <div className='flex flex-col w-full h-auto space-y-6 '>
-          <Button
-            type='button'
-            outlined={false}
-            disable={values.email == '' || values.password == '' ? true : false}
-          >
-            login
-          </Button>
-          <ThirdPartyBtn type='button'>
-            {/* animate google icon to rotate once */}
-            <Icon
-              icon='flat-color-icons:google'
-              className='pr-2 h-7 w-7 group-hover:transform ease-in-out duration-200'
-            />{' '}
-            Sign with Google
-          </ThirdPartyBtn>
-        </div>
+
         <p className='text-sm lg:text-base text-slate-400 font-medium'>
           Want to give it a try?{' '}
           <Link href='#'>

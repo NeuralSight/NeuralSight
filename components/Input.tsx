@@ -6,16 +6,15 @@ import {
   InputAdornment,
 } from '@mui/material'
 import React from 'react'
+import { UseFormRegister } from 'react-hook-form/dist/types'
 import styled from '@emotion/styled'
+import { FieldValue } from 'react-hook-form/dist/types/fields'
 
 type Props = {
   id: string
   label: string | undefined
   type: 'text' | 'tel' | 'password' | 'number' | 'email'
-  value: string
-  handleChange:
-    | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
-    | undefined
+  register: object
   icon: React.ReactNode
 }
 
@@ -75,8 +74,7 @@ const InputField = (props: Props) => {
           sx={{ borderRadius: InputRadius }}
           id={props.id}
           type={props.type}
-          value={props.value}
-          onChange={props.handleChange}
+          {...props.register}
           endAdornment={
             <InputAdornment position='end'>{props.icon}</InputAdornment>
           }
