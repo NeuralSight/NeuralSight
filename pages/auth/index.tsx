@@ -14,6 +14,7 @@ import RobotImage from '../../public/robot.svg'
 import AccessBotIllustration from '../../public/loginillustration.svg'
 import Button from '../../components/Button'
 import ThirdPartyBtn from '../../components/auth/ThirdPartyBtn'
+import ErrorMessage from '../../components/ErrorMessage'
 
 type Props = {}
 
@@ -27,6 +28,7 @@ function Auth({}: Props) {
     register,
     handleSubmit,
     watch,
+    clearErrors,
     formState: { errors },
   } = useForm<State>()
   const [showPassword, setShowPassword] = React.useState<boolean>(false)
@@ -46,6 +48,10 @@ function Auth({}: Props) {
   ) => {
     event.preventDefault()
   }
+  const time_id = setTimeout(() => {
+    clearErrors('email')
+    clearErrors('password')
+  }, 10000)
 
   return (
     <div className='max-h-screen h-screen flex bg-gray-50 relative'>
@@ -61,7 +67,7 @@ function Auth({}: Props) {
         animate={{
           opacity: 1,
         }}
-        className='w-100 lg:w-[45%] h-full items-center flex flex-col justify-evenly container mx-auto md:px-12 px-12 xl:px-24 overflow-hidden'
+        className='w-full lg:w-[45%] h-full items-center flex flex-col justify-evenly container mx-auto md:px-12 px-12 xl:px-24 overflow-hidden'
       >
         <div className='flex flex-col space-y-2 text-center justify-center w-full items-center'>
           {/* Inputs */}
@@ -82,12 +88,20 @@ function Auth({}: Props) {
           className='flex flex-col w-full h-auto space-y-6 '
           onSubmit={handleSubmit(onSubmit)}
         >
+          {errors.email?.message || errors.password?.message ? (
+            <ErrorMessage>
+              {errors.email?.message || errors.password?.message}
+            </ErrorMessage>
+          ) : (
+            ''
+          )}
+
           <InputField
             id='email'
             label='email'
             type='email'
             register={register('email', {
-              required: true,
+              required: 'email is required',
               pattern: /^\S+@\S+$/i,
             })}
             icon={
@@ -99,7 +113,7 @@ function Auth({}: Props) {
             label='password'
             type={showPassword ? 'text' : 'password'}
             register={register('password', {
-              required: true,
+              required: 'password is required',
               min: 8,
               pattern: / "^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"/i,
             })}

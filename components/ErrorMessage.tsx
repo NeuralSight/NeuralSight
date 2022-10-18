@@ -6,7 +6,7 @@ type Props = {
 
 const ErrorMessage = (props: Props) => {
   return (
-    <p className='w-full py-4 px-12 rounded-md bg-red-300 text-red-500 font-medium'>
+    <p className='w-full py-3 px-6 rounded-lg bg-red-400/40 text-red-500 font-medium transition-all duration-300 ease-in-out'>
       {props.children}
     </p>
   )
