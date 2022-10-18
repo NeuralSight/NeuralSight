@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import useLogin from '../../hooks/use-login'
 
 // illustration
 import RobotImage from '../../public/robot.svg'
@@ -32,13 +33,39 @@ function Auth({}: Props) {
     formState: { errors },
   } = useForm<State>()
   const [showPassword, setShowPassword] = React.useState<boolean>(false)
+  const [error, setError] = React.useState<string>('')
 
-  // (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   // handle any change of all the inputs inside the object
-  //   setValues({ ...values, [prop]: event.target.value })
-  // }
-  const onSubmit: SubmitHandler<State> = (data) => console.log(data)
-  console.log(errors)
+  const { mutate, isLoading, status } = useLogin()
+
+  const onSubmit: SubmitHandler<State> = (data) => {
+    // send the data to the backend using login hook
+
+    return mutate(
+      {
+        grant_type: 'password',
+        username: data.email,
+        password: data.password,
+        scope: undefined,
+        client_id: undefined,
+        client_secret: undefined,
+      },
+      {
+        onSuccess: (data, variable, context) => {
+          if (data.status === 'success') {
+            console.log('data', data)
+          } else {
+          }
+        },
+        onError: (err) => {
+          console.error('error', err)
+          setError('oops, something went wrong with the server, try again')
+        },
+        onSettled: () => {
+          console.log('settled')
+        },
+      }
+    )
+  }
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword)
   }
@@ -88,9 +115,9 @@ function Auth({}: Props) {
           className='flex flex-col w-full h-auto space-y-6 '
           onSubmit={handleSubmit(onSubmit)}
         >
-          {errors.email?.message || errors.password?.message ? (
+          {errors.email?.message || errors.password?.message || error ? (
             <ErrorMessage>
-              {errors.email?.message || errors.password?.message}
+              {errors.email?.message || errors.password?.message || error}
             </ErrorMessage>
           ) : (
             <></>
@@ -102,7 +129,10 @@ function Auth({}: Props) {
             type='email'
             register={register('email', {
               required: 'email is required',
-              pattern: /^\S+@\S+$/i,
+              pattern: {
+                value: /^\S+@\S+$/i, // format tha it checks is string@string
+                message: 'email is not correct',
+              },
             })}
             icon={
               <Icon icon='carbon:email' className='h-7 w-7 text-zinc-500/50' />
@@ -114,8 +144,15 @@ function Auth({}: Props) {
             type={showPassword ? 'text' : 'password'}
             register={register('password', {
               required: 'password is required',
-              min: 8,
-              pattern: / "^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"/i,
+              min: {
+                value: 8,
+                message: 'password should have eight characters',
+              },
+              pattern: {
+                value: / "^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"/i,
+                message:
+                  'password should have eight characters, at least one letter and one number',
+              },
             })}
             icon={
               <IconButton
