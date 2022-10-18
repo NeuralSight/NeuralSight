@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 type AuthUser = {
-  grant_type: 'password'
+  grant_type?: 'password' | string
   username: string
   password: string
   scope: string | null | undefined
