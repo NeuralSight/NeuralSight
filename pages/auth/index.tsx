@@ -256,6 +256,7 @@ function Auth({}: Props) {
               src={AccessBotIllustration}
               layout='fill'
               object-fit='contain'
+              priority
               alt='access power of ai in health an illustation of a girl communicating to a bot'
             />
           </motion.div>
@@ -284,6 +285,7 @@ function Auth({}: Props) {
           alt='a robot'
           layout='fill'
           objectFit='contain'
+          priority
         />
       </div>
       <div className='block lg:hidden absolute rounded-full h-80 w-80 bg-primary-light -top-[13em] -right-[13em] blur-3xl' />
