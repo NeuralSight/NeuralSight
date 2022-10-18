@@ -7,14 +7,22 @@ import Link from 'next/link'
 import Button from '../../../components/Button'
 import Image from 'next/image'
 import RobotCharging from '../../../public/robotCharging.svg'
-
+import { useForm, SubmitHandler } from 'react-hook-form'
 type Props = {}
 
+type State = {
+  email: string
+}
 function Reset({}: Props) {
-  const [email, setEmail] = React.useState<string>('')
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value)
-  }
+  const {
+    register,
+    handleSubmit,
+    watch,
+    clearErrors,
+    formState: { errors },
+  } = useForm<State>()
+
+  const onSubmit: SubmitHandler<State> = (data) => console.log('data', data)
   return (
     <div className='max-h-screen h-screen flex bg-gray-50 relative'>
       <Head>
@@ -44,13 +52,21 @@ function Reset({}: Props) {
             </p>
           </div>
         </div>
-        <form className='flex flex-col w-full h-auto space-y-6'>
+        <form
+          className='flex flex-col w-full h-auto space-y-6'
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <InputField
             id='email'
             type='email'
             label='email'
-            value={email}
-            handleChange={handleChange}
+            register={register('email', {
+              required: 'email is required',
+              pattern: {
+                value: /^\S+@\S+$/i, // format tha it checks is string@string
+                message: 'email is not correct',
+              },
+            })}
             icon={
               <Icon icon='carbon:email' className='h-7 w-7 text-zinc-500/50' />
             }
@@ -58,7 +74,7 @@ function Reset({}: Props) {
           <Button
             type='submit'
             outlined={false}
-            disable={email == '' ? true : false}
+            disable={errors.email?.message ? true : false}
           >
             continue
           </Button>

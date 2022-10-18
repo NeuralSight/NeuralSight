@@ -10,12 +10,13 @@ import Button from '../../../components/Button'
 import Image from 'next/image'
 import RobotCharging from '../../../public/robotCharging.svg'
 import ErrorMessage from '../../../components/ErrorMessage'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import * as Yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 type State = {
   password: string
   confirmPassword: string
-  showPassword: boolean
-  showConfirmPassword: boolean
 }
 type Props = {}
 
@@ -24,37 +25,40 @@ function ChangePassword({}: Props) {
   const router = useRouter()
   const { token } = router.query
 
-  const [error, setError] = React.useState<string>('')
-  const [values, setValues] = React.useState<State>({
-    password: '',
-    confirmPassword: '',
-    showPassword: false,
-    showConfirmPassword: false,
+  const formSchema = Yup.object().shape({
+    password: Yup.string()
+      .required('Password is mendatory')
+      .min(8, 'Password must be at 8 char long'),
+    confirmPassword: Yup.string()
+      .required('this field is required')
+      .oneOf([Yup.ref('password')], 'Passwords does not match'),
   })
+  const formOptions = { resolver: yupResolver(formSchema) }
 
-  const handleChange =
-    (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      setValues({ ...values, [prop]: event.target.value })
-    }
+  // useForm
+  const {
+    register,
+    handleSubmit,
+    watch,
+    clearErrors,
+    formState: { errors },
+  } = useForm<State>(formOptions)
 
-  const handleSubmit = () => {
-    if (values.confirmPassword == values.password) {
-      setError('password do not match')
-    }
-  }
+  const confirmPasswordField = watch('confirmPassword')
+
+  const [error, setError] = React.useState<string>('')
+  const [showPassword, setShowPassword] = React.useState<boolean>(false)
+  const [showConfirmPassword, setShowConfirmPassword] =
+    React.useState<boolean>(false)
+
   const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword,
-    })
+    setShowPassword(!showPassword)
   }
   const handleClickShowConfirmPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword,
-    })
+    setShowConfirmPassword(!showConfirmPassword)
   }
 
+  const onSubmit: SubmitHandler<State> = (data) => console.log('data', data)
   const handleMouseDownPassword = (
     // prevent submitting while toggling show password btn
     event: React.MouseEvent<HTMLButtonElement>
@@ -62,9 +66,20 @@ function ChangePassword({}: Props) {
     event.preventDefault()
   }
 
-  setTimeout(() => {
+  // unsubscribe from watch
+  React.useEffect(() => {
+    //  unsubcribe from watch once finished
+    const subscription = watch((value, { name, type }) =>
+      console.log(value, name, type)
+    )
+    return subscription.unsubscribe()
+  })
+
+  const id = setTimeout(() => {
     setError('')
-  }, 3000)
+    clearErrors('password')
+    clearErrors('confirmPassword')
+  }, 5000)
 
   return (
     <div className='max-h-screen h-screen flex bg-gray-50 relative'>
@@ -90,15 +105,24 @@ function ChangePassword({}: Props) {
         </div>
         <form
           className='flex flex-col w-full h-auto space-y-6'
-          onSubmit={() => handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
         >
-          {error && <ErrorMessage>{error}</ErrorMessage>}
+          {errors.password?.message ||
+          errors.confirmPassword?.message ||
+          error ? (
+            <ErrorMessage>
+              {errors.confirmPassword?.message ||
+                errors.password?.message ||
+                error}
+            </ErrorMessage>
+          ) : (
+            <></>
+          )}
           <InputField
             id='password'
-            type={values.showPassword ? 'text' : 'password'}
+            type={showPassword ? 'text' : 'password'}
             label='password'
-            value={values.password}
-            handleChange={handleChange('password')}
+            register={register('password')}
             icon={
               <IconButton
                 aria-label='toggle password visibility'
@@ -106,7 +130,7 @@ function ChangePassword({}: Props) {
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
               >
-                {values.showPassword ? (
+                {showPassword ? (
                   <Icon
                     icon='ic:baseline-visibility-off'
                     className='h-[30px]  w-[30px]  text-zinc-500/50'
@@ -122,10 +146,9 @@ function ChangePassword({}: Props) {
           />
           <InputField
             id='confirmPassword'
-            type={values.showPassword ? 'text' : 'password'}
+            type={showConfirmPassword ? 'text' : 'password'}
             label='confirmPassword'
-            value={values.confirmPassword}
-            handleChange={handleChange('confirmPassword')}
+            register={register('confirmPassword')}
             icon={
               <IconButton
                 aria-label='toggle password visibility'
@@ -133,7 +156,7 @@ function ChangePassword({}: Props) {
                 onClick={handleClickShowConfirmPassword}
                 onMouseDown={handleMouseDownPassword}
               >
-                {values.showConfirmPassword ? (
+                {showConfirmPassword ? (
                   <Icon
                     icon='ic:baseline-visibility-off'
                     className='h-[30px]  w-[30px]  text-zinc-500/50'
@@ -150,11 +173,7 @@ function ChangePassword({}: Props) {
           <Button
             type='submit'
             outlined={false}
-            disable={
-              values.password == '' || values.confirmPassword == ''
-                ? true
-                : false
-            }
+            disable={confirmPasswordField !== '' ? false : true}
           >
             Change Password
           </Button>

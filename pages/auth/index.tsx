@@ -66,6 +66,9 @@ function Auth({}: Props) {
       }
     )
   }
+
+  const watchField = watch(['email', 'password'])
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword)
   }
@@ -75,6 +78,13 @@ function Auth({}: Props) {
   ) => {
     event.preventDefault()
   }
+  React.useEffect(() => {
+    // unsubcribe from watch once finished
+    const subscription = watch((value, { name, type }) =>
+      console.log(value, name, type)
+    )
+    return () => subscription.unsubscribe()
+  }, [watch])
   const time_id = setTimeout(() => {
     clearErrors('email')
     clearErrors('password')
@@ -148,11 +158,6 @@ function Auth({}: Props) {
                 value: 8,
                 message: 'password should have eight characters',
               },
-              pattern: {
-                value: / "^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"/i,
-                message:
-                  'password should have eight characters, at least one letter and one number',
-              },
             })}
             icon={
               <IconButton
@@ -193,11 +198,7 @@ function Auth({}: Props) {
             <Button
               type='submit'
               outlined={false}
-              disable={
-                errors.email?.message || errors.email?.type == 'required'
-                  ? true
-                  : false
-              }
+              disable={watchField[0] && watchField[1] ? false : true}
             >
               login
             </Button>
