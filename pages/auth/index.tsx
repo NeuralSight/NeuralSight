@@ -93,7 +93,7 @@ function Auth({}: Props) {
               {errors.email?.message || errors.password?.message}
             </ErrorMessage>
           ) : (
-            ''
+            <></>
           )}
 
           <InputField
