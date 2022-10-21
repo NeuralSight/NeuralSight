@@ -1,6 +1,8 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
+import React from 'react'
 import {
+  Hydrate,
   QueryClientProvider,
   QueryClient,
   QueryCache,
@@ -9,15 +11,20 @@ import {
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const client = new QueryClient({
-    queryCache: new QueryCache({
-      //
-      onError: (error) => console.log(`Something went wrong: ${error}`),
-    }),
-  })
+  const [queryClient] = React.useState(
+    () =>
+      new QueryClient({
+        queryCache: new QueryCache({
+          //
+          onError: (error) => console.log(`Something went wrong: ${error}`),
+        }),
+      })
+  )
   return (
-    <QueryClientProvider client={client}>
+    <QueryClientProvider client={queryClient}>
+      {/* <Hydrate state={pageProps.dehydratedState}> */}
       <Component {...pageProps} />
+      {/* </Hydrate> */}
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   )
