@@ -23,6 +23,11 @@ type State = {
   email: string
   password: string
 }
+type ErrorDetails = {
+  loc: Array<string>
+  msg: string
+  type: string
+}
 
 function Auth({}: Props) {
   const {
@@ -38,22 +43,28 @@ function Auth({}: Props) {
   const { mutate, isLoading, status } = useLogin()
 
   const onSubmit: SubmitHandler<State> = (data) => {
-    // send the data to the backend using login hook
-
     return mutate(
       {
         grant_type: 'password',
         username: data.email,
         password: data.password,
-        scope: undefined,
-        client_id: undefined,
-        client_secret: undefined,
+        client_id: '1231412xxfasd',
       },
       {
         onSuccess: (data, variable, context) => {
-          if (data.status === 'success') {
+          if (data.status === 200) {
             console.log('data', data)
           } else {
+            const detail = data.data.detail
+            if (detail && typeof detail == 'object') {
+              detail.forEach((element: ErrorDetails) => {
+                setError(element.msg)
+                console.log('type', element.type)
+                console.log('loc', element.loc)
+              })
+            } else {
+              setError('failed to connect, try again')
+            }
           }
         },
         onError: (err) => {
@@ -88,10 +99,10 @@ function Auth({}: Props) {
   const time_id = setTimeout(() => {
     clearErrors('email')
     clearErrors('password')
-  }, 10000)
+  }, 8000)
 
   return (
-    <div className='max-h-screen h-screen flex bg-gray-50 relative'>
+    <div className='max-h-screen h-screen flex bg-gray-50'>
       <Head>
         <meta></meta>
         <title>Login to NeuralSight</title>
@@ -104,8 +115,20 @@ function Auth({}: Props) {
         animate={{
           opacity: 1,
         }}
-        className='w-full lg:w-[45%] h-full items-center flex flex-col justify-evenly container mx-auto md:px-12 px-12 xl:px-24 overflow-hidden'
+        className='w-full lg:w-[45%] h-full items-center flex flex-col justify-evenly container mx-auto px-6 md:px-12  xl:px-24 overflow-hidden relative'
       >
+        {/* Small device robot and sun */}
+        <div className='block lg:hidden absolute h-96 w-60 -top-16 -left-[7.8em] rotate-[25deg] opacity-80'>
+          <Image
+            src={RobotImage}
+            alt='a robot'
+            layout='fill'
+            objectFit='contain'
+            priority
+          />
+        </div>
+        <div className='block lg:hidden absolute rounded-full h-80 w-80 bg-primary-light -top-[13em] -right-[13em] blur-3xl' />
+
         <div className='flex flex-col space-y-2 text-center justify-center w-full items-center'>
           {/* Inputs */}
           {/* Logo section */}
@@ -188,7 +211,7 @@ function Auth({}: Props) {
               />{' '}
               Remember me
             </div>
-            <Link href={'/reset'}>
+            <Link href={'/auth/reset'}>
               <p className='cursor-pointer font-medium text-sm lg:text-base lowercase text-primary-light hover:text-primary-dark transition-all duration-200 '>
                 forgot password?
               </p>
@@ -222,7 +245,7 @@ function Auth({}: Props) {
           </Link>
         </p>
       </motion.section>
-      <section className='hidden lg:flex w-[55%] h-full relative bg-accent-one/50 justify-center items-center overflow-hidden'>
+      <section className='hidden lg:flex lg:w-[55%] h-full relative bg-accent-one/50 justify-center items-center overflow-hidden'>
         <motion.div
           initial={{
             x: 400,
@@ -278,18 +301,6 @@ function Auth({}: Props) {
           </motion.div>
         </div>
       </section>
-
-      {/* Small device robot and sun */}
-      <div className='block lg:hidden absolute h-96 w-60 -top-10 -left-[7.8em] rotate-[25deg]'>
-        <Image
-          src={RobotImage}
-          alt='a robot'
-          layout='fill'
-          objectFit='contain'
-          priority
-        />
-      </div>
-      <div className='block lg:hidden absolute rounded-full h-80 w-80 bg-primary-light -top-[13em] -right-[13em] blur-3xl' />
     </div>
   )
 }
