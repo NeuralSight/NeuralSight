@@ -29,10 +29,10 @@ function Reset({}: Props) {
         <title>Reset Password</title>
       </Head>
       <section
-        className='w-100 lg:w-[60%] h-full items-center flex flex-col justify-between
+        className='w-full lg:w-[60%] h-full items-center flex flex-col justify-between
       pt-20
       pb-10
-      container mx-auto md:px-12 px-12 xl:px-36 overflow-hidden'
+      container mx-auto md:px-12 px-6 xl:px-36 overflow-hidden'
       >
         <div className='flex flex-col space-y-10 text-center justify-center w-full items-center'>
           {/* Logo section */}
