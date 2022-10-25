@@ -12,11 +12,14 @@ import { FieldValue } from 'react-hook-form/dist/types/fields'
 
 type Props = {
   id: string
-  label: string | undefined
-  type?: 'text' | 'tel' | 'password' | 'number' | 'email'
+  label?: string | undefined
+  placeholder?: string | undefined
+  type: 'text' | 'tel' | 'password' | 'number' | 'email'
   register?: object | undefined
   ref?: React.RefObject<unknown> | undefined
   icon?: React.ReactNode | undefined
+  size?: 'medium' | 'small' | undefined
+  borderRadius?: string | undefined
 }
 
 const CustomFormControl = styled(FormControl)({
@@ -48,19 +51,24 @@ const CustomOutlinedInput = styled(OutlinedInput)({})
  *
  * @returns
  */
-const InputRadius = '10px'
 
 const InputField = (props: Props) => {
+  let InputRadius = props.borderRadius || '10px'
   return (
     <Box
-      sx={{ maxWidth: '100%', width: 'auto', m: 1, borderRadius: InputRadius }}
+      sx={{
+        maxWidth: '100%',
+        width: 'auto',
+        m: 1,
+        borderRadius: InputRadius,
+        fontWeight: '600',
+      }}
     >
       <CustomFormControl
         color='warning'
         fullWidth
-        className='rounded-lg'
         variant='outlined'
-        size='medium'
+        size={props.size}
       >
         <InputLabel
           htmlFor={props.id}
@@ -78,8 +86,11 @@ const InputField = (props: Props) => {
           ref={props.ref}
           type={props.type}
           {...props.register}
+          placeholder={props.placeholder}
           endAdornment={
-            <InputAdornment position='end'>{props.icon}</InputAdornment>
+            <InputAdornment classes={'relative group'} position='end'>
+              {props.icon}
+            </InputAdornment>
           }
           label={props.label}
         />
