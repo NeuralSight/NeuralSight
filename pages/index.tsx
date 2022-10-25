@@ -1,7 +1,8 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { lazy } from 'react'
 import SideBar from '../components/SideBar'
+import PatientIDSection from '../components/dashboard/PatientIdSection'
+import MainContentSection from '../components/dashboard/MainContentSection'
 
 const Dashboard: NextPage = () => {
   return (
@@ -14,6 +15,14 @@ const Dashboard: NextPage = () => {
 
       <div className='h-full w-full flex justify-between'>
         <SideBar />
+        <main className='w-full flex py-10 px-10 gap-10'>
+          <section className='w-1/3 '>
+            <PatientIDSection />
+          </section>
+          <section className='w-2/3'>
+            <MainContentSection />
+          </section>
+        </main>
       </div>
     </div>
   )
