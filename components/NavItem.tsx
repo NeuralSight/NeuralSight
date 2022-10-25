@@ -1,11 +1,17 @@
 import React from 'react'
 import { Icon } from '@iconify/react'
-import { NavItem } from '../typings'
 
-type Props = NavItem
-const NavItem = ({ active, text, icon }: Props) => {
+type Props = {
+  itemKey: number
+  active: boolean
+  text: string
+  icon: string
+  handleClick: React.Dispatch<React.SetStateAction<number>>
+}
+const NavItem = ({ itemKey, active, text, icon, handleClick }: Props) => {
   return (
     <div
+      onClick={() => handleClick(itemKey)}
       className={` cursor-pointer ${
         active
           ? 'pb-6 pt-4 bg-primary-light/30 text-primary-light'
