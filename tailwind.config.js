@@ -29,6 +29,9 @@ module.exports = {
           light: '#16C2D5',
           dark: '#10217D',
         },
+        secondary: {
+          dark: '#0F172A',
+        },
         accent: { one: '#D7BAAD', two: '#3F3D56', three: '#2E4450' },
       },
     },
