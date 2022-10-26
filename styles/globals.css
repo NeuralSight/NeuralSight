@@ -67,9 +67,9 @@ input[type='checkbox']:focus {
     @apply h-2 w-2 rounded-full text-zinc-600;
   }
   .chip {
-    @apply px-1 py-0.5 rounded-xl hover:bg-primary-light bg-gray-500/20 text-gray-700;
+    @apply px-4 py-2 rounded-2xl hover:bg-primary-light/20 bg-zinc-500/20 font-medium fill-current text-zinc-700 flex items-center justify-center transition-all duration-200 ease-in-out;
   }
   .chip.active {
-    @apply bg-primary-light;
+    @apply bg-primary-light/20 text-primary-light;
   }
 }
