@@ -88,9 +88,7 @@ const InputField = (props: Props) => {
           {...props.register}
           placeholder={props.placeholder}
           endAdornment={
-            <InputAdornment className={'relative group'} position='end'>
-              {props.icon}
-            </InputAdornment>
+            <InputAdornment position='end'>{props.icon}</InputAdornment>
           }
           label={props.label}
         />
