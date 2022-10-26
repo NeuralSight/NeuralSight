@@ -66,4 +66,10 @@ input[type='checkbox']:focus {
   .dot {
     @apply h-2 w-2 rounded-full text-zinc-600;
   }
+  .chip {
+    @apply px-1 py-0.5 rounded-xl hover:bg-primary-light bg-gray-500/20 text-gray-700;
+  }
+  .chip.active {
+    @apply bg-primary-light;
+  }
 }
