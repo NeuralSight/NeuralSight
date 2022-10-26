@@ -68,7 +68,7 @@ function PatientIdSection({}: Props) {
         <div className='uppercase text-lg text-center underline underline-offset-2'>
           patient&#39;s id
         </div>
-        <div className='flex flex-col space-y-3 overflow-y-scroll max-h-[480px] w-full scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/10 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scroll-smooth'>
+        <div className='flex flex-col space-y-3 overflow-y-scroll max-h-[480px] w-full scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scroll-smooth'>
           {patientIDs.map((patientId, key) => (
             <PatientIdCard
               id={patientId}
