@@ -15,11 +15,14 @@ const Dashboard: NextPage = () => {
 
       <div className='h-full w-full flex justify-between'>
         <SideBar />
-        <main className='w-full flex py-10 px-10 gap-10'>
-          <section className='w-1/3 '>
+        <main
+          className='w-full flex pt-6
+        pb-12 px-8 gap-8'
+        >
+          <section className='w-[30%] '>
             <PatientIDSection />
           </section>
-          <section className='w-2/3'>
+          <section className='w-[70%]'>
             <MainContentSection />
           </section>
         </main>
