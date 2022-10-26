@@ -36,5 +36,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('tailwind-scrollbar')({ nocompatible: true })], // be warying!!! as they are only supported in Webkit-based browsers
 }
