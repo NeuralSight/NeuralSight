@@ -3,8 +3,43 @@ import React from 'react'
 import DiseaseTypeSelection from '../DiseaseTypeSelection'
 import NeuralLabsTextLogo from '../NeuralLabsTextLogo'
 import ViewToggleBtn from '../ViewToggleBtn'
+import AddImageBtn from '../AddImageBtn'
+import GrdViewImageCard from './GrdViewImageCard'
+import { ImageDetails } from '../../typings'
+import ImageSample from '../../public/images/trial.jpeg'
 
 type Props = {}
+
+const SampleImagesArr: ImageDetails[] = [
+  {
+    patientID: '600d475fa96e305as2e48c9cfbb851qs',
+    disease: 'TB',
+    totalPathogens: 12,
+    inference: 0.7,
+    src: 'https://images.unsplash.com/photo-1516069677018-378515003435?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1829&q=80',
+    pathogens: [
+      {
+        confidence: 0.8,
+        type: 'some pathogen',
+      },
+    ],
+    modality: 'CT scan',
+  },
+  {
+    patientID: '600d475fa96e305as2e48c9cqw2b851qs',
+    disease: 'TB',
+    totalPathogens: 12,
+    inference: 0.4,
+    src: ImageSample,
+    pathogens: [
+      {
+        confidence: 0.3,
+        type: 'some pathogen',
+      },
+    ],
+    modality: 'CT scan',
+  },
+]
 
 const MainContentSection = (props: Props) => {
   // toggle state between listView and grid
@@ -23,8 +58,8 @@ const MainContentSection = (props: Props) => {
         />
       </nav>
       <section className='h-full w-full px-4 py-3 bg-gray-50/95 rounded-2xl border-2 border-primary-light'>
-        <div className='h-full w-full flex flex-col'>
-          <div className='px-4 py-2 w-full h-fit flex justify-between'>
+        <div className='h-full w-full flex flex-col space-y-3 px-4'>
+          <div className=' py-2 w-full h-fit flex justify-between'>
             <div className='flex w-fit space-x-3'>
               {/* right side */}
               <div className={`chip active`}>
@@ -63,8 +98,12 @@ const MainContentSection = (props: Props) => {
             </div>
           </div>
           {/* grid  */}
-          <div className='grid grid-cols-3'>
+          <div className='grid grid-cols-3 gap-6'>
             {/* Here will contain add button and image cards */}
+            <AddImageBtn />
+            {SampleImagesArr.map((item) => (
+              <GrdViewImageCard imageDetails={item} key={item.patientID} />
+            ))}
           </div>
           {/* list */}
         </div>
