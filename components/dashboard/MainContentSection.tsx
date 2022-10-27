@@ -39,6 +39,20 @@ const SampleImagesArr: ImageDetails[] = [
     ],
     modality: 'CT scan',
   },
+  {
+    patientID: '600d475fa96e305as2e48c9cqw2b851qs',
+    disease: 'TB',
+    totalPathogens: 12,
+    inference: 0.4,
+    src: ImageSample,
+    pathogens: [
+      {
+        confidence: 0.3,
+        type: 'some pathogen',
+      },
+    ],
+    modality: 'CT scan',
+  },
 ]
 
 const MainContentSection = (props: Props) => {
@@ -57,9 +71,9 @@ const MainContentSection = (props: Props) => {
           setDiseaseType={setDiseaseType}
         />
       </nav>
-      <section className='h-full w-full px-4 py-3 bg-gray-50/95 rounded-2xl border-2 border-primary-light'>
-        <div className='h-full w-full flex flex-col space-y-3 px-4'>
-          <div className=' py-2 w-full h-fit flex justify-between'>
+      <section className='h-full w-full py-3 bg-gray-50/95 rounded-2xl border-2 border-primary-light'>
+        <div className='h-full w-full flex flex-col space-y-2'>
+          <div className=' py-2 w-full h-fit flex justify-between px-4'>
             <div className='flex w-fit space-x-3'>
               {/* right side */}
               <div className={`chip active`}>
@@ -97,15 +111,17 @@ const MainContentSection = (props: Props) => {
               </button>
             </div>
           </div>
-          {/* grid  */}
-          <div className='grid grid-cols-3 gap-6'>
-            {/* Here will contain add button and image cards */}
-            <AddImageBtn />
-            {SampleImagesArr.map((item) => (
-              <GrdViewImageCard imageDetails={item} key={item.patientID} />
-            ))}
+          {/* grid view */}
+          <div className='px-4 max-h-[480px] overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scroll-smooth'>
+            <div className='grid grid-cols-3 gap-6 '>
+              {/* Here will contain add button and image cards */}
+              <AddImageBtn />
+              {SampleImagesArr.map((item) => (
+                <GrdViewImageCard imageDetails={item} key={item.patientID} />
+              ))}
+            </div>
+            {/* list view */}
           </div>
-          {/* list */}
         </div>
       </section>
     </div>
