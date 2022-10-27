@@ -11,20 +11,18 @@ type Props = {
 }
 
 const GrdViewImageCard = ({ imageDetails }: Props) => {
-  const [open, setOpen] = React.useState(false)
+  // const [isImageHover, setIsImageHover] = React.useState<boolean>(false)
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
-    setOpen((previousOpen) => !previousOpen)
   }
   // poppover props
-  const canBeOpen = open && Boolean(anchorEl)
-
-  const id = canBeOpen ? 'more details' : undefined
+  const open = Boolean(anchorEl)
+  const id = open ? 'more-details' : undefined
 
   return (
-    <div className='relative rounded-3xl border-2 border-gray-500/20 transition-all ease-in duration-200 hover:border-primary-light group h-[387px] w-[282px] cursor-pointer'>
+    <div className='relative rounded-3xl border-2 border-gray-500/20 transition-all ease-in duration-200 hover:border-primary-light group h-[387px] w-[282px] cursor-pointer group'>
       <Image
         src={imageDetails.src}
         alt={`patient's image testing ${imageDetails.disease}`}
@@ -50,7 +48,11 @@ const GrdViewImageCard = ({ imageDetails }: Props) => {
         </div>
       </div>
 
-      <div className='rounded-full py-3 w-full h-fit absolute bottom-0  right-0 flex items-center justify-center text-center align-middle bg-primary-light/40 font-bold text-gray-900 text-sm '>
+      <div
+        className={
+          'rounded-full py-3 w-full opacity-100 ease-in-out transition-opacity duration-300  h-fit absolute bottom-0  right-0 flex items-center justify-center text-center align-middle bg-primary-light/40 font-bold text-gray-900 text-sm'
+        }
+      >
         {/* show disease likelihood as summary maybe later it would be a bottomsheet for small devices for people to pull more info */}
         {imageDetails.disease}{' '}
         <span
@@ -71,7 +73,12 @@ const GrdViewImageCard = ({ imageDetails }: Props) => {
             : 'not sure'}
         </span>
       </div>
-      <MoreDetails id={id} anchorEl={anchorEl} open={open} />
+      <MoreDetails
+        id={id}
+        anchorEl={anchorEl}
+        open={open}
+        setAnchorElement={setAnchorEl}
+      />
     </div>
   )
 }
