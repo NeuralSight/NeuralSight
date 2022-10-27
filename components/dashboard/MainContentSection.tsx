@@ -4,7 +4,7 @@ import DiseaseTypeSelection from '../DiseaseTypeSelection'
 import NeuralLabsTextLogo from '../NeuralLabsTextLogo'
 import ViewToggleBtn from '../ViewToggleBtn'
 import AddImageBtn from '../AddImageBtn'
-import GrdViewImageCard from './GrdViewImageCard'
+import GrdViewImageCard from './GridViewImageCard'
 import { ImageDetails } from '../../typings'
 import ImageSample from '../../public/images/trial.jpeg'
 
