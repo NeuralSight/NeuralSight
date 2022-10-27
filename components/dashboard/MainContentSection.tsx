@@ -40,7 +40,7 @@ const SampleImagesArr: ImageDetails[] = [
     modality: 'CT scan',
   },
   {
-    patientID: '600d475fa96e305as2e48c9cqw2b851qs',
+    patientID: '600d475fa96e305as2eas8c9cqw2b851qs',
     disease: 'TB',
     totalPathogens: 12,
     inference: 0.4,
@@ -112,7 +112,7 @@ const MainContentSection = (props: Props) => {
             </div>
           </div>
           {/* grid view */}
-          <div className='px-4 max-h-[480px] overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scroll-smooth'>
+          <div className='px-4 max-h-[560px] overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scroll-smooth'>
             <div className='grid grid-cols-3 gap-6 '>
               {/* Here will contain add button and image cards */}
               <AddImageBtn />
