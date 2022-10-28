@@ -4,9 +4,10 @@ import DiseaseTypeSelection from '../DiseaseTypeSelection'
 import NeuralLabsTextLogo from '../NeuralLabsTextLogo'
 import ViewToggleBtn from '../ViewToggleBtn'
 import AddImageBtn from '../AddImageBtn'
-import GrdViewImageCard from './GridViewImageCard'
+import GridViewImageCard from './GridViewImageCard'
 import { ImageDetails } from '../../typings'
 import ImageSample from '../../public/images/trial.jpeg'
+import ListViewImageCard from './ListViewImageCard'
 
 type Props = {}
 
@@ -19,11 +20,11 @@ const SampleImagesArr: ImageDetails[] = [
     src: 'https://images.unsplash.com/photo-1516069677018-378515003435?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1829&q=80',
     pathogens: [
       {
-        confidence: 0.8,
+        confidence: '0.8',
         type: 'some pathogen',
       },
     ],
-    modality: 'CT scan',
+    modality: 'CT',
   },
   {
     patientID: '600d475fa96e305as2e48c9cqw2b851qs',
@@ -33,11 +34,15 @@ const SampleImagesArr: ImageDetails[] = [
     src: ImageSample,
     pathogens: [
       {
-        confidence: 0.3,
-        type: 'some pathogen',
+        confidence: '0.56',
+        type: 'pleural thikening ',
+      },
+      {
+        confidence: '0.90',
+        type: 'plumonary fiborisis',
       },
     ],
-    modality: 'CT scan',
+    modality: 'MRI',
   },
   {
     patientID: '600d475fa96e305as2eas8c9cqw2b851qs',
@@ -47,8 +52,16 @@ const SampleImagesArr: ImageDetails[] = [
     src: ImageSample,
     pathogens: [
       {
-        confidence: 0.3,
+        confidence: '0.3',
         type: 'some pathogen',
+      },
+      {
+        confidence: '0.90',
+        type: 'plumonary fiborisis',
+      },
+      {
+        confidence: '0.20',
+        type: 'plumonary s',
       },
     ],
     modality: 'CT scan',
@@ -111,16 +124,24 @@ const MainContentSection = (props: Props) => {
               </button>
             </div>
           </div>
-          {/* grid view */}
-          <div className='px-4 max-h-[560px] overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scroll-smooth'>
-            <div className='grid grid-cols-3 gap-6 '>
-              {/* Here will contain add button and image cards */}
-              <AddImageBtn />
-              {SampleImagesArr.map((item) => (
-                <GrdViewImageCard imageDetails={item} key={item.patientID} />
-              ))}
-            </div>
-            {/* list view */}
+
+          <div className='px-4 max-h-[520px] overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scroll-smooth'>
+            {!isListView ? (
+              <div className='grid grid-cols-3 gap-6 '>
+                {/* Here will contain add button and image cards */}
+                <AddImageBtn />{' '}
+                {/* for grid view only large device for list view it would be place next to filter button and for small devices as floating action bar maybe*/}
+                {SampleImagesArr.map((item) => (
+                  <GridViewImageCard imageDetails={item} key={item.patientID} />
+                ))}
+              </div>
+            ) : (
+              <div className='flex flex-col space-y-6 px-2'>
+                {SampleImagesArr.map((item) => (
+                  <ListViewImageCard imageDetails={item} key={item.patientID} />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>
