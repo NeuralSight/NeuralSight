@@ -2,7 +2,7 @@
 
 interface Pathogen {
   type: string
-  confidence: number | string | undefined
+  confidence: string
 }
 export interface ImageDetails {
   patientID: string
