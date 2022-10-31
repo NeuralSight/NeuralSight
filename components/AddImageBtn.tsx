@@ -1,12 +1,15 @@
 import { Icon } from '@iconify/react'
 import React from 'react'
 
-type Props = {}
+type Props = {
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
 
-const AddImageBtn = (props: Props) => {
+const AddImageBtn = ({ setOpen }: Props) => {
   return (
     <button
       type='button'
+      onClick={() => setOpen(true)}
       className='rounded-3xl w-full h-full border-2 border-dashed border-primary-light flex flex-col space-y-4 justify-center items-center '
     >
       <Icon
