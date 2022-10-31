@@ -8,6 +8,7 @@ import GridViewImageCard from './GridViewImageCard'
 import { ImageDetails } from '../../typings'
 import ImageSample from '../../public/images/trial.jpeg'
 import ListViewImageCard from './ListViewImageCard'
+import Modal from '../Modal'
 
 type Props = {}
 
@@ -69,6 +70,7 @@ const SampleImagesArr: ImageDetails[] = [
 ]
 
 const MainContentSection = (props: Props) => {
+  const [isOpen, setModalOpen] = React.useState<boolean>(false)
   // toggle state between listView and grid
   const [isListView, setIsListView] = React.useState<boolean>(false)
   // set DiseaseType
@@ -99,6 +101,20 @@ const MainContentSection = (props: Props) => {
               </div>
             </div>
             <div className='flex w-fit space-x-3'>
+              {isListView && (
+                <button
+                  type='button'
+                  className='flex justify-center items-center w-fit rounded-2xl border-2 border-dashed border-primary-light bg-transparent text-gray-900 font-medium py-2 px-2 hover:bg-primary-lightest'
+                  title='add image'
+                  onClick={() => setModalOpen(true)}
+                >
+                  <Icon
+                    icon={'fluent:add-24-filled'}
+                    className='h-6 w-6 fill-current text-primary-light stroke-[3px]'
+                  />
+                </button>
+              )}
+
               {/* left side */}
               <button
                 type='button'
@@ -129,19 +145,43 @@ const MainContentSection = (props: Props) => {
             {!isListView ? (
               <div className='grid grid-cols-3 gap-6 '>
                 {/* Here will contain add button and image cards */}
-                <AddImageBtn />{' '}
+                <AddImageBtn setOpen={setModalOpen} />{' '}
                 {/* for grid view only large device for list view it would be place next to filter button and for small devices as floating action bar maybe*/}
                 {SampleImagesArr.map((item) => (
                   <GridViewImageCard imageDetails={item} key={item.patientID} />
                 ))}
               </div>
             ) : (
-              <div className='flex flex-col space-y-6 px-2'>
+              <div className='flex flex-col space-y-6 px-5 py-5'>
                 {SampleImagesArr.map((item) => (
                   <ListViewImageCard imageDetails={item} key={item.patientID} />
                 ))}
               </div>
             )}
+            <Modal
+              open={isOpen}
+              setOpen={setModalOpen}
+              style={{
+                position: 'absolute' as 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 'fit-content',
+                maxWidth: 800,
+                bgcolor: 'background.paper',
+                border: '2px solid #16C2D5',
+                boxShadow: 24,
+                borderRadius: '8px',
+                p: 4,
+              }}
+              title='Upload  Files'
+              description='JPEG, JPG, PNG and CT are allowed'
+            >
+              {/* <AddImageModalContent/> */}
+              <div className='my-5'>
+                <input type={'file'} />
+              </div>
+            </Modal>
           </div>
         </div>
       </section>
