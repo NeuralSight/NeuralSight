@@ -20,7 +20,7 @@ const ListViewImageCard = ({ imageDetails }: Props) => {
           layout='fill'
           className='rounded-xl'
         />
-        <div className='absolute top-4 left-4 z-10 p-2 rounded-2xl my-auto bg-primary-dark text-gray-50 font-semibold text-sm uppercase shadow-lg shadow-primary-dark/25 group-hover:shadow-none'>
+        <div className='absolute top-4 left-4 z-10 p-2 rounded-2xl my-auto bg-primary-dark text-gray-50 font-semibold text-sm uppercase shadow-lg shadow-primary-dark/25 group-hover:shadow-none text-center align-middle'>
           {imageDetails.modality}
         </div>
       </div>
