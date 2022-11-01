@@ -23,8 +23,6 @@ const UploadFile = (props: Props) => {
     e.stopPropagation()
 
     if (e.type === 'dragenter' || e.type === 'dragover') {
-      console.log('dragEntered or over')
-
       setDragActive(true)
     } else if (e.type === 'dragleave') {
       console.log('drag leave')
@@ -110,14 +108,6 @@ const UploadFile = (props: Props) => {
       </label>
       {dragActive && (
         <div
-          //   position: absolute;
-          // width: 100%;
-          // height: 100%;
-          // border-radius: 1rem;
-          // top: 0px;
-          // right: 0px;
-          // bottom: 0px;
-          // left: 0px;
           className='absolute w-full h-full rounded-2xl top-0 right-0 bottom-0 left-0'
           id='drag-file-element'
           onDragEnter={handleDrag}
@@ -126,6 +116,8 @@ const UploadFile = (props: Props) => {
           onDrop={handleDrop}
         ></div>
       )}
+      <div>{/* listing all the files and preview them*/}</div>
+      <div className=''>{/* buttons*/}</div>
     </form>
   )
 }
