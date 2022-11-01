@@ -1,9 +1,8 @@
-import React from 'react'
-import NavItemComponent from './NavItem'
-import Link from 'next/link'
-import Logout from './Logout'
-import Profile from './Profile'
+import { useState } from 'react'
 import { useRouter } from 'next/router'
+import NavItemComponent from './NavItem'
+import Profile from './Profile'
+import Logout from './Logout'
 
 // nav items
 const NavItems = [
@@ -38,7 +37,7 @@ type Props = {}
 const SideBar = (props: Props) => {
   const router = useRouter()
   console.log(router.pathname)
-  const [selection, setSeletion] = React.useState<number>(0)
+  const [selection, setSeletion] = useState<number>(0)
   return (
     <div className='h-full w-58 px-0.5 bg-accent-three flex flex-col justify-between py-10 shadow-md '>
       <nav className='h-auto flex flex-col space-y-1.5 items-center'>
