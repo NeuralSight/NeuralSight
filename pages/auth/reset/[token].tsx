@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState, useEffect, MouseEvent } from 'react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Logo from '../../../components/auth/Logo'
@@ -46,10 +46,9 @@ function ChangePassword({}: Props) {
 
   const confirmPasswordField = watch('confirmPassword')
 
-  const [error, setError] = React.useState<string>('')
-  const [showPassword, setShowPassword] = React.useState<boolean>(false)
-  const [showConfirmPassword, setShowConfirmPassword] =
-    React.useState<boolean>(false)
+  const [error, setError] = useState<string>('')
+  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword)
@@ -61,13 +60,13 @@ function ChangePassword({}: Props) {
   const onSubmit: SubmitHandler<State> = (data) => console.log('data', data)
   const handleMouseDownPassword = (
     // prevent submitting while toggling show password btn
-    event: React.MouseEvent<HTMLButtonElement>
+    event: MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault()
   }
 
   // unsubscribe from watch
-  React.useEffect(() => {
+  useEffect(() => {
     //  unsubcribe from watch once finished
     const subscription = watch((value, { name, type }) =>
       console.log(value, name, type)
@@ -75,11 +74,14 @@ function ChangePassword({}: Props) {
     return subscription.unsubscribe()
   })
 
-  const id = setTimeout(() => {
-    setError('')
-    clearErrors('password')
-    clearErrors('confirmPassword')
-  }, 5000)
+  useEffect(() => {
+    const id = setTimeout(() => {
+      setError('')
+      clearErrors('password')
+      clearErrors('confirmPassword')
+    }, 5000)
+    return clearTimeout(id)
+  }, [clearErrors])
 
   return (
     <div className='max-h-screen h-screen flex bg-gray-50 relative'>
