@@ -9,6 +9,7 @@ import { ImageDetails } from '../../typings'
 import ImageSample from '../../public/images/trial.jpeg'
 import ListViewImageCard from './ListViewImageCard'
 import Modal from '../Modal'
+import UploadFile from './UploadFile'
 
 type Props = {}
 
@@ -179,7 +180,7 @@ const MainContentSection = (props: Props) => {
             >
               {/* <AddImageModalContent/> */}
               <div className='my-5'>
-                <input type={'file'} />
+                <UploadFile />
               </div>
             </Modal>
           </div>
