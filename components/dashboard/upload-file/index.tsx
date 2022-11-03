@@ -6,20 +6,26 @@ import {
   ChangeEvent,
   MouseEvent,
   SyntheticEvent,
-  useEffect,
+  Dispatch,
+  SetStateAction,
 } from 'react'
 import { FileInfo } from '../../../typings'
 import Button from '../../Button'
 import ErrorMessage from '../../ErrorMessage'
 import FilePreviewCard from './FilePreviewCard'
 
-type Props = {}
+type Props = {
+  setOpen: Dispatch<SetStateAction<boolean>>
+}
 
 type FileTypeError = {
   type: 'FILETYPE_ERR' | 'FILESIZE_ERR'
   message: string | 'oops something went wrong'
 }
 const UploadFile = (props: Props) => {
+  // close modal
+  const handleClose = () => props.setOpen(false)
+
   // drag state
   const [dragActive, setDragActive] = useState<boolean>(false)
   const [fileInfo, setFileInfo] = useState<File[]>()
@@ -189,7 +195,7 @@ const UploadFile = (props: Props) => {
       </div>
       <div className='flex w-full space-x-4'>
         <Button type='submit'>save</Button>
-        <Button type='button' outlined>
+        <Button type='button' onClick={handleClose} outlined>
           cancel
         </Button>
       </div>

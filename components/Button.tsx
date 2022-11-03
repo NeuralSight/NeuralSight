@@ -8,6 +8,7 @@ type Props = {
   size?: string | number | undefined
   textSize?: 'text-sm' | 'text-md' | 'text-lg' | string | undefined
   textBold?: 'font-bold' | 'font-semibold' | 'font-medium' | 'font-normal'
+  onClick?: () => void
 }
 
 const Button = ({
@@ -16,6 +17,7 @@ const Button = ({
   disable,
   outlined,
   size,
+  onClick,
   textBold = 'font-bold',
   textSize = 'text-sm',
 }: Props) => {
@@ -32,6 +34,7 @@ const Button = ({
                 : 'shadow-md  shadow-primary-light/25 hover:shadow-primary-dark/25 bg-primary-light text-white'
             } hover:bg-primary-dark hover:text-white  hover:shadow transition-all duration-200 ease-in-out`
       }  py-6 ${textBold} ${textSize} lg:text-base capitalize`}
+      onClick={type == 'submit' ? undefined : onClick}
     >
       {children}
     </button>

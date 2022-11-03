@@ -180,7 +180,7 @@ const MainContentSection = (props: Props) => {
             >
               {/* <AddImageModalContent/> */}
               <div className='my-5'>
-                <UploadFile />
+                <UploadFile setOpen={setModalOpen} />
               </div>
             </Modal>
           </div>
