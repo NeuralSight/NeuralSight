@@ -22,7 +22,7 @@ type FileTypeError = {
 const UploadFile = (props: Props) => {
   // drag state
   const [dragActive, setDragActive] = useState<boolean>(false)
-  const [fileInfo, setFileInfo] = useState<FileList>()
+  const [fileInfo, setFileInfo] = useState<File[]>()
   const [error, setError] = useState<FileTypeError | null>(null)
 
   const uploadedFileNo = 0
@@ -48,7 +48,7 @@ const UploadFile = (props: Props) => {
     setDragActive(false)
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       // at least one file has been dropped so do something
-      handleFiles(e.dataTransfer.files)
+      handleFiles(Array.from(e.dataTransfer.files))
     }
   }
   // triggers when file is selected with click
@@ -56,7 +56,7 @@ const UploadFile = (props: Props) => {
     e.preventDefault()
     if (e.target.files && e.target.files[0]) {
       // at least one file has been dropped so do something
-      handleFiles(e.target.files)
+      handleFiles(Array.from(e.target.files))
     }
   }
   // triggers the input when the button is clicked
@@ -65,9 +65,8 @@ const UploadFile = (props: Props) => {
     inputRef.current?.click()
   }
 
-  const handleFiles = (files: FileList) => {
+  const handleFiles = (files: File[]) => {
     for (let i = 0; i < files.length; i++) {
-      console.log('files[i].type', files[i].type)
       if (
         files[i].type !== 'image/jpeg' &&
         files[i].type !== 'image/png' &&
@@ -83,7 +82,6 @@ const UploadFile = (props: Props) => {
       // set file info in the file state handler
       setFileInfo(files)
       setError(null)
-      return files
     }
   }
 
@@ -91,13 +89,18 @@ const UploadFile = (props: Props) => {
   const handleSubmit = (e: SyntheticEvent) => {
     // animate uploading the show when finished and list the file
     // if clicks save changes upload the files
+    console.log(fileInfo)
+    console.log(inputRef.current?.files)
     e.preventDefault()
     // submit result to backend
   }
 
   // handle clear all files
   const handleClearSelectedFile = (e: MouseEvent<HTMLButtonElement>) => {
-    console.log(inputRef.current?.files)
+    setFileInfo(undefined)
+    if (inputRef.current?.value !== undefined) {
+      inputRef.current.value = ''
+    }
   }
 
   return (
@@ -174,8 +177,11 @@ const UploadFile = (props: Props) => {
           {fileInfo
             ? Array.from(fileInfo).map((file: FileInfo) => (
                 <FilePreviewCard
+                  fileList={fileInfo}
+                  setFileInfo={setFileInfo}
                   file={file}
                   key={`${file.lastModified} ${file.name} ${file.lastModifiedDate}`}
+                  inputFileRef={inputRef}
                 />
               ))
             : null}
