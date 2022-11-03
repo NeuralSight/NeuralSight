@@ -16,11 +16,8 @@ const FilePreviewCard = ({
   inputFileRef,
 }: Props) => {
   const handleDeleteAFile = () => {
-    const RemainFileList = Array.from(fileList).filter(
-      (item) =>
-        item.lastModified !== file.lastModified && item.name !== item.name
-    )
-    setFileInfo(RemainFileList)
+    const RemainingFileList = fileList.filter((item) => item.name !== file.name)
+    setFileInfo(RemainingFileList)
     if (inputFileRef.current?.value !== undefined) {
       inputFileRef.current.value = ''
     }
