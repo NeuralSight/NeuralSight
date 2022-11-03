@@ -74,146 +74,139 @@ function ChangePassword({}: Props) {
     return subscription.unsubscribe()
   })
 
-  useEffect(() => {
-    const id = setTimeout(() => {
-      setError('')
-      clearErrors('password')
-      clearErrors('confirmPassword')
-    }, 5000)
-    return clearTimeout(id)
-  }, [clearErrors])
+  const id = setTimeout(() => {
+    setError('')
+    clearErrors('password')
+    clearErrors('confirmPassword')
+  }, 5000)
 
   return (
-    <div className='max-h-screen h-screen flex bg-gray-50 relative'>
+    <div>
+      {errors.password?.message || errors.confirmPassword?.message || error ? (
+        <ErrorMessage>
+          {errors.confirmPassword?.message || errors.password?.message || error}
+        </ErrorMessage>
+      ) : null}
       <Head>
         <title>Reset Password</title>
       </Head>
-      <section
-        className='w-100 lg:w-[60%] h-full items-center flex flex-col justify-between
+      <div className='max-h-screen h-screen flex bg-gray-50 relative'>
+        <section
+          className='w-100 lg:w-[60%] h-full items-center flex flex-col justify-between
       pt-20
       pb-10
       container mx-auto md:px-12 px-12 xl:px-36 overflow-hidden'
-      >
-        <div className='flex flex-col space-y-10 text-center justify-center w-full items-center'>
-          {/* Logo section */}
-          <div className='rounded-full w-16 h-16 border border-slate-500/50 p-2 flex items-center justify-center'>
-            <Logo />
-          </div>
-          <div className='flex flex-col space-x-3'>
-            <h3 className='text-3xl tracking-wide text-slate-900'>
-              Change Password
-            </h3>
-          </div>
-        </div>
-        <form
-          className='flex flex-col w-full h-auto space-y-6'
-          onSubmit={handleSubmit(onSubmit)}
         >
-          {errors.password?.message ||
-          errors.confirmPassword?.message ||
-          error ? (
-            <ErrorMessage>
-              {errors.confirmPassword?.message ||
-                errors.password?.message ||
-                error}
-            </ErrorMessage>
-          ) : (
-            <></>
-          )}
-          <InputField
-            id='password'
-            type={showPassword ? 'text' : 'password'}
-            label='password'
-            register={register('password')}
-            icon={
-              <IconButton
-                aria-label='toggle password visibility'
-                edge='end'
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-              >
-                {showPassword ? (
-                  <Icon
-                    icon='ic:baseline-visibility-off'
-                    className='h-[30px]  w-[30px]  text-zinc-500/50'
-                  />
-                ) : (
-                  <Icon
-                    icon='ic:baseline-visibility'
-                    className='h-[30px] w-[30px] text-zinc-500/50'
-                  />
-                )}
-              </IconButton>
-            }
-          />
-          <InputField
-            id='confirmPassword'
-            type={showConfirmPassword ? 'text' : 'password'}
-            label='confirmPassword'
-            register={register('confirmPassword')}
-            icon={
-              <IconButton
-                aria-label='toggle password visibility'
-                edge='end'
-                onClick={handleClickShowConfirmPassword}
-                onMouseDown={handleMouseDownPassword}
-              >
-                {showConfirmPassword ? (
-                  <Icon
-                    icon='ic:baseline-visibility-off'
-                    className='h-[30px]  w-[30px]  text-zinc-500/50'
-                  />
-                ) : (
-                  <Icon
-                    icon='ic:baseline-visibility'
-                    className='h-[30px] w-[30px] text-zinc-500/50'
-                  />
-                )}
-              </IconButton>
-            }
-          />
-          <Button
-            type='submit'
-            outlined={false}
-            disable={confirmPasswordField !== '' ? false : true}
+          <div className='flex flex-col space-y-10 text-center justify-center w-full items-center'>
+            {/* Logo section */}
+            <div className='rounded-full w-16 h-16 border border-slate-500/50 p-2 flex items-center justify-center'>
+              <Logo />
+            </div>
+            <div className='flex flex-col space-x-3'>
+              <h3 className='text-3xl tracking-wide text-slate-900'>
+                Change Password
+              </h3>
+            </div>
+          </div>
+          <form
+            className='flex flex-col w-full h-auto space-y-6'
+            onSubmit={handleSubmit(onSubmit)}
           >
-            Change Password
-          </Button>
-        </form>
-        <p className='text-sm lg:text-base text-slate-400 font-medium'>
-          Go back to{' '}
-          <Link href='/auth'>
-            <span className='cursor-pointer capitalize text-primary-light hover:text-primary-dark transition-all duration-200'>
-              login page
-            </span>
-          </Link>
-        </p>
-        <footer className=' flex w-full space-x-2 justify-center items-center'>
-          <p className='resetFooter '>&#169;Neurallabs</p>
-          <div className='rounded-full h-2 w-2 text-black'></div>
-          <Link href={'#'}>
-            <p className='resetFooter cursor-pointer hover:text-slate-900'>
-              Contact us
-            </p>
-          </Link>
-          <div className='dot' />
-          <Link href={'#'}>
-            <p className='resetFooter cursor-pointer hover:text-slate-900'>
-              Terms & privacy
-            </p>
-          </Link>
-        </footer>
-      </section>
-      <section className='hidden lg:flex w-[40%] h-full relative bg-accent-one/50 justify-center items-center overflow-hidden px-6'>
-        <div className='relative w-full h-full'>
-          <Image
-            src={RobotCharging}
-            alt='robot illustration'
-            layout='fill'
-            objectFit='contain'
-          />
-        </div>
-      </section>
+            <InputField
+              id='password'
+              type={showPassword ? 'text' : 'password'}
+              label='password'
+              register={register('password')}
+              icon={
+                <IconButton
+                  aria-label='toggle password visibility'
+                  edge='end'
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                >
+                  {showPassword ? (
+                    <Icon
+                      icon='ic:baseline-visibility-off'
+                      className='h-[30px]  w-[30px]  text-zinc-500/50'
+                    />
+                  ) : (
+                    <Icon
+                      icon='ic:baseline-visibility'
+                      className='h-[30px] w-[30px] text-zinc-500/50'
+                    />
+                  )}
+                </IconButton>
+              }
+            />
+            <InputField
+              id='confirmPassword'
+              type={showConfirmPassword ? 'text' : 'password'}
+              label='confirmPassword'
+              register={register('confirmPassword')}
+              icon={
+                <IconButton
+                  aria-label='toggle password visibility'
+                  edge='end'
+                  onClick={handleClickShowConfirmPassword}
+                  onMouseDown={handleMouseDownPassword}
+                >
+                  {showConfirmPassword ? (
+                    <Icon
+                      icon='ic:baseline-visibility-off'
+                      className='h-[30px]  w-[30px]  text-zinc-500/50'
+                    />
+                  ) : (
+                    <Icon
+                      icon='ic:baseline-visibility'
+                      className='h-[30px] w-[30px] text-zinc-500/50'
+                    />
+                  )}
+                </IconButton>
+              }
+            />
+            <Button
+              type='submit'
+              outlined={false}
+              disable={confirmPasswordField !== '' ? false : true}
+            >
+              Change Password
+            </Button>
+          </form>
+          <p className='text-sm lg:text-base text-slate-400 font-medium'>
+            Go back to{' '}
+            <Link href='/auth'>
+              <span className='cursor-pointer capitalize text-primary-light hover:text-primary-dark transition-all duration-200'>
+                login page
+              </span>
+            </Link>
+          </p>
+          <footer className=' flex w-full space-x-2 justify-center items-center'>
+            <p className='resetFooter '>&#169;Neurallabs</p>
+            <div className='rounded-full h-2 w-2 text-black'></div>
+            <Link href={'#'}>
+              <p className='resetFooter cursor-pointer hover:text-slate-900'>
+                Contact us
+              </p>
+            </Link>
+            <div className='dot' />
+            <Link href={'#'}>
+              <p className='resetFooter cursor-pointer hover:text-slate-900'>
+                Terms & privacy
+              </p>
+            </Link>
+          </footer>
+        </section>
+        <section className='hidden lg:flex w-[40%] h-full relative bg-accent-one/50 justify-center items-center overflow-hidden px-6'>
+          <div className='relative w-full h-full'>
+            <Image
+              src={RobotCharging}
+              alt='robot illustration'
+              layout='fill'
+              objectFit='contain'
+            />
+          </div>
+        </section>
+      </div>
     </div>
   )
 }
