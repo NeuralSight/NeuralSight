@@ -1,11 +1,30 @@
 import { Icon } from '@iconify/react'
+import { Dispatch, SetStateAction, RefObject } from 'react'
 import { calFileSizeBytesToKbsToGbs } from '../../../helper/fileInfoHelper'
 import { FileInfo } from '../../../typings'
 
 type Props = {
   file: FileInfo
+  fileList: File[]
+  setFileInfo: Dispatch<SetStateAction<File[] | undefined>>
+  inputFileRef: RefObject<HTMLInputElement>
 }
-const FilePreviewCard = ({ file }: Props) => {
+const FilePreviewCard = ({
+  file,
+  fileList,
+  setFileInfo,
+  inputFileRef,
+}: Props) => {
+  const handleDeleteAFile = () => {
+    const RemainFileList = Array.from(fileList).filter(
+      (item) =>
+        item.lastModified !== file.lastModified && item.name !== item.name
+    )
+    setFileInfo(RemainFileList)
+    if (inputFileRef.current?.value !== undefined) {
+      inputFileRef.current.value = ''
+    }
+  }
   return (
     <div className='w-full flex justify-between px-2 py-1.5 h-fit text-zinc-500 bg-primary-light/10 rounded-lg border-2 border-gray-300'>
       <div className='flex space-x-2'>
@@ -30,6 +49,7 @@ const FilePreviewCard = ({ file }: Props) => {
         <Icon
           icon='icons8:cancel'
           className='h-6 w-6 fill-current cursor-pointer opacity-80 hover:opacity-100 transition duration-200'
+          onClick={handleDeleteAFile}
         />
       </div>
     </div>
