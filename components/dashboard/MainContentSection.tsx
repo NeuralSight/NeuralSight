@@ -176,7 +176,7 @@ const MainContentSection = (props: Props) => {
                 p: 4,
               }}
               title='Upload  Files'
-              description='JPEG, JPG, PNG and CT are allowed'
+              description='JPEG, JPG, PNG and DICOM are allowed'
             >
               {/* <AddImageModalContent/> */}
               <div className='my-5'>
