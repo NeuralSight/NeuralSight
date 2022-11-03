@@ -38,7 +38,7 @@ function Auth({}: Props) {
     formState: { errors },
   } = useForm<State>()
   const [showPassword, setShowPassword] = useState<boolean>(false)
-  const [error, setError] = useState<string>('')
+  const [error, setError] = useState<string | null>(null)
 
   const { mutate, isLoading, status } = useLogin()
 
@@ -54,6 +54,9 @@ function Auth({}: Props) {
         onSuccess: (data, variable, context) => {
           if (data.status === 200) {
             console.log('data', data)
+            setError(null)
+            clearErrors('email')
+            clearErrors('password')
           } else {
             const detail = data.data.detail
             if (detail && typeof detail == 'object') {
@@ -94,11 +97,6 @@ function Auth({}: Props) {
     )
     return () => subscription.unsubscribe()
   }, [watch])
-
-  const time_id = setTimeout(() => {
-    clearErrors('email')
-    clearErrors('password')
-  }, 8000)
 
   return (
     <div className=' bg-gray-50'>
