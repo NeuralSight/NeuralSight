@@ -142,7 +142,7 @@ const MainContentSection = (props: Props) => {
             </div>
           </div>
 
-          <div className='px-4 max-h-[520px] overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scroll-smooth'>
+          <div className='px-4 max-h-[520px] h-fit overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scroll-smooth'>
             {!isListView ? (
               <div className='grid grid-cols-3 gap-6 '>
                 {/* Here will contain add button and image cards */}

@@ -6,18 +6,18 @@ import MainContentSection from '../components/dashboard/MainContentSection'
 
 const Dashboard: NextPage = () => {
   return (
-    <div className='max-h-screen  h-screen w-full bg-primary-dark'>
+    <div className='min-h-screen h-fit w-full bg-primary-dark'>
       <Head>
         <title>Neural Sight</title>
         <meta name='description' content='Neural Sight an Ai medical system' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <div className='h-full w-full flex justify-between'>
+      <div className='h-[inherit] w-full flex justify-between '>
         <SideBar />
         <main
-          className='w-full flex pt-6
-        pb-12 px-8 gap-8'
+          className='w-full h-full flex pt-6
+        pb-12 px-8 gap-8 '
         >
           <section className='w-[30%] '>
             <PatientIDSection />

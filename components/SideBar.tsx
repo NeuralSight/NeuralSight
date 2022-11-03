@@ -39,7 +39,7 @@ const SideBar = (props: Props) => {
   console.log(router.pathname)
   const [selection, setSeletion] = useState<number>(0)
   return (
-    <div className='h-full w-58 px-0.5 bg-accent-three flex flex-col justify-between py-10 shadow-md '>
+    <div className='h-full min-h-screen w-58 px-0.5 bg-accent-three flex flex-col justify-between py-10 shadow-md '>
       <nav className='h-auto flex flex-col space-y-1.5 items-center'>
         <Profile />
         {NavItems.map((item) => (
