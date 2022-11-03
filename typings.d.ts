@@ -13,3 +13,12 @@ export interface ImageDetails {
   pathogens: Pathogen[]
   totalPathogens: string | number
 }
+
+interface FileInfo {
+  lastModified?: number
+  lastModifiedDate?: string
+  name: string
+  size: number
+  type: 'image/jpeg' | 'image/png' | 'image/dicom' | string
+  webkitRelativePath: string
+}
