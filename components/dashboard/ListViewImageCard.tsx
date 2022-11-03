@@ -1,7 +1,6 @@
-import React from 'react'
 import Image from 'next/image'
 import { ImageDetails } from '../../typings'
-import { formatStringDecimalToPercentage } from '../../helper/AI_response_formats'
+import { formatStringDecimalToPercentage } from '../../helper/AIResponseFormats'
 import Button from '../Button'
 import { Icon } from '@iconify/react'
 
