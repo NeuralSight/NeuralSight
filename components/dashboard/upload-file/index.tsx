@@ -66,23 +66,24 @@ const UploadFile = (props: Props) => {
   }
 
   const handleFiles = (files: FileList) => {
-    console.log(files)
     for (let i = 0; i < files.length; i++) {
       console.log('files[i].type', files[i].type)
-      // if (
-      //   files[i].type !== 'image/jpeg' ||
-      //   files[i].type !== 'image/png' ||
-      //   files[i].type !== 'image/dicom'
-      // ) {
-      //   // raise an error
-      //   setError({
-      //     type: 'FILETYPE_ERR',
-      //     message: 'wrong file type only images allowed!',
-      //   })
-      //   break
-      // }
+      if (
+        files[i].type !== 'image/jpeg' &&
+        files[i].type !== 'image/png' &&
+        files[i].type !== 'image/dicom'
+      ) {
+        // raise an error
+        setError({
+          type: 'FILETYPE_ERR',
+          message: 'wrong file type only images allowed!',
+        })
+        break
+      }
       // set file info in the file state handler
       setFileInfo(files)
+      setError(null)
+      return files
     }
   }
 
@@ -94,12 +95,10 @@ const UploadFile = (props: Props) => {
     // submit result to backend
   }
 
-  useEffect(() => {
-    const id = setTimeout(() => {
-      setError(null)
-    })
-    return clearTimeout(id)
-  })
+  // handle clear all files
+  const handleClearSelectedFile = (e: MouseEvent<HTMLButtonElement>) => {
+    console.log(inputRef.current?.files)
+  }
 
   return (
     <form
@@ -164,14 +163,20 @@ const UploadFile = (props: Props) => {
               !fileInfo?.length ? 0 : fileInfo?.length
             } uploaded`}
           </p>
-          <button className='cursor-pointer text-red-400 hover:text-red-500 transition duration-200'>
+          <button
+            className='cursor-pointer text-red-400 hover:text-red-500 transition duration-200'
+            onClick={handleClearSelectedFile}
+          >
             cancel
           </button>
         </div>
         <div className='max-h-[150px] h-fit overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scroll-smooth space-y-2 pr-3 py-3'>
           {fileInfo
             ? Array.from(fileInfo).map((file: FileInfo) => (
-                <FilePreviewCard file={file} key={file.lastModified} />
+                <FilePreviewCard
+                  file={file}
+                  key={`${file.lastModified} ${file.name} ${file.lastModifiedDate}`}
+                />
               ))
             : null}
         </div>
