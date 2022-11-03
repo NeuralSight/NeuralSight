@@ -9,7 +9,7 @@ import { ImageDetails } from '../../typings'
 import ImageSample from '../../public/images/trial.jpeg'
 import ListViewImageCard from './ListViewImageCard'
 import Modal from '../Modal'
-import UploadFile from './UploadFile'
+import UploadFile from './upload-file'
 
 type Props = {}
 
