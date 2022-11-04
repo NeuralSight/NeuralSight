@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react'
 import React from 'react'
+import { useMediaQuery } from 'react-responsive'
 import DiseaseTypeSelection from '../DiseaseTypeSelection'
 import NeuralLabsTextLogo from '../NeuralLabsTextLogo'
 import ViewToggleBtn from '../ViewToggleBtn'
@@ -8,8 +9,9 @@ import GridViewImageCard from './GridViewImageCard'
 import { ImageDetails } from '../../typings'
 import ImageSample from '../../public/images/trial.jpeg'
 import ListViewImageCard from './ListViewImageCard'
-import Modal from '../Modal'
 import UploadFile from './upload-file'
+import Modal from '../Modal'
+import { SCREEN } from '../../helper/responsive'
 
 type Props = {}
 
@@ -76,32 +78,51 @@ const MainContentSection = (props: Props) => {
   const [isListView, setIsListView] = React.useState<boolean>(false)
   // set DiseaseType
   const [diseaseType, setDiseaseType] = React.useState<string>()
+  // query
+  const isLargeDevice = useMediaQuery({ minWidth: SCREEN.lg })
 
   return (
     <div className='w-full h-full flex flex-col gap-8'>
-      <nav className='px-4 py-2 w-full h-fit bg-gray-50/95 rounded-2xl flex justify-between border-2 border-primary-light'>
-        <ViewToggleBtn isListView={isListView} setIsListView={setIsListView} />
-        <NeuralLabsTextLogo />
+      <nav className='px-4 py-2 w-full h-fit bg-gray-50/95 lg:rounded-2xl flex justify-between lg:border-2 border-primary-light items-center'>
+        {!isLargeDevice && (
+          <Icon
+            icon='ant-design:menu-outlined'
+            className='h-7 w-7 text-gray-600 active:text-primary-light'
+          />
+        )}
+        {isLargeDevice && (
+          <ViewToggleBtn
+            isListView={isListView}
+            setIsListView={setIsListView}
+          />
+        )}
+        {isLargeDevice && <NeuralLabsTextLogo />}
         <DiseaseTypeSelection
           selectedDisease={diseaseType}
           setDiseaseType={setDiseaseType}
         />
       </nav>
-      <section className='h-full w-full py-3 bg-gray-50/95 rounded-2xl border-2 border-primary-light'>
+      <section className='h-full w-full py-3 bg-gray-50/95 lg:rounded-2xl lg:border-2 border-primary-light'>
         <div className='h-full w-full flex flex-col space-y-2'>
-          <div className=' py-2 w-full h-fit flex justify-between px-4'>
-            <div className='flex w-fit space-x-3'>
+          <div className=' py-2 w-full h-fit flex gap-x-1 justify-between px-4'>
+            <div className='flex w-fit space-x-1 lg:space-x-3'>
               {/* right side */}
               <div className={`chip active`}>
-                <Icon icon='akar-icons:image' className='h-6 w-6 mr-1' />
+                <Icon
+                  icon='akar-icons:image'
+                  className='h-5 w-5 lg:h-6 lg:w-6 mr-1'
+                />
                 {'  X-ray'}
               </div>
               <div className={`chip`}>
-                <Icon icon='akar-icons:image' className='h-6 w-6 mr-1' />
+                <Icon
+                  icon='akar-icons:image'
+                  className='h-5 w-5 lg:h-6 lg:w-6 mr-1'
+                />
                 {'  MRI'}
               </div>
             </div>
-            <div className='flex w-fit space-x-3'>
+            <div className='flex w-fit space-x-1 lg:space-x-3'>
               {isListView && (
                 <button
                   type='button'
@@ -111,7 +132,7 @@ const MainContentSection = (props: Props) => {
                 >
                   <Icon
                     icon={'fluent:add-24-filled'}
-                    className='h-6 w-6 fill-current text-primary-light stroke-[3px]'
+                    className='h-5 w-5 lg:h-6 lg:w-6 fill-current text-primary-light stroke-[3px]'
                   />
                 </button>
               )}
@@ -142,11 +163,11 @@ const MainContentSection = (props: Props) => {
             </div>
           </div>
 
-          <div className='px-4 max-h-[520px] h-fit overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scroll-smooth'>
+          <div className='px-4 h-full lg:h-[520px] max-h-fit overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scroll-smooth'>
             {!isListView ? (
-              <div className='grid grid-cols-3 gap-6 '>
+              <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 2xl:gap-6 '>
                 {/* Here will contain add button and image cards */}
-                <AddImageBtn setOpen={setModalOpen} />{' '}
+                {isLargeDevice && <AddImageBtn setOpen={setModalOpen} />}{' '}
                 {/* for grid view only large device for list view it would be place next to filter button and for small devices as floating action bar maybe*/}
                 {SampleImagesArr.map((item) => (
                   <GridViewImageCard imageDetails={item} key={item.patientID} />
