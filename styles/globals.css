@@ -65,7 +65,7 @@ input[type='checkbox']:focus {
     @apply text-sm lg:text-base text-zinc-500;
   }
   .dot {
-    @apply h-2 w-2 rounded-full text-zinc-600;
+    @apply h-1 w-1 rounded-full bg-zinc-600/80;
   }
   .chip {
     @apply px-3.5 py-1.5 rounded-2xl hover:bg-primary-light/20 bg-zinc-500/20 font-medium fill-current text-zinc-700 flex items-center justify-center transition-all duration-200 ease-in-out;
