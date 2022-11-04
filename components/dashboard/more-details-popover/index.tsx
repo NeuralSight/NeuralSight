@@ -1,6 +1,4 @@
-import React from 'react'
-import Box from '@mui/material/Box'
-import Popover from '@mui/material/Popover'
+import CustomPopover from '../../Popover'
 import MoreDetailsBtn from './MoreDetailsBtn'
 
 // more details props
@@ -33,17 +31,15 @@ export default function MoreDetails({
   setAnchorElement,
 }: Props) {
   return (
-    <Popover
+    <CustomPopover
       id={id}
       open={open}
       anchorEl={anchorEl}
-      disablePortal
-      onClose={() => setAnchorElement(null)}
+      setAnchorElement={setAnchorElement}
       anchorOrigin={{
         vertical: 'bottom',
         horizontal: 'left',
       }}
-      sx={{ border: '1px solid gray', p: 1 }}
       // className='rounded-md shadow px-2 py-3'
     >
       {MoreDetailsLinks.map((item, key) => (
@@ -51,6 +47,6 @@ export default function MoreDetails({
           {item.name}
         </MoreDetailsBtn>
       ))}
-    </Popover>
+    </CustomPopover>
   )
 }
