@@ -16,6 +16,7 @@ import AccessBotIllustration from '../../public/loginillustration.svg'
 import Button from '../../components/Button'
 import ThirdPartyBtn from '../../components/auth/ThirdPartyBtn'
 import ErrorMessage from '../../components/ErrorMessage'
+import Footer from '../../components/Footer'
 
 type Props = {}
 
@@ -242,6 +243,7 @@ function Auth({}: Props) {
               </span>
             </Link>
           </p>
+          <Footer />
         </motion.section>
         <section className='hidden lg:flex lg:w-[55%] h-full relative bg-accent-one/50 justify-center items-center overflow-hidden'>
           <motion.div
@@ -294,7 +296,6 @@ function Auth({}: Props) {
               }}
               className='h-1/3 lg:h-[60%] 2xl:h-[50.7%] w-full bg-white/20  backdrop-blur-lg '
             >
-              {/* glass Botton */}
               {/* text can be added here */}
             </motion.div>
           </div>

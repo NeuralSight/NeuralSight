@@ -7,6 +7,7 @@ import Button from '../../../components/Button'
 import Image from 'next/image'
 import RobotCharging from '../../../public/robotCharging.svg'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import Footer from '../../../components/Footer'
 type Props = {}
 
 type State = {
@@ -86,21 +87,7 @@ function Reset({}: Props) {
             </span>
           </Link>
         </p>
-        <footer className=' flex w-full space-x-2 justify-center items-center'>
-          <p className='resetFooter '>&#169;Neurallabs</p>
-          <div className='rounded-full h-2 w-2 text-black'></div>
-          <Link href={'#'}>
-            <p className='resetFooter cursor-pointer hover:text-slate-900'>
-              Contact us
-            </p>
-          </Link>
-          <div className='dot' />
-          <Link href={'#'}>
-            <p className='resetFooter cursor-pointer hover:text-slate-900'>
-              Terms & privacy
-            </p>
-          </Link>
-        </footer>
+        <Footer />
       </section>
       <section className='hidden lg:flex w-[40%] h-full relative bg-accent-one/50 justify-center items-center overflow-hidden px-6'>
         <div className='relative w-full h-full'>

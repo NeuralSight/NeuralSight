@@ -13,6 +13,7 @@ import ErrorMessage from '../../../components/ErrorMessage'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import Footer from '../../../components/Footer'
 
 type State = {
   password: string
@@ -180,21 +181,7 @@ function ChangePassword({}: Props) {
               </span>
             </Link>
           </p>
-          <footer className=' flex w-full space-x-2 justify-center items-center'>
-            <p className='resetFooter '>&#169;Neurallabs</p>
-            <div className='rounded-full h-2 w-2 text-black'></div>
-            <Link href={'#'}>
-              <p className='resetFooter cursor-pointer hover:text-slate-900'>
-                Contact us
-              </p>
-            </Link>
-            <div className='dot' />
-            <Link href={'#'}>
-              <p className='resetFooter cursor-pointer hover:text-slate-900'>
-                Terms & privacy
-              </p>
-            </Link>
-          </footer>
+          <Footer />
         </section>
         <section className='hidden lg:flex w-[40%] h-full relative bg-accent-one/50 justify-center items-center overflow-hidden px-6'>
           <div className='relative w-full h-full'>
