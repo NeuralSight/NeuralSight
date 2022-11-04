@@ -23,8 +23,8 @@ const ViewToggleBtn = (props: Props) => {
         />
       </button>
       <button
-        title='grid list'
-        aria-label='grid list'
+        title={'listview'}
+        aria-label={'list view'}
         onClick={() => props.setIsListView(true)}
         className='flex justify-center items-center p-1 hover:bg-primary-light/20 rounded transition-all duration-200 ease-in-out'
       >
