@@ -1,4 +1,4 @@
-export const screen = {
+export const SCREEN = {
   sm: '640px',
   // => @media (min-width: 640px) { ... }
 
