@@ -22,7 +22,7 @@ const GrdViewImageCard = ({ imageDetails }: Props) => {
   const id = open ? 'more-details' : undefined
 
   return (
-    <div className='relative rounded-3xl border-2 border-gray-500/20 transition-all ease-in duration-200 hover:border-primary-light group h-[387px] w-[282px] cursor-pointer group'>
+    <div className='relative rounded-3xl border-2 border-gray-500/20 transition-all ease-in duration-200 hover:border-primary-light group h-[387px] lg:h-[300px] 2xl:h-[387px] w-full lg:w-[240px] 2xl:w-[282px] cursor-pointer group'>
       <Image
         src={imageDetails.src}
         alt={`patient's image testing ${imageDetails.disease}`}
