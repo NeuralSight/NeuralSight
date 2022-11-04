@@ -15,7 +15,7 @@ const PatientIdCard = (props: Props) => {
       onClick={() => props.handleActive(props.idKey)}
     >
       <div
-        className={`${
+        className={`text-sm 2xl:text-base ${
           props.active && 'font-semibold '
         } mx-[26px] py-2 px-6 text-center rounded-full hover:bg-primary-light/20`}
       >
