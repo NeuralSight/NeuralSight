@@ -28,16 +28,16 @@ const Dashboard: NextPage = () => {
           className='w-full h-full flex pt-6
         pb-10 justify-evenly'
         >
-          <section className='hidden lg:block w-100'>
+          <section className='hidden lg:block w-full lg:w-auto xl:w-auto'>
             <PatientIDSection />
           </section>
-          <section className='w-100 lg:w-[55%] 2xl:w-[70%]'>
+          <section className='w-full lg:w-[55%] xl:w-[70%]'>
             <MainContentSection />
           </section>
         </main>
       </div>
       {/* copyright */}
-      <footer className='absolute bottom-[2.5%] flex w-full space-x-2 justify-center items-center'>
+      <footer className='absolute bottom-[0.8%] xl:bottom-[2.5%] flex w-full space-x-2 justify-center items-center'>
         <p className=' text-sm lg:text-base text-slate-300 '>
           &#169; Neurallabs Africa
         </p>
