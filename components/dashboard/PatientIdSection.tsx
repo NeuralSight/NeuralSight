@@ -27,7 +27,7 @@ const patientIDs = [
 function PatientIdSection({}: Props) {
   const [active, setActive] = React.useState<number>(0)
   return (
-    <div className='w-full h-full border-2 border-primary-light rounded-2xl bg-gray-50/95 py-5 flex flex-col space-y-6 '>
+    <div className='w-full h-full lg:border-2 lg:border-primary-light lg:rounded-2xl bg-gray-50/95 py-5 flex flex-col space-y-6 '>
       <div className='flex flex-col space-y-6 px-3'>
         <InputField
           id='search'
