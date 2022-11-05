@@ -4,12 +4,12 @@ import Link from 'next/link'
 import SideBar from '../components/SideBar'
 import PatientIDSection from '../components/dashboard/PatientIdSection'
 import MainContentSection from '../components/dashboard/MainContentSection'
-import { useMediaQuery } from 'react-responsive'
+import { useMediaQuery } from '@mui/material'
 import { SCREEN } from '../helper/responsive'
 import SmallDeviceNavBar from '../components/SmallDeviceNavBar'
 
 const Dashboard: NextPage = () => {
-  const isLargeDevice = useMediaQuery({ minWidth: SCREEN.lg })
+  const isLargeDevice = useMediaQuery(`( min-width: ${SCREEN.lg} )`)
   return (
     <div className='relative h-full lg:min-h-screen lg:h-fit w-full bg-primary-dark mx-auto'>
       <Head>
@@ -17,7 +17,7 @@ const Dashboard: NextPage = () => {
         <meta name='description' content='Neural Sight an Ai medical system' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      {!isLargeDevice && (
+      {isLargeDevice || (
         <header className='w-full h-fit'>
           <SmallDeviceNavBar />
         </header>
@@ -31,7 +31,7 @@ const Dashboard: NextPage = () => {
           <section className='hidden lg:block w-100'>
             <PatientIDSection />
           </section>
-          <section className='w-100'>
+          <section className='w-100 lg:w-[55%] 2xl:w-[70%]'>
             <MainContentSection />
           </section>
         </main>

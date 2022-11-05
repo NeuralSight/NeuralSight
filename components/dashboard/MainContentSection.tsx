@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react'
 import React from 'react'
-import { useMediaQuery } from 'react-responsive'
+import { useMediaQuery } from '@mui/material'
 import DiseaseTypeSelection from '../DiseaseTypeSelection'
 import NeuralLabsTextLogo from '../NeuralLabsTextLogo'
 import ViewToggleBtn from '../ViewToggleBtn'
@@ -79,12 +79,12 @@ const MainContentSection = (props: Props) => {
   // set DiseaseType
   const [diseaseType, setDiseaseType] = React.useState<string>()
   // query
-  const isLargeDevice = useMediaQuery({ minWidth: SCREEN.lg })
+  const isLargeDevice = useMediaQuery(`( min-width: ${SCREEN.lg} )`)
 
   return (
     <div className='w-full h-full flex flex-col gap-8'>
       <nav className='px-4 py-2 w-full h-fit bg-gray-50/95 lg:rounded-2xl flex justify-between lg:border-2 border-primary-light items-center'>
-        {!isLargeDevice && (
+        {isLargeDevice || (
           <Icon
             icon='ant-design:menu-outlined'
             className='h-7 w-7 text-gray-600 active:text-primary-light'
@@ -163,7 +163,7 @@ const MainContentSection = (props: Props) => {
             </div>
           </div>
 
-          <div className='px-4 h-full lg:h-[520px] max-h-fit overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scroll-smooth'>
+          <div className='px-4 h-full w-full lg:h-[520px] max-h-fit overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scroll-smooth'>
             {!isListView ? (
               <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 2xl:gap-6 '>
                 {/* Here will contain add button and image cards */}
@@ -174,11 +174,16 @@ const MainContentSection = (props: Props) => {
                 ))}
               </div>
             ) : (
-              <div className='flex flex-col space-y-6 px-5 py-5'>
-                {SampleImagesArr.map((item) => (
-                  <ListViewImageCard imageDetails={item} key={item.patientID} />
-                ))}
-              </div>
+              isLargeDevice && (
+                <div className='flex flex-col space-y-6 px-5 py-5'>
+                  {SampleImagesArr.map((item) => (
+                    <ListViewImageCard
+                      imageDetails={item}
+                      key={item.patientID}
+                    />
+                  ))}
+                </div>
+              )
             )}
             <Modal
               open={isOpen}
