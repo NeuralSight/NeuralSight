@@ -15,7 +15,7 @@ const SmallDeviceNavBar = (props: Props) => {
   const open = Boolean(anchorEl)
   const id = open ? 'menu' : undefined
   return (
-    <nav className='h-fit w-full flex justify-between bg-slate-50 items-center px-2 py-2 border-b-2 border-primary-light'>
+    <nav className='h-fit w-full flex justify-between bg-slate-50 items-center px-3 py-2 border-b-2 border-primary-light'>
       <NeuralLabsTextLogo />
       <button onClick={handleClick}>
         <Profile />
