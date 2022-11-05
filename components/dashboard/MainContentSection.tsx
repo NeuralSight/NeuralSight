@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react'
-import React from 'react'
+import { useState } from 'react'
 import { useMediaQuery } from '@mui/material'
 import DiseaseTypeSelection from '../DiseaseTypeSelection'
 import NeuralLabsTextLogo from '../NeuralLabsTextLogo'
@@ -12,6 +12,8 @@ import ListViewImageCard from './ListViewImageCard'
 import UploadFile from './upload-file'
 import Modal from '../Modal'
 import { SCREEN } from '../../helper/responsive'
+import BurgerMenu from '../BurgerMenu'
+import PatientIdSection from './PatientIdSection'
 
 type Props = {}
 
@@ -73,11 +75,12 @@ const SampleImagesArr: ImageDetails[] = [
 ]
 
 const MainContentSection = (props: Props) => {
-  const [isOpen, setModalOpen] = React.useState<boolean>(false)
+  const [isOpen, setModalOpen] = useState<boolean>(false)
+  const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false)
   // toggle state between listView and grid
-  const [isListView, setIsListView] = React.useState<boolean>(false)
+  const [isListView, setIsListView] = useState<boolean>(false)
   // set DiseaseType
-  const [diseaseType, setDiseaseType] = React.useState<string>()
+  const [diseaseType, setDiseaseType] = useState<string>()
   // query
   const isLargeDevice = useMediaQuery(`( min-width: ${SCREEN.lg} )`)
 
@@ -88,7 +91,13 @@ const MainContentSection = (props: Props) => {
           <Icon
             icon='ant-design:menu-outlined'
             className='h-7 w-7 text-gray-600 active:text-primary-light'
+            onClick={() => setIsOpenMenu(true)}
           />
+        )}
+        {isLargeDevice || (
+          <BurgerMenu isOpen={isOpenMenu} setIsOpen={setIsOpenMenu}>
+            {<PatientIdSection />}
+          </BurgerMenu>
         )}
         {isLargeDevice && (
           <ViewToggleBtn
