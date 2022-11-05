@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import Head from 'next/head'
 import type { AppProps } from 'next/app'
 import React from 'react'
 import {
@@ -22,6 +23,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   )
   return (
     <QueryClientProvider client={queryClient}>
+      <Head>
+        <meta
+          name='viewport'
+          content='width=device-width, initial-scale=1.0'
+        ></meta>
+      </Head>
       {/* <Hydrate state={pageProps.dehydratedState}> */}
       <Component {...pageProps} />
       {/* </Hydrate> */}
