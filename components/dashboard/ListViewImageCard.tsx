@@ -10,8 +10,8 @@ type Props = {
 
 const ListViewImageCard = ({ imageDetails }: Props) => {
   return (
-    <div className='flex w-full h-fit shadow-lg border-2 rounded-xl p-4 space-x-6 bg-primary-lightest'>
-      <div className='w-1/3 relative rounded-xl'>
+    <div className='flex flex-col 2xl:flex-row w-full h-fit shadow-lg border-2 rounded-xl p-4 gap-6 bg-primary-lightest'>
+      <div className='w-full h-80 2xl:w-1/3 relative rounded-xl'>
         <Image
           src={imageDetails.src}
           alt={`patient's image testing ${imageDetails.disease}`}
@@ -23,7 +23,7 @@ const ListViewImageCard = ({ imageDetails }: Props) => {
           {imageDetails.modality}
         </div>
       </div>
-      <div className='w-2/3 flex flex-col space-y-10'>
+      <div className='w-full 2xl:w-2/3 flex flex-col space-y-10'>
         <div className='flex flex-col space-y-1'>
           <h4 className='text-lg text-slate-500'>
             Disease &#8594;{' '}
@@ -105,7 +105,7 @@ const ListViewImageCard = ({ imageDetails }: Props) => {
                 : 'low'}
             </div>
           </div>
-          <div className='flex w-full space-x-3 justify-center items-center'>
+          <div className='flex flex-wrap 2xl:flex-nowrap w-auto gap-3 justify-center items-center'>
             <Button type='button'>
               <Icon icon={'eva:edit-2-fill'} className='ml-2 h-5 w-5' />{' '}
               <div className='text-sm font-bold'>Edit in OHIF</div>
