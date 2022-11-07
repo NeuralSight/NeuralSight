@@ -12,7 +12,7 @@ type Props = {}
 const SideBar = (props: Props) => {
   const router = useRouter()
   console.log(router.pathname)
-  const [selection, setSeletion] = useState<number>(0)
+  const [selection, setSeletion] = useState<number>(1)
   return (
     <div className='h-auto max-h-screen min-h-screen w-58 px-0.5 bg-accent-three flex flex-col justify-between py-10 shadow-md '>
       <nav className='h-auto flex flex-col space-y-1.5 items-center'>
@@ -22,8 +22,9 @@ const SideBar = (props: Props) => {
           <NavItemComponent
             active={item.key === selection}
             text={item.text}
+            link={item.link}
             icon={item.icon}
-            handleClick={setSeletion}
+            setIsSelected={setSeletion}
             itemKey={item.key}
             key={item.key}
           />
