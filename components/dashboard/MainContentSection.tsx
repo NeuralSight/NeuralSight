@@ -83,28 +83,31 @@ const MainContentSection = (props: Props) => {
   const [diseaseType, setDiseaseType] = useState<string>()
   // query
   const isLargeDevice = useMediaQuery(`( min-width: ${SCREEN.lg} )`)
+  const isMediumDevice = useMediaQuery(`( min-width: ${SCREEN.md} )`)
 
   return (
     <div className='w-full h-full flex flex-col gap-8'>
       <nav className='px-4 py-2 w-full h-fit bg-gray-50/95 lg:rounded-2xl flex justify-between lg:border-2 border-primary-light items-center'>
-        {isLargeDevice || (
-          <Icon
-            icon='ant-design:menu-outlined'
-            className='h-7 w-7 text-gray-600 active:text-primary-light'
-            onClick={() => setIsOpenMenu(true)}
-          />
-        )}
-        {isLargeDevice || (
-          <BurgerMenu isOpen={isOpenMenu} setIsOpen={setIsOpenMenu}>
-            {<PatientIdSection />}
-          </BurgerMenu>
-        )}
-        {isLargeDevice && (
-          <ViewToggleBtn
-            isListView={isListView}
-            setIsListView={setIsListView}
-          />
-        )}
+        <div className=' flex items-center space'>
+          {isLargeDevice || (
+            <Icon
+              icon='ant-design:menu-outlined'
+              className='h-7 w-7 text-gray-600 active:text-primary-light'
+              onClick={() => setIsOpenMenu(true)}
+            />
+          )}
+          {isLargeDevice || (
+            <BurgerMenu isOpen={isOpenMenu} setIsOpen={setIsOpenMenu}>
+              {<PatientIdSection />}
+            </BurgerMenu>
+          )}
+          {isMediumDevice && (
+            <ViewToggleBtn
+              isListView={isListView}
+              setIsListView={setIsListView}
+            />
+          )}
+        </div>
         {isLargeDevice && <NeuralLabsTextLogo />}
         <DiseaseTypeSelection
           selectedDisease={diseaseType}
@@ -183,7 +186,7 @@ const MainContentSection = (props: Props) => {
                 ))}
               </div>
             ) : (
-              isLargeDevice && (
+              isMediumDevice && (
                 <div className='flex flex-col space-y-6 px-5 py-5'>
                   {SampleImagesArr.map((item) => (
                     <ListViewImageCard
