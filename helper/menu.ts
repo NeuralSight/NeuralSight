@@ -15,7 +15,7 @@ export const Menu = [
     key: 3,
     text: 'setting',
     icon: 'ant-design:setting-filled',
-    link: '/setting',
+    link: '/settings',
   },
   {
     key: 4,
