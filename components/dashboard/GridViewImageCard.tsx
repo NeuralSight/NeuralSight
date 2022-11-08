@@ -3,7 +3,6 @@ import { ImageDetails } from '../../typings'
 import Image from 'next/image'
 import { IconButton } from '@mui/material'
 import { Icon } from '@iconify/react'
-import { createPopper, VirtualElement } from '@popperjs/core'
 import MoreDetails from './more-details-popover'
 
 type Props = {
