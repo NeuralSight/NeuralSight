@@ -1,25 +1,24 @@
-import React from 'react'
 import { Icon } from '@iconify/react'
+import { ReactNode } from 'react'
 
 type Props = {
-  id: string
+  children: ReactNode
   idKey: number
   active?: boolean
-  handleActive: React.Dispatch<React.SetStateAction<number>>
+  setActive: React.Dispatch<React.SetStateAction<number>>
+  className?: string | undefined
 }
 
-const PatientIdCard = (props: Props) => {
+const ListNavigationCard = (props: Props) => {
   return (
     <div
       className={`cursor-pointer relative  `}
-      onClick={() => props.handleActive(props.idKey)}
+      onClick={() => props.setActive(props.idKey)}
     >
       <div
-        className={`text-sm 2xl:text-base ${
-          props.active && 'font-semibold '
-        } mx-[26px] py-2 px-6 text-center rounded-full hover:bg-primary-light/20`}
+        className={`${props.className} text-sm 2xl:text-base flex items-center mx-[26px] py-2 px-6 text-center rounded-full hover:bg-primary-light/20`}
       >
-        {props.id}
+        {props.children}
       </div>
       {props.active ? (
         <div
@@ -30,11 +29,9 @@ const PatientIdCard = (props: Props) => {
             className='h-7 w-7 fill-current text-gray-50'
           />
         </div>
-      ) : (
-        <></>
-      )}
+      ) : null}
     </div>
   )
 }
 
-export default PatientIdCard
+export default ListNavigationCard
