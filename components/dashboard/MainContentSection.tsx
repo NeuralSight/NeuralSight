@@ -14,6 +14,7 @@ import Modal from '../Modal'
 import { SCREEN } from '../../helper/responsive'
 import BurgerMenu from '../BurgerMenu'
 import PatientIdSection from './PatientIdSection'
+import MainSectionNavBar from '../MainSectionNavBar'
 
 type Props = {}
 
@@ -87,7 +88,7 @@ const MainContentSection = (props: Props) => {
 
   return (
     <div className='w-full h-full flex flex-col gap-8'>
-      <nav className='px-4 py-2 w-full h-fit bg-gray-50/95 lg:rounded-2xl flex justify-between lg:border-2 border-primary-light items-center'>
+      <MainSectionNavBar>
         <div className=' flex items-center space'>
           {isLargeDevice || (
             <Icon
@@ -113,7 +114,7 @@ const MainContentSection = (props: Props) => {
           selectedDisease={diseaseType}
           setDiseaseType={setDiseaseType}
         />
-      </nav>
+      </MainSectionNavBar>
       <section className='h-full w-full py-3 bg-gray-50/95 lg:rounded-2xl lg:border-2 border-primary-light'>
         <div className='h-full w-full flex flex-col space-y-2'>
           <div className=' py-2 w-full h-fit flex gap-x-1 justify-between px-4'>
