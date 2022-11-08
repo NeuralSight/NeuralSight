@@ -11,24 +11,21 @@ type Props = {}
 
 const SideBar = (props: Props) => {
   const router = useRouter()
-  console.log(router.pathname)
-  const [selection, setSeletion] = useState<number>(1)
+  const [selection, setSeletion] = useState<string>(router.pathname)
   return (
     <div className='h-auto max-h-screen min-h-screen w-58 px-0.5 bg-accent-three flex flex-col justify-between py-10 shadow-md '>
       <nav className='h-auto flex flex-col space-y-1.5 items-center'>
         <Profile name='Doctor' />
         {Menu.map((item) => (
-          // <Link href={item.link} key={item.key}>
           <NavItemComponent
-            active={item.key === selection}
+            active={item.link === selection}
             text={item.text}
             link={item.link}
             icon={item.icon}
+            currentLink={router.pathname}
             setIsSelected={setSeletion}
-            itemKey={item.key}
             key={item.key}
           />
-          // </Link>
         ))}
       </nav>
       <Logout />

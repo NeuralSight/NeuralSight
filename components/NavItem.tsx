@@ -3,25 +3,25 @@ import { Icon } from '@iconify/react'
 import Link from 'next/link'
 
 type Props = {
-  itemKey: number
   active: boolean
   text: string
   icon: string
   link: string
-  setIsSelected: React.Dispatch<React.SetStateAction<number>>
+  currentLink: string
+  setIsSelected: React.Dispatch<React.SetStateAction<string>>
 }
 const NavItem = ({
-  itemKey,
   active,
   text,
   icon,
   link,
+  currentLink,
   setIsSelected,
 }: Props) => {
   return (
     <Link href={link}>
       <div
-        onClick={() => setIsSelected(itemKey)}
+        onClick={() => setIsSelected(currentLink)}
         className={` cursor-pointer ${
           active
             ? 'pb-6 pt-4 bg-primary-light/30 text-primary-light'
