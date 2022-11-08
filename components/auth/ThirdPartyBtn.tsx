@@ -9,7 +9,7 @@ const ThirdPartyBtn = (props: Props) => {
   return (
     <button
       type={props.type}
-      className='flex  cursor-pointer w-auto max-h-6 py-6 px-20 rounded-xl bg-transparent border border-gray-500/50 text-sm lg:text-base font-medium text-zinc-500 justify-center items-center hover:bg-gray-400/10 transition-all duration-200 ease-in-out group outline-none hover:outline hover:outline-2 hover:outline-offset-2 hover:outline-gray-500/50'
+      className='flex w-full cursor-pointer max-h-6 py-6 px-20 rounded-xl bg-transparent border border-gray-500/50 text-sm lg:text-base font-medium text-zinc-500 justify-center items-center hover:bg-gray-400/10 transition-all duration-200 ease-in-out group outline-none hover:outline hover:outline-2 hover:outline-offset-2 hover:outline-gray-500/50'
     >
       {props.children}
     </button>
