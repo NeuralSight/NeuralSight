@@ -22,3 +22,8 @@ interface FileInfo {
   type: 'image/jpeg' | 'image/png' | 'image/dicom' | string
   webkitRelativePath: string
 }
+
+export type FileTypeError = {
+  type: 'FILETYPE_ERR' | 'FILESIZE_ERR' | 'FILES_SELECTED_ERR'
+  message?: string | 'oops something went wrong'
+}
