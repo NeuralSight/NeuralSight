@@ -7,6 +7,8 @@ import { SCREEN } from '../../helper/responsive'
 import BurgerMenu from '../BurgerMenu'
 import SettingOptionSection from './SettingOptionSection'
 import MainSectionNavBar from '../MainSectionNavBar'
+import Profile from './EditProfileImage'
+import ContactUs from './contact-us'
 
 type Props = {}
 
@@ -38,7 +40,15 @@ const MainContentSection = (props: Props) => {
 
         {isLargeDevice && <NeuralLabsTextLogo />}
       </MainSectionNavBar>
-      <section className='h-full w-full py-3 bg-gray-50/25 backdrop-blur lg:rounded-2xl'></section>
+      <section className='h-full w-full py-3 bg-gray-50/25 backdrop-blur lg:rounded-2xl'>
+        <div className='flex justify-between px-6 py-4'>
+          <h3 className='capitalize text-white text-2xl xl:text-3xl'>
+            Edit Profile
+          </h3>
+          <Profile />
+          <ContactUs />
+        </div>
+      </section>
     </div>
   )
 }
