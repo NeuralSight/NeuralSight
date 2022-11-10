@@ -1,5 +1,5 @@
-import MainContentSection from '../../components/setttings/MainContentSection'
-import SettingOptionSection from '../../components/setttings/SettingOptionSection'
+import MainContentSection from '../../components/settings/MainContentSection'
+import SettingOptionSection from '../../components/settings/SettingOptionSection'
 import Layout from '../layout'
 type Props = {}
 
