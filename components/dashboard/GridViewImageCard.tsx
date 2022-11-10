@@ -1,6 +1,6 @@
 import React from 'react'
 import { ImageDetails } from '../../typings'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import { IconButton } from '@mui/material'
 import { Icon } from '@iconify/react'
 import MoreDetails from './more-details-popover'
