@@ -74,13 +74,13 @@ function ChangePassword({}: Props) {
     )
     return subscription.unsubscribe()
   })
-
-  const id = setTimeout(() => {
-    setError('')
-    clearErrors('password')
-    clearErrors('confirmPassword')
-  }, 5000)
-
+  useEffect(() => {
+    setTimeout(() => {
+      setError('')
+      clearErrors('password')
+      clearErrors('confirmPassword')
+    }, 5000)
+  }, [clearErrors, setError])
   return (
     <div>
       {errors.password?.message || errors.confirmPassword?.message || error ? (
