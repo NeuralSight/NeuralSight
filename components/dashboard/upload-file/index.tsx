@@ -9,7 +9,7 @@ import {
   Dispatch,
   SetStateAction,
 } from 'react'
-import { FileInfo } from '../../../typings'
+import { FileInfo, FileTypeError } from '../../../typings'
 import Button from '../../Button'
 import ErrorMessage from '../../ErrorMessage'
 import FilePreviewCard from './FilePreviewCard'
@@ -18,10 +18,6 @@ type Props = {
   setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-type FileTypeError = {
-  type: 'FILETYPE_ERR' | 'FILESIZE_ERR'
-  message: string | 'oops something went wrong'
-}
 const UploadFile = (props: Props) => {
   // close modal
   const handleClose = () => props.setOpen(false)
@@ -83,7 +79,14 @@ const UploadFile = (props: Props) => {
           type: 'FILETYPE_ERR',
           message: 'wrong file type only images allowed!',
         })
-        break
+        return
+      }
+      if (files[i].size > 100000000) {
+        setError({
+          type: 'FILESIZE_ERR',
+          message: 'file allowed <strong>MUST</strong> be 100mbs and below',
+        })
+        return
       }
       // set file info in the file state handler
       setFileInfo(files)
