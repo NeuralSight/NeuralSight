@@ -1,6 +1,6 @@
 import { useState, MouseEvent } from 'react'
 import NeuralLabsTextLogo from './NeuralLabsTextLogo'
-import Profile from './Profile'
+import Profile from './ProfileImage'
 import Menu from './small-device-menu-popover'
 
 type Props = {}

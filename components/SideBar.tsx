@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import NavItemComponent from './NavItem'
-import Profile from './Profile'
+import Profile from './ProfileImage'
 import Logout from './Logout'
 import { Menu } from '../helper/menu'
 
