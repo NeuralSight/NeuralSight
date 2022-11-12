@@ -22,7 +22,7 @@ type Props = {}
 
 const ContactUs = (props: Props) => {
   return (
-    <ul className='bg-gray-50 rounded-md border-b-[6px] border-t-[3px] border-r-[3px] border-l-[3px] border-zinc-400 py-3  flex flex-col space-y-1 list-none'>
+    <ul className='bg-gray-50 rounded-md border-b-[6px] border-t-[3px] border-r-[3px] border-l-[3px] border-zinc-400 py-3 px-2 flex flex-col space-y-1 list-none'>
       {HelpLinks.map((item, key) => (
         <Contact {...item} key={key} />
       ))}
