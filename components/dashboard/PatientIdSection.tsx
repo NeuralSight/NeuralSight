@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react'
 import { useState } from 'react'
-import InputField from '../Input'
+import InputField from '../inputs/MUIInput'
 import ListNavigationWrapper from '../ListNavigationWrapper'
 import PatientIdCard from '../ListNavigationCard'
 
