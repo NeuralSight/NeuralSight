@@ -33,7 +33,7 @@ const CustomInput = (props: Props) => {
         {...props.register}
         name={props.label}
         placeholder={props.placeholder}
-        className={`appearance-none outline-none border-2 font-medium w-full h-fit py-3 rounded-[10px] border-2 border-zinc-300 placeholder:placeholder-gray-500/50 text-slate-600 px-4 transition-all duration-200 ease-in-out ${
+        className={`appearance-none outline-none font-medium w-full h-fit py-3 rounded-[10px] border-2 border-zinc-300 placeholder:placeholder-gray-500/50 text-slate-600 px-4 transition-all duration-200 ease-in-out ${
           isFocused
             ? ' bg-primary-lightest outline-2 outline-primary-light'
             : ' hover:outline-1 hover:outline-secondary-dark bg-gray-100'
