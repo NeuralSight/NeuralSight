@@ -27,12 +27,12 @@ const Button = ({
       disabled={disable}
       className={`w-full max-h-[24px] flex items-center justify-center cursor-pointer rounded-xl fill-current border-2 ${
         disable
-          ? 'bg-primary-light/50 border-primary-light/30 text-gray-100 shadow-none'
-          : `   border-primary-light hover:border-primary-dark ${
+          ? 'bg-primary-light/50 border-primary-light/10 text-gray-100 shadow-none'
+          : `   border-primary-light hover:border-secondary-dark ${
               outlined
                 ? 'bg-transparent text-primary-light'
                 : 'shadow-md  shadow-primary-light/25 hover:shadow-primary-dark/25 bg-primary-light text-white'
-            } hover:bg-primary-dark hover:text-white  hover:shadow transition-all duration-200 ease-in-out`
+            } hover:bg-secondary-dark hover:text-white  hover:shadow transition-all duration-200 ease-in-out`
       }  py-6 ${textBold} ${textSize} lg:text-base capitalize`}
       onClick={type == 'submit' ? undefined : onClick}
     >
