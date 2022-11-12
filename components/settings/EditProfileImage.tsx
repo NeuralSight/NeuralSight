@@ -54,7 +54,7 @@ const EditProfileImage = (props: Props) => {
   return (
     <div className='flex relative h-fit'>
       <Image
-        className='relative h-24 w-24 lg:h-36 lg:w-36 rounded-full border-2 border-primary-light object-cover'
+        className='relative h-24 w-24 lg:h-32 lg:w-32 rounded-full border-2 border-primary-light object-cover'
         src={
           preview ||
           'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1760&q=80'
