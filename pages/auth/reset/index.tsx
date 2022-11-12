@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Logo from '../../../components/auth/Logo'
-import InputField from '../../../components/Input'
+import InputField from '../../../components/inputs/MUIInput'
 import { Icon } from '@iconify/react'
 import Link from 'next/link'
 import Button from '../../../components/Button'
