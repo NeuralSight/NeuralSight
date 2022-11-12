@@ -27,10 +27,10 @@ module.exports = {
         primary: {
           lightest: '#E3F4F6',
           light: '#16C2D5',
-          dark: '#10217D',
+          dark: '#0F172A',
         },
         secondary: {
-          dark: '#0F172A',
+          dark: '#10217D',
         },
         accent: { one: '#D7BAAD', two: '#3F3D56', three: '#2E4450' },
       },
