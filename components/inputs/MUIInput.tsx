@@ -6,9 +6,7 @@ import {
   InputAdornment,
 } from '@mui/material'
 import React from 'react'
-import { UseFormRegisterReturn } from 'react-hook-form/dist/types'
 import styled from '@emotion/styled'
-import { FieldValue } from 'react-hook-form/dist/types/fields'
 
 type Props = {
   id: string
@@ -33,12 +31,14 @@ const CustomFormControl = styled(FormControl)({
     '& fieldset': {
       borderColor: 'rbga(137, 137, 137,0.8)',
       background: 'rgba(215, 186, 173, 0.2)',
+      zIndex: '1',
     },
     '&:hover fieldset': {
       borderColor: 'rbga(24, 24, 24)',
     },
     '&.Mui-focused fieldset': {
       borderColor: '#16C2D5',
+      zIndex: '1',
       background: 'rgba(22, 194, 213, 0.1)',
     },
   },
