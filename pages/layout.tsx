@@ -14,7 +14,7 @@ type Props = {
 const Layout = ({ children }: Props) => {
   const isLargeDevice = useMediaQuery(`( min-width: ${SCREEN.lg} )`)
   return (
-    <div className='relative h-full lg:min-h-screen lg:h-fit w-full bg-primary-dark mx-auto'>
+    <div className='relative h-full lg:min-h-screen lg:h-screen w-full bg-primary-dark mx-auto'>
       <Head>
         <title>Neural Sight</title>
         <meta name='description' content='Neural Sight an Ai medical system' />
