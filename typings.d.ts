@@ -1,5 +1,7 @@
 // ImageDetails
-
+export interface AnyObject {
+  [key: string]: any
+}
 interface Pathogen {
   type: string
   confidence: string
