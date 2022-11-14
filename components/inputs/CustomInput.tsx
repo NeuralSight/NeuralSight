@@ -7,6 +7,8 @@ type Props = {
   register?: object | undefined
   spaceY?: '1' | '2' | '3' | '4' | '5' | '6'
   placeholder?: string | undefined
+  max?: number
+  min?: number
 }
 
 const CustomInput = (props: Props) => {
@@ -30,6 +32,8 @@ const CustomInput = (props: Props) => {
         id={props.label}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        max={props.max}
+        min={props.min}
         {...props.register}
         name={props.label}
         placeholder={props.placeholder}
