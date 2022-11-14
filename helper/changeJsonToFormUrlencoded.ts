@@ -1,6 +1,6 @@
 import { AnyObject } from 'yup/lib/types'
 
-export function changeObjToFormUrlencoded(obj: AnyObject) {
+export function changeObjToFormUrlencoded(obj: AnyObject): string {
   var str = []
   for (let key in obj) {
     if (obj.hasOwnProperty(key)) {
