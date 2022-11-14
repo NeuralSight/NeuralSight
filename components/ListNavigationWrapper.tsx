@@ -8,7 +8,7 @@ type Props = {
 
 const ListNavigationWrapper = ({ children, title, topComponent }: Props) => {
   return (
-    <div className='w-full h-full mb-8 lg:border-2 lg:border-primary-light lg:rounded-2xl bg-gray-50/95 py-5 flex flex-col space-y-6 '>
+    <div className='w-full h-full lg:border-2 lg:border-primary-light lg:rounded-2xl bg-gray-50/95 py-5 flex flex-col space-y-6 '>
       {topComponent && topComponent}
       <div className='flex flex-col space-y-6 '>
         {title && (

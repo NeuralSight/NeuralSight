@@ -87,7 +87,7 @@ const MainContentSection = (props: Props) => {
   const isMediumDevice = useMediaQuery(`( min-width: ${SCREEN.md} )`)
 
   return (
-    <div className='w-full h-full flex flex-col gap-8'>
+    <div className='w-full h-auto flex flex-col gap-8'>
       <MainSectionNavBar>
         <div className=' flex items-center space'>
           {isLargeDevice || (
@@ -115,7 +115,7 @@ const MainContentSection = (props: Props) => {
           setDiseaseType={setDiseaseType}
         />
       </MainSectionNavBar>
-      <section className='h-full w-full py-3 bg-gray-50/95 lg:rounded-2xl lg:border-2 border-primary-light'>
+      <section className='h-full w-full pt-4 pb-5 bg-gray-50/95 lg:rounded-2xl lg:border-2 border-primary-light'>
         <div className='h-full w-full flex flex-col space-y-2'>
           <div className=' py-2 w-full h-fit flex gap-x-1 justify-between px-4'>
             <div className='flex w-fit space-x-1 lg:space-x-3'>
@@ -176,9 +176,9 @@ const MainContentSection = (props: Props) => {
             </div>
           </div>
 
-          <div className='px-4 h-full w-full lg:h-[520px] max-h-fit overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scroll-smooth'>
+          <div className='px-4 h-full w-full lg:h-[520px] max-h-fit bg-white overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scroll-smooth '>
             {!isListView ? (
-              <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 2xl:gap-6 '>
+              <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 2xl:gap-6 py-3 '>
                 {/* Here will contain add button and image cards */}
                 {isLargeDevice && <AddImageBtn setOpen={setModalOpen} />}{' '}
                 {/* for grid view only large device for list view it would be place next to filter button and for small devices as floating action bar maybe*/}

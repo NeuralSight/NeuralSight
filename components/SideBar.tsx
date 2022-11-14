@@ -13,7 +13,7 @@ const SideBar = (props: Props) => {
   const router = useRouter()
   const [selection, setSeletion] = useState<string>(router.pathname)
   return (
-    <div className='h-auto max-h-screen min-h-screen w-58 px-0.5 bg-accent-three flex flex-col justify-between py-10 shadow-md '>
+    <div className='h-full w-58 px-0.5 bg-accent-three flex flex-col justify-between py-10 shadow-md '>
       <nav className='h-auto flex flex-col space-y-1.5 items-center'>
         <Profile name='Doctor' />
         {Menu.map((item) => (

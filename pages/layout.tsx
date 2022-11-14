@@ -30,7 +30,7 @@ const Layout = ({ children }: Props) => {
         {children}
       </div>
       {/* copyright */}
-      <footer className='absolute bottom-[0.6%] xl:bottom-[2.5%] flex w-full space-x-2 justify-center items-center'>
+      <footer className='absolute bottom-[0.6%] xl:bottom-[1.2%] flex w-full space-x-2 justify-center items-center'>
         <p className=' text-sm lg:text-base text-slate-300 '>
           &#169; Neurallabs Africa
         </p>

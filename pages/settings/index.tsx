@@ -6,7 +6,7 @@ type Props = {}
 function settings({}: Props) {
   return (
     <Layout>
-      <main className='w-full h-full flex pt-6 pb-10 justify-evenly'>
+      <main className='w-full h-[93%] flex pt-6 justify-evenly'>
         <section className='hidden lg:block w-full lg:w-auto xl:w-auto'>
           <SettingOptionSection />
         </section>
