@@ -46,8 +46,8 @@ function Auth({}: Props) {
   const onSubmit: SubmitHandler<State> = (data) => {
     return mutate(
       {
-        username: 'info@neurallabs.africa',
-        password: 'Neur@l@bs202!',
+        username: data.email,
+        password: data.password,
       },
       {
         onSuccess: (data, variable, context) => {
