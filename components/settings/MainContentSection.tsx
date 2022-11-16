@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react'
-import { Dispatch, SetStateAction, useState, Suspense, lazy } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { useMediaQuery } from '@mui/material'
 import NeuralLabsTextLogo from '../NeuralLabsTextLogo'
 import { SCREEN } from '../../helper/responsive'
