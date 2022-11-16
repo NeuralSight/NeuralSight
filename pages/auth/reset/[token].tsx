@@ -14,6 +14,12 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Footer from '../../../components/Footer'
+import {
+  FIELD_REQUIRED_ERR_MSG,
+  PASSWORD_LENGTH_ERR_MSG,
+  PASSWORD_MISMATCH_ERR_MSG,
+  PASSWORD_REQUIRED_ERR_MSG,
+} from '../../../lang/auth'
 
 type State = {
   password: string
@@ -28,11 +34,11 @@ function ChangePassword({}: Props) {
 
   const formSchema = Yup.object().shape({
     password: Yup.string()
-      .required('Password is mendatory')
-      .min(8, 'Password must be at 8 char long'),
+      .required(PASSWORD_REQUIRED_ERR_MSG)
+      .min(8, PASSWORD_LENGTH_ERR_MSG),
     confirmPassword: Yup.string()
-      .required('this field is required')
-      .oneOf([Yup.ref('password')], 'Passwords does not match'),
+      .required(FIELD_REQUIRED_ERR_MSG)
+      .oneOf([Yup.ref('password')], PASSWORD_MISMATCH_ERR_MSG),
   })
   const formOptions = { resolver: yupResolver(formSchema) }
 

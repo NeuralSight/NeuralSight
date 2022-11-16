@@ -17,6 +17,12 @@ import Button from '../../components/Button'
 import ThirdPartyBtn from '../../components/auth/ThirdPartyBtn'
 import ErrorMessage from '../../components/ErrorMessage'
 import Footer from '../../components/Footer'
+import {
+  EMAIL_INCORRECT_ERR_MSG,
+  EMAIL_REQUIRED_ERR_MSG,
+  PASSWORD_LENGTH_ERR_MSG,
+  PASSWORD_REQUIRED_ERR_MSG,
+} from '../../lang/auth'
 
 type Props = {}
 
@@ -155,10 +161,10 @@ function Auth({}: Props) {
               label='email'
               type='email'
               register={register('email', {
-                required: 'email is required',
+                required: EMAIL_REQUIRED_ERR_MSG,
                 pattern: {
                   value: /^\S+@\S+$/i, // format tha it checks is string@string
-                  message: 'email is not correct',
+                  message: EMAIL_INCORRECT_ERR_MSG,
                 },
               })}
               icon={
@@ -173,10 +179,10 @@ function Auth({}: Props) {
               label='password'
               type={showPassword ? 'text' : 'password'}
               register={register('password', {
-                required: 'password is required',
+                required: PASSWORD_REQUIRED_ERR_MSG,
                 min: {
                   value: 8,
-                  message: 'password should have eight characters',
+                  message: PASSWORD_LENGTH_ERR_MSG,
                 },
               })}
               icon={

@@ -8,6 +8,10 @@ import Image from 'next/image'
 import RobotCharging from '../../../public/robotCharging.svg'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import Footer from '../../../components/Footer'
+import {
+  EMAIL_INCORRECT_ERR_MSG,
+  EMAIL_REQUIRED_ERR_MSG,
+} from '../../../lang/auth'
 type Props = {}
 
 type State = {
@@ -61,10 +65,10 @@ function Reset({}: Props) {
             type='email'
             label='email'
             register={register('email', {
-              required: 'email is required',
+              required: EMAIL_REQUIRED_ERR_MSG,
               pattern: {
                 value: /^\S+@\S+$/i, // format tha it checks is string@string
-                message: 'email is not correct',
+                message: EMAIL_INCORRECT_ERR_MSG,
               },
             })}
             icon={
