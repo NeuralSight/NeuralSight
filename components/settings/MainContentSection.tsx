@@ -1,45 +1,48 @@
 import { Icon } from '@iconify/react'
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import { useMediaQuery } from '@mui/material'
+import Image from 'next/image'
 import NeuralLabsTextLogo from '../NeuralLabsTextLogo'
-import Modal from '../Modal'
 import { SCREEN } from '../../helper/responsive'
 import BurgerMenu from '../BurgerMenu'
 import SettingOptionSection from './SettingOptionSection'
 import MainSectionNavBar from '../MainSectionNavBar'
 import Profile from './EditProfileImage'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import ContactUs from './contact-us'
 import InputField from '../inputs/CustomInput'
 import Button from '../Button'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { FieldValues } from 'react-hook-form/dist/types'
+import { CountryCodes } from '../../helper/countryCodes'
+
+//
 
 type Props = {}
 
-type State = {
-  firstname: string
-  lastname: string
-  email: string
-  tel: string
-  address: string
-  location: string
-  hospital: string
-}
-
 const MainContentSection = (props: Props) => {
-  const [isOpen, setModalOpen] = useState<boolean>(false)
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false)
+  const [countryCode, setCountryCode] = useState<string>(CountryCodes[0].code)
+  const [isClicked, setIsClicked] = useState<boolean>(false)
   // query
   const isLargeDevice = useMediaQuery(`( min-width: ${SCREEN.lg} )`)
   const isMediumDevice = useMediaQuery(`( min-width: ${SCREEN.md} )`)
 
+  const handleCountryCode = (e: ChangeEvent<HTMLSelectElement>) => {
+    setCountryCode(e.target.value)
+  }
   const {
-    register,
+    control,
     handleSubmit,
+    watch,
     formState: { errors },
-  } = useForm<State>()
+  } = useForm<FieldValues>()
+  // {
+  //   mode:"onChange"
+  // }
 
   console.log('errors', errors)
-  const onSubmit: SubmitHandler<State> = (data) => console.log('data', data)
+  const onSubmit: SubmitHandler<FieldValues> = (data) =>
+    console.log('data', data)
   return (
     <div className='w-full h-full flex flex-col gap-8 '>
       <MainSectionNavBar>
@@ -61,8 +64,8 @@ const MainContentSection = (props: Props) => {
 
         {isLargeDevice && <NeuralLabsTextLogo />}
       </MainSectionNavBar>
-      <div className=' w-full h-full py-3 bg-gray-50/10  lg:rounded-2xl overflow-y-hidden'>
-        <section className='px-6 w-full h-full  backdrop-blur flex overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scroll-smooth '>
+      <div className=' w-full h-full bg-gray-50/5 backdrop-blur lg:rounded-2xl overflow-y-hidden'>
+        <section className='px-6 py-4 w-full h-full   lg:flex overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-[4px]  scroll-smooth '>
           <form
             className='w-full lg:w-3/4 flex flex-col space-y-8 '
             onSubmit={handleSubmit(onSubmit)}
@@ -81,36 +84,42 @@ const MainContentSection = (props: Props) => {
               <InputField
                 type='text'
                 label='firstname'
+                fieldName='firstname'
                 spaceY='2'
                 placeholder='John'
-                register={register('firstname', {
+                control={control}
+                rules={{
                   // pattern:
                   max: {
                     value: 50,
                     message: 'maximum word length 50',
                   },
-                })}
+                }}
               />
               <InputField
                 type='text'
                 label='lastname'
+                fieldName='lastname'
                 spaceY='2'
                 placeholder='Doe'
-                register={register('lastname', {
+                control={control}
+                rules={{
                   // pattern:
                   max: {
                     value: 50,
                     message: 'maximum word length 50',
                   },
-                })}
+                }}
               />
             </div>
             <InputField
               type='email'
               label='email'
+              fieldName='email'
               spaceY='2'
+              control={control}
               placeholder='example@gmail.com'
-              register={register('email', {
+              rules={{
                 pattern: {
                   value: /^\S+@\S+$/i,
                   message: 'wrong email format',
@@ -119,53 +128,91 @@ const MainContentSection = (props: Props) => {
                   value: 100,
                   message: 'maximum word length 50',
                 },
-              })}
+              }}
             />
-            <InputField
-              type='tel'
-              max={9}
-              label='telephone'
-              spaceY='2'
-              placeholder='0720000000'
-              register={register('tel', {
-                pattern: {
-                  value: /^[0-9]{10}/,
-                  message: 'wrong telephone number',
-                },
-                max: {
-                  value: 9,
-                  message: 'max length 9',
-                },
-              })}
-            />
+            <div className='relative h-fit w-full'>
+              <select
+                id='countrycode'
+                value={countryCode}
+                className='appearance-none outline-none bg-transparent absolute top-1/2 transform translate-y-[18%] left-6 cursor-pointer'
+                onChange={handleCountryCode}
+                onMouseDown={() => setIsClicked(true)}
+                onMouseLeave={() => setIsClicked(false)}
+              >
+                {CountryCodes.map((item, key) => (
+                  <option
+                    value={item.code}
+                    key={key}
+                    className='flex space-x-1 text-sm md:text-base text-zinc-700 '
+                  >
+                    {item.country}
+                    {'(+'}
+                    {item.code}
+                    {')'}
+                  </option>
+                ))}
+              </select>
+              <InputField
+                type='tel'
+                max={9}
+                label='telephone'
+                fieldName='telephone'
+                spaceY='2'
+                placeholder='0720000000'
+                control={control}
+                rules={{
+                  pattern: {
+                    value: /^[0-9]{10}/,
+                    message: 'wrong telephone number',
+                  },
+                  max: {
+                    value: 9,
+                    message: 'max length 9',
+                  },
+                }}
+                className='pl-36'
+              />
+            </div>
             <div className='grid gap-2 grid-cols-1 md:grid-cols-2 h-fit'>
               <InputField
                 type='text'
                 label='address'
+                fieldName='address'
                 spaceY='2'
                 placeholder='Jenga Leo, WestPark Tower'
-                register={register('address', {
-                  // pattern:
-                })}
+                control={control}
+                rules={
+                  {
+                    // pattern:
+                  }
+                }
               />
               <InputField
                 type='text'
                 label='location'
+                fieldName='location'
                 spaceY='2'
                 placeholder='Nairobi'
-                register={register('location', {
-                  // pattern:
-                })}
+                control={control}
+                rules={
+                  {
+                    // pattern:
+                  }
+                }
               />
             </div>
             <InputField
               type='text'
               label='Hospital / Medical Institution'
               spaceY='2'
+              fieldName='hospital'
               placeholder='Nairobi Hospital'
-              register={register('hospital', {
-                // pattern:
-              })}
+              control={control}
+              rules={
+                {
+                  // pattern:
+                }
+              }
             />
             <div className='grid gap-2 grid-cols-1 md:grid-cols-2 h-fit pb-3'>
               <Button type='submit'>Save Changes</Button>
@@ -174,7 +221,7 @@ const MainContentSection = (props: Props) => {
               </Button>
             </div>
           </form>
-          <div className='pl-4 w-full lg:w-1/5'>
+          <div className='lg:pl-4 pt-8 w-full lg:w-1/5'>
             <ContactUs />
           </div>
         </section>
