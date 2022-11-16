@@ -40,7 +40,7 @@ const CustomInput = (props: Props) => {
     <div className={` flex flex-col space-y-${props.spaceY} w-auto px-2`}>
       <label
         htmlFor={props.label}
-        className='text-sm lg:text-base font-medium text-slate-50 tracking-wide'
+        className='text-sm lg:text-base text-slate-50 tracking-wide'
       >
         {props.label}
       </label>
