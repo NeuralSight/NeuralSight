@@ -1,11 +1,9 @@
 import { Icon } from '@iconify/react'
 import Link from 'next/link'
-import { useState } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 import ThirdPartyBtn from '../auth/ThirdPartyBtn'
 import ListNavigationCard from '../ListNavigationCard'
 import ListNavigationWrapper from '../ListNavigationWrapper'
-
-type Props = {}
 
 const SETTINGS_OPTION = [
   {
@@ -18,8 +16,12 @@ const SETTINGS_OPTION = [
   },
 ]
 
+type Props = {
+  active: number
+  setActive: Dispatch<SetStateAction<number>>
+}
+
 const SettingOptionSection = (props: Props) => {
-  const [active, setActive] = useState<number>(0)
   return (
     <ListNavigationWrapper
       topComponent={
@@ -39,17 +41,17 @@ const SettingOptionSection = (props: Props) => {
       {SETTINGS_OPTION.map((item, key) => (
         <ListNavigationCard
           idKey={key}
-          setActive={setActive}
+          setActive={props.setActive}
           key={key}
-          active={key === active}
+          active={key === props.active}
           className={`font-medium ${
-            active === key ? 'text-zinc-800' : 'text-zinc-500'
+            props.active === key ? 'text-zinc-800' : 'text-zinc-500'
           }`}
         >
           <Icon
             icon={item.icon}
             className={`h-6 w-6 fill-current mr-1 ${
-              active === key && 'text-primary-light'
+              props.active === key && 'text-primary-light'
             }`}
           />
           <p>{item.btnName}</p>
