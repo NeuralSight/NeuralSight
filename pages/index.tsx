@@ -1,7 +1,6 @@
 import PatientIDSection from '../components/dashboard/PatientIdSection'
 import MainContentSection from '../components/dashboard/MainContentSection'
 import Layout from './layout'
-import Link from 'next/link'
 
 type Props = {}
 
