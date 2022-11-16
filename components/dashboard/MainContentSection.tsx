@@ -176,7 +176,7 @@ const MainContentSection = (props: Props) => {
             </div>
           </div>
 
-          <div className='px-4 h-full w-full lg:h-[520px] max-h-fit bg-white overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scroll-smooth '>
+          <div className='px-4 h-full w-full lg:h-[560px] max-h-fit bg-white overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scroll-smooth'>
             {!isListView ? (
               <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 2xl:gap-6 py-3 '>
                 {/* Here will contain add button and image cards */}

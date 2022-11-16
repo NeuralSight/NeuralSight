@@ -25,12 +25,12 @@ const Layout = ({ children }: Props) => {
           <SmallDeviceNavBar />
         </header>
       )}
-      <div className='h-full w-full flex justify-between '>
+      <div className='h-full w-full flex justify-between pb-10 lg:pb-0'>
         {isLargeDevice && <SideBar />}
         {children}
       </div>
       {/* copyright */}
-      <footer className='absolute bottom-[0.6%] xl:bottom-[1.2%] flex w-full space-x-2 justify-center items-center'>
+      <footer className='absolute bottom-0 pb-3 flex w-full space-x-2 justify-center items-center'>
         <p className=' text-sm lg:text-base text-slate-300 '>
           &#169; Neurallabs Africa
         </p>
