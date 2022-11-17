@@ -27,13 +27,13 @@ const EditProfile = (props: Props) => {
     console.log('data', data)
   return (
     <form
-      className='w-full lg:w-3/4 flex flex-col space-y-8 '
+      className='w-full xl:w-3/4 flex flex-col space-y-8 '
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className='flex justify-between'>
         <Title>Edit Profile</Title>
         <Profile />
-        <div className='hidden lg:block' />
+        <div className='hidden xl:block' />
       </div>
       <div className='grid gap-2 grid-cols-1 md:grid-cols-2 h-fit'>
         <InputField

@@ -10,14 +10,14 @@ type Props = {
 
 const ListViewImageCard = ({ imageDetails }: Props) => {
   return (
-    <div className='flex flex-col 2xl:flex-row w-full h-fit shadow-lg border-2 rounded-xl p-4 gap-6 bg-primary-lightest'>
-      <div className='w-full h-80 2xl:w-1/3 relative rounded-xl'>
+    <div className='flex flex-col xl:flex-row w-full h-fit shadow-lg border-2 rounded-xl p-4 gap-6 bg-primary-lightest'>
+      <div className='xl:w-1/3 w-full relative rounded-xl flex justify-center '>
         <Image
           src={imageDetails.src}
           alt={`patient's image testing ${imageDetails.disease}`}
-          objectFit={'cover'}
-          layout='fill'
-          className='rounded-xl'
+          width={100}
+          height={100}
+          className='rounded-xl w-auto xl:w-full h-96 xl:h-80'
         />
         <div className='absolute top-4 left-4 z-10 p-2 rounded-2xl my-auto bg-primary-dark text-gray-50 font-semibold text-sm uppercase shadow-lg shadow-primary-dark/25 group-hover:shadow-none text-center align-middle'>
           {imageDetails.modality}

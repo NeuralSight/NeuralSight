@@ -39,7 +39,7 @@ const EditPassword = (props: Props) => {
     console.log('data', data)
   return (
     <form
-      className='w-full lg:w-3/4 flex flex-col space-y-8 '
+      className='w-full xl:w-3/4 flex flex-col space-y-8 '
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className='flex'>
