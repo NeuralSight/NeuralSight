@@ -1,4 +1,4 @@
-import { useState, useEffect, MouseEvent } from 'react'
+import { useState, useEffect, MouseEvent, useContext } from 'react'
 import { Icon } from '@iconify/react'
 import { IconButton } from '@mui/material'
 import Head from 'next/head'
@@ -9,6 +9,8 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import useLogin from '../../hooks/use-login'
+import { AuthContext } from '../../context/auth-context'
+import { useRouter } from 'next/router'
 
 // illustration
 import RobotImage from '../../public/robot.svg'
@@ -23,6 +25,7 @@ import {
   PASSWORD_LENGTH_ERR_MSG,
   PASSWORD_REQUIRED_ERR_MSG,
 } from '../../lang/auth'
+import { AuthContextType } from '../../typings'
 
 type Props = {}
 
@@ -44,6 +47,11 @@ function Auth({}: Props) {
     clearErrors,
     formState: { errors },
   } = useForm<State>()
+  // create authContext
+  const authContext = useContext<AuthContextType | null>(AuthContext)
+
+  const route = useRouter()
+
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -52,13 +60,17 @@ function Auth({}: Props) {
   const onSubmit: SubmitHandler<State> = (data) => {
     return mutate(
       {
-        username: data.email,
-        password: data.password,
+        username: 'info@neurallabs.africa',
+        password: 'Neur@l@bs202!',
       },
       {
         onSuccess: (data, variable, context) => {
           if (data.status === 200) {
-            console.log('data', data)
+            // console.log('data', data)
+            authContext?.setAuthState(data.data)
+            // go to dashboard
+            route.push('/')
+            // clear all the error message
             setError(null)
             clearErrors('email')
             clearErrors('password')
@@ -226,7 +238,7 @@ function Auth({}: Props) {
                 outlined={false}
                 disable={watchField[0] && watchField[1] ? false : true}
               >
-                login
+                {isLoading ? 'logging in...' : ' login'}
               </Button>
               <ThirdPartyBtn type='button'>
                 {/* animate google icon to rotate once */}

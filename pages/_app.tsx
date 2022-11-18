@@ -1,7 +1,7 @@
 import '../styles/globals.css'
 import Head from 'next/head'
-import type { AppProps } from 'next/app'
-import React from 'react'
+import { AppProps } from 'next/app'
+import { useState } from 'react'
 import {
   Hydrate,
   QueryClientProvider,
@@ -13,7 +13,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { AuthProvider } from '../context/auth-context'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [queryClient] = React.useState(
+  const [queryClient] = useState(
     () =>
       new QueryClient({
         queryCache: new QueryCache({

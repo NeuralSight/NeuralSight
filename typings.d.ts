@@ -36,7 +36,7 @@ export interface UserInfo {
 }
 
 export interface AuthContextType {
-  authState: UserInfo
+  authState: string | boolean | undefined
   setAuthState: (user: UserInfo) => void
   isUserAuthenticated: () => boolean
 }

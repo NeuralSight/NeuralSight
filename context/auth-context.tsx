@@ -1,5 +1,5 @@
-import { Dispatch, ReactNode, SetStateAction, useState } from 'react'
-// src/context/auth-context.js
+import Cookies from 'js-cookie'
+import { ReactNode } from 'react'
 import { createContext } from 'react'
 import { UserInfo, AuthContextType } from '../typings'
 
@@ -11,21 +11,29 @@ type Props = {
 }
 
 const AuthProvider = ({ children }: Props) => {
-  const [authState, setAuthState] = useState<UserInfo>({
-    access_token: '',
-  })
+  const OneWeekInMillSec = 604800000
+  //cookie expiry date
+  const expiryDate = new Date(Date.now() + OneWeekInMillSec)
 
-  const setUserAuthInfo = (data: UserInfo) => {
-    //store in react-cookies instead
-
-    setAuthState(data)
+  const setUserAuthInfo = async (data: UserInfo) => {
+    //store in react-cookies of access later instead
+    // req to set cookie in the backend
+    const response = await fetch('/api/login', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ user: data.access_token }),
+    })
+    console.log('status', await response.json())
+    // if one logs in without setting remember me to true remember me the the cookies will be store for also log as the session is on the destroyed otherwise it will be store with a time limit of 1 week
   }
 
   // checks if the user is authenticated or not
-  const isUserAuthenticated = () => !!authState.access_token
+  const isUserAuthenticated = () => !!Cookies.get('user')
 
   const SampleAuthContext: AuthContextType = {
-    authState,
+    authState: Cookies.get('user'),
     setAuthState: (userAuthInfo: UserInfo) => setUserAuthInfo(userAuthInfo),
     isUserAuthenticated,
   }
@@ -35,5 +43,5 @@ const AuthProvider = ({ children }: Props) => {
     </AuthContext.Provider>
   )
 }
-
+AuthProvider.getServerSideProps = () => {}
 export { AuthContext, AuthProvider }
