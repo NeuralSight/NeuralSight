@@ -5,7 +5,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     res.setHeader(
       'Set-Cookie',
-      cookie.serialize('user', '', {
+      cookie.serialize('user', req.body.user, {
         httpOnly: true, // only read in backend
         secure: process.env.NODE_ENV !== 'development', //secure while in production
         maxAge: 60 * 60, // max Age by default 1 hour
@@ -13,8 +13,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         path: '/',
       })
     )
-    res.status(200)
+
     res.json({ sucess: true })
+    res.statusCode = 302
+    res.setHeader('Location', req.headers.referer || '/')
+    res.end()
   } catch (error) {
     console.log('error', error)
     res.status(500)

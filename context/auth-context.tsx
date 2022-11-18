@@ -11,10 +11,6 @@ type Props = {
 }
 
 const AuthProvider = ({ children }: Props) => {
-  const OneWeekInMillSec = 604800000
-  //cookie expiry date
-  const expiryDate = new Date(Date.now() + OneWeekInMillSec)
-
   const setUserAuthInfo = async (data: UserInfo) => {
     //store in react-cookies of access later instead
     // req to set cookie in the backend
@@ -28,7 +24,6 @@ const AuthProvider = ({ children }: Props) => {
     console.log('status', await response.json())
     // if one logs in without setting remember me to true remember me the the cookies will be store for also log as the session is on the destroyed otherwise it will be store with a time limit of 1 week
   }
-
   // checks if the user is authenticated or not
   const isUserAuthenticated = () => !!Cookies.get('user')
 
