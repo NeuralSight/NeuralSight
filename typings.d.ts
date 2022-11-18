@@ -25,7 +25,18 @@ interface FileInfo {
   webkitRelativePath: string
 }
 
-export type FileTypeError = {
+export interface FileTypeError {
   type: 'FILETYPE_ERR' | 'FILESIZE_ERR' | 'FILES_SELECTED_ERR'
   message?: string | 'oops something went wrong'
+}
+
+export interface UserInfo {
+  access_token: string
+  token_type?: string
+}
+
+export interface AuthContextType {
+  authState: UserInfo
+  setAuthState: (user: UserInfo) => void
+  isUserAuthenticated: () => boolean
 }

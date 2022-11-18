@@ -1,4 +1,5 @@
-import type { NextPage } from 'next'
+import { useRouter } from 'next/router'
+import { useContext, useEffect } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useMediaQuery } from '@mui/material'
@@ -8,11 +9,30 @@ import { SCREEN } from '../helper/responsive'
 import SmallDeviceNavBar from '../components/SmallDeviceNavBar'
 import { ReactNode } from 'react'
 
+import { AuthContext } from '../context/auth-context'
+import { AuthContextType } from '../typings'
+import Loading from './loading'
+
 type Props = {
   children: ReactNode
+  currentPageRoute: string
 }
-const Layout = ({ children }: Props) => {
+const Layout = ({ children, currentPageRoute }: Props) => {
+  const router = useRouter()
+  const authContext = useContext<AuthContextType | null>(AuthContext)
+
+  useEffect(() => {
+    // checks if the user is authenticated
+    authContext?.isUserAuthenticated()
+      ? router.push(currentPageRoute)
+      : router.push('/auth')
+  }, [authContext, currentPageRoute, router])
   const isLargeDevice = useMediaQuery(`( min-width: ${SCREEN.lg} )`)
+
+  // inca
+  if (!authContext?.authState || authContext.isUserAuthenticated() == false) {
+    return <Loading />
+  }
   return (
     <div className='relative h-full lg:min-h-screen lg:h-screen w-full bg-primary-dark mx-auto'>
       <Head>

@@ -10,6 +10,7 @@ import {
   UseErrorBoundary,
 } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { AuthProvider } from '../context/auth-context'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = React.useState(
@@ -23,16 +24,18 @@ function MyApp({ Component, pageProps }: AppProps) {
   )
   return (
     <QueryClientProvider client={queryClient}>
-      <Head>
-        <meta
-          name='viewport'
-          content='width=device-width, initial-scale=1.0'
-        ></meta>
-      </Head>
-      {/* <Hydrate state={pageProps.dehydratedState}> */}
-      <Component {...pageProps} />
-      {/* </Hydrate> */}
-      <ReactQueryDevtools initialIsOpen={false} />
+      <AuthProvider>
+        <Head>
+          <meta
+            name='viewport'
+            content='width=device-width, initial-scale=1.0'
+          ></meta>
+        </Head>
+        {/* <Hydrate state={pageProps.dehydratedState}> */}
+        <Component {...pageProps} />
+        {/* </Hydrate> */}
+        <ReactQueryDevtools initialIsOpen={false} />
+      </AuthProvider>
     </QueryClientProvider>
   )
 }

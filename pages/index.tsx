@@ -6,7 +6,7 @@ type Props = {}
 
 function index({}: Props) {
   return (
-    <Layout>
+    <Layout currentPageRoute='/'>
       <main className='w-full h-full'>
         <div className='flex pt-6 justify-evenly'>
           <section className='hidden lg:block w-full lg:w-auto xl:w-auto'>

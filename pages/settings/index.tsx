@@ -8,7 +8,7 @@ type Props = {}
 function Settings({}: Props) {
   const [active, setActive] = useState<number>(0)
   return (
-    <Layout>
+    <Layout currentPageRoute='/settings'>
       <main className='w-full h-[94%] flex pt-6 justify-evenly'>
         <section className='hidden lg:block w-full lg:w-auto xl:w-auto'>
           <SettingOptionSection active={active} setActive={setActive} />
