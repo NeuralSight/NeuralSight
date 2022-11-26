@@ -1,14 +1,36 @@
-import { useState } from 'react'
+import { useState, useContext, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { AuthContext } from '../../context/auth-context'
+import { AuthContextType } from '../../typings'
 
 import MainContentSection from '../../components/settings/MainContentSection'
 import SettingOptionSection from '../../components/settings/SettingOptionSection'
 import Layout from '../layout'
+import Loading from '../loading'
+
 type Props = {}
 
 function Settings({}: Props) {
   const [active, setActive] = useState<number>(0)
+  const router = useRouter()
+  const authContext = useContext<AuthContextType | null>(AuthContext)
+  useEffect(() => {
+    authContext?.getAuthState()
+    // checks if the user is authenticated
+
+    !authContext?.isUserAuthenticated() && authContext?.authState !== undefined
+      ? router.push('/auth')
+      : null
+  }, [authContext, router])
+
+  if (
+    authContext?.isUserAuthenticated() == false &&
+    authContext?.authState == undefined
+  ) {
+    return <Loading />
+  }
   return (
-    <Layout currentPageRoute='/settings'>
+    <Layout>
       <main className='w-full h-[94%] flex pt-6 justify-evenly'>
         <section className='hidden lg:block w-full lg:w-auto xl:w-auto'>
           <SettingOptionSection active={active} setActive={setActive} />
