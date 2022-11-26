@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react'
+
 // ImageDetails
 export interface AnyObject {
   [key: string]: any
@@ -36,7 +38,9 @@ export interface UserInfo {
 }
 
 export interface AuthContextType {
-  authState: string | boolean | undefined
+  authState: string | null | undefined
   setAuthState: (user: UserInfo) => void
+  getAuthState: () => void
+  setIsRemembered: Dispatch<SetStateAction<boolean>>
   isUserAuthenticated: () => boolean
 }
