@@ -11,6 +11,7 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import useLogin from '../../hooks/use-login'
 import { AuthContext } from '../../context/auth-context'
 import { useRouter } from 'next/router'
+import Loading from '../loading'
 
 // illustration
 import RobotImage from '../../public/robot.svg'
@@ -49,8 +50,14 @@ function Auth({}: Props) {
   } = useForm<State>()
   // create authContext
   const authContext = useContext<AuthContextType | null>(AuthContext)
-
   const route = useRouter()
+
+  useEffect(() => {
+    authContext?.getAuthState()
+    // checks if the user is authenticated
+    authContext?.authState == null ||
+      (authContext?.isUserAuthenticated() && route.back())
+  }, [authContext, route])
 
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
@@ -66,14 +73,18 @@ function Auth({}: Props) {
       {
         onSuccess: (data, variable, context) => {
           if (data.status === 200) {
-            // console.log('data', data)
-            authContext?.setAuthState(data.data)
-            // go to dashboard
-            route.push('/')
-            // clear all the error message
-            setError(null)
-            clearErrors('email')
-            clearErrors('password')
+            if (data?.data?.access_token) {
+              // console.log('data', data)
+              authContext?.setAuthState(data.data)
+              // go to dashboard
+              route.push('/')
+              // clear all the error message
+              setError(null)
+              clearErrors('email')
+              clearErrors('password')
+            } else {
+              setError('data is not in the right format')
+            }
           } else {
             const detail = data.data.detail
             if (detail && typeof detail == 'object') {
@@ -114,6 +125,10 @@ function Auth({}: Props) {
     )
     return () => subscription.unsubscribe()
   }, [watch])
+
+  if (authContext?.authState != null || authContext?.isUserAuthenticated()) {
+    return <Loading />
+  }
 
   return (
     <div className=' bg-gray-50'>
@@ -222,6 +237,9 @@ function Auth({}: Props) {
               <div className='flex text-zinc-500 font-medium gap-x-2 text-sm lg:text-base justify-center items'>
                 <input
                   type='checkbox'
+                  onChange={(e) =>
+                    authContext?.setIsRemembered(e.target.checked)
+                  }
                   className='appearance-none checked:bg-primary-light/30'
                 />{' '}
                 Remember me
