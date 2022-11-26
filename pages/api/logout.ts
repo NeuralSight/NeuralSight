@@ -4,6 +4,19 @@ import cookie from 'cookie'
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     res.setHeader(
+      'Access-Control-Allow-Origin',
+      process.env.ALLOWED_ORGINS || 'http://localhost:3000/'
+    )
+    res.setHeader(
+      'Access-Control-Allow-Headers',
+      'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+    )
+    // if (req.method == 'OPTIONS') {
+    //   res.setHeader(
+    //     'Access-Control-Allow-Methods',
+    //     'PUT, POST, PATCH, DELETE, GET'
+    //   )
+    res.setHeader(
       'Set-Cookie',
       cookie.serialize('user', '', {
         httpOnly: true, // only read in backend
@@ -13,8 +26,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         path: '/',
       })
     )
-    res.status(200)
-    res.json({ sucess: true })
+    res.status(200).json({ success: true })
+    // } else {
+    //   res.status(403).json('not allowed option')
+    // }
   } catch (error) {
     res.status(500)
     console.log('error', error)
