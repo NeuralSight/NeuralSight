@@ -8,6 +8,7 @@ import PatientIdSection from '../dashboard/PatientIdSection'
 import MainSectionNavBar from '../MainSectionNavBar'
 import NeuralLabsTextLogo from '../NeuralLabsTextLogo'
 import ImageSlides from './image-slides'
+import ModelResults from './model-results'
 
 type Props = {
   active: number
@@ -19,7 +20,7 @@ const MainContentSection = ({ active, setActive }: Props) => {
   const isLargeDevice = useMediaQuery(`( min-width: ${SCREEN.lg} )`)
   const isMediumDevice = useMediaQuery(`( min-width: ${SCREEN.md} )`)
   return (
-    <div className='w-full h-auto flex flex-col gap-8'>
+    <div className='w-full h-full flex flex-col gap-6'>
       <MainSectionNavBar>
         <div className=' flex items-center space'>
           {isLargeDevice || (
@@ -45,8 +46,8 @@ const MainContentSection = ({ active, setActive }: Props) => {
           600d475fa96e305as2e48c9cfbb851qs
         </div>
       </MainSectionNavBar>
-      <div className='px-4 lg:px-8 h-full w-full pb-3 bg-gray-50/95 lg:rounded-2xl lg:border-2 border-primary-light'>
-        <div className='h-full w-full flex flex-col space-y-2'>
+      <div className=' w-full h-full lg:border-2 border-primary-light bg-gray-50/95 backdrop-blur lg:rounded-2xl overflow-y-hidden'>
+        <div className='px-4 lg:px-8 h-full w-full pb-3 overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-[4px] scroll-smooth'>
           <div className=' py-3 w-full h-fit flex gap-x-1 justify-between items-center'>
             <div className='text-lg lg:text-2xl font-medium uppercase tracking-wider text-primary-dark/90'>
               report
@@ -57,7 +58,7 @@ const MainContentSection = ({ active, setActive }: Props) => {
                 download
               </Button>
               <button
-                className='bg-gray-500/10 rounded-full flex items-center justify-center py-1.5 px-1.5'
+                className='bg-gray-500/[15%] shadow-md rounded-full flex items-center justify-center py-1.5 px-1.5'
                 title='print the report'
               >
                 <Icon
@@ -67,43 +68,44 @@ const MainContentSection = ({ active, setActive }: Props) => {
               </button>
             </div>
           </div>
-          <div className=' w-full h-full bg-gray-50/5 backdrop-blur lg:rounded-2xl overflow-y-hidden'>
-            <section className='w-full h-full xl:flex overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-[4px] scroll-smooth '>
-              <div className='w-[42%] flex flex-col space-y-5'>
-                {/* right section*/}
-                <div className='h-fit w-full'>
-                  {/* image from backend along side the pathologies found and their modality */}
-                  <ImageSlides />
-                </div>
-                <div className='flex flex-col space-y-3 w-full '>
-                  <div className='flex space-x-4 w-full justify-center items-center'>
-                    <h4 className='text-primary-dark/90 text-xl font-medium capitalize underline underline-offset-1 decoration-primary'>
-                      Doctor&apos;s Remarks
-                    </h4>
-                    <button
-                      className='text-primary-dark/90 cursor-pointer'
-                      title='edit'
-                    >
-                      <Icon
-                        icon={'material-symbols:edit-square-outline'}
-                        className='h-6 w-6 fill-current '
-                      />
-                    </button>
-                  </div>
-                  <p className=' text-slate-700 font-medium text-sm lg:text-base tracking-wide leading-loose'>
-                    Opacity is observed in right lung and left lower zone.
-                    Inhomogeneous Opacity, probable Consolidation is observed in
-                    bilateral lower zones. Pleural Effusion is observed in
-                    bilateral lower zones and right mid zoneBlunting of CP angle
-                    is observed in bilateral lower zonesThe Heart is enlarged.
-                    CardiomegalyBoth hila appear normalBony thorax appears
-                    unremarkable
-                  </p>
-                </div>
+          <section className='w-full h-full lg:flex xl:space-x-5'>
+            <div className='w-[42%] flex flex-col space-y-5'>
+              {/* right section*/}
+              <div className='h-fit w-full'>
+                {/* image from backend along side the pathologies found and their modality */}
+                <ImageSlides />
               </div>
-              <div className='w-[58%]'>{/* left section */}</div>
-            </section>
-          </div>
+              <div className='flex flex-col space-y-3 w-full '>
+                <div className='flex space-x-4 w-full justify-center items-center'>
+                  <h4 className='text-primary-dark/90 text-xl font-medium capitalize underline underline-offset-1 decoration-primary'>
+                    Doctor&apos;s Remarks
+                  </h4>
+                  <button
+                    className='text-primary-dark/90 cursor-pointer'
+                    title='edit'
+                  >
+                    <Icon
+                      icon={'material-symbols:edit-square-outline'}
+                      className='h-6 w-6 fill-current '
+                    />
+                  </button>
+                </div>
+                <p className=' text-zinc-700 font-regular text-sm lg:text-base leading-loose'>
+                  Opacity is observed in right lung and left lower zone.
+                  Inhomogeneous Opacity, probable Consolidation is observed in
+                  bilateral lower zones. Pleural Effusion is observed in
+                  bilateral lower zones and right mid zoneBlunting of CP angle
+                  is observed in bilateral lower zonesThe Heart is enlarged.
+                  CardiomegalyBoth hila appear normalBony thorax appears
+                  unremarkable
+                </p>
+              </div>
+            </div>
+            <div className='w-[58%]'>
+              {/* left section */}
+              <ModelResults />
+            </div>
+          </section>
         </div>
       </div>
     </div>
