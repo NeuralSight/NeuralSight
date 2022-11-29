@@ -18,6 +18,7 @@ import MainSectionNavBar from '../MainSectionNavBar'
 
 type Props = {}
 
+// to removed when actual data is introduced
 export const SampleImagesArr: ImageDetails[] = [
   {
     patientID: '600d475fa96e305as2e48c9cfbb851qs',
