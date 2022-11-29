@@ -5,7 +5,8 @@ type Props = {
   outlined?: boolean | undefined
   type?: 'submit' | 'button' | 'reset' | undefined
   disable?: boolean
-  size?: string | number | undefined
+  hSize?: 'py-6' | 'py-5' | 'py-4' | 'py-3'
+  wSize?: 'px-6' | 'px-4' | 'px-3'
   textSize?: 'text-sm' | 'text-md' | 'text-lg' | string | undefined
   textBold?: 'font-bold' | 'font-semibold' | 'font-medium' | 'font-normal'
   onClick?: () => void
@@ -16,7 +17,8 @@ const Button = ({
   type,
   disable,
   outlined,
-  size,
+  wSize = 'px-4',
+  hSize = 'py-6',
   onClick,
   textBold = 'font-bold',
   textSize = 'text-sm',
@@ -33,7 +35,7 @@ const Button = ({
                 ? 'bg-transparent text-primary-light'
                 : 'shadow-md  shadow-primary-light/25 hover:shadow-primary-dark/25 bg-primary-light text-white'
             } hover:bg-secondary-dark hover:text-white  hover:shadow transition-all duration-200 ease-in-out`
-      }  py-6 ${textBold} ${textSize} lg:text-base capitalize`}
+      } ${wSize} ${hSize} ${textBold} ${textSize} lg:text-base capitalize`}
       onClick={type == 'submit' ? undefined : onClick}
     >
       {children}
