@@ -22,7 +22,7 @@ const MainContentSection = ({ active, setActive }: Props) => {
   const isLargeDevice = useMediaQuery(`( min-width: ${SCREEN.lg} )`)
 
   return (
-    <div className='w-full h-full flex flex-col gap-8 '>
+    <div className='w-full h-full flex flex-col gap-6 '>
       <MainSectionNavBar>
         {isLargeDevice || (
           <Icon
