@@ -78,6 +78,9 @@ input[type='checkbox']:focus {
   .chip.active {
     @apply bg-primary-light/20 text-primary-light;
   }
+  .report-sub-title {
+    @apply capitalize font-semibold lg:text-lg text-primary-dark/90  tracking-wider;
+  }
 }
 
 .swiper {
