@@ -88,7 +88,7 @@ const MainContentSection = (props: Props) => {
   const isMediumDevice = useMediaQuery(`( min-width: ${SCREEN.md} )`)
 
   return (
-    <div className='w-full h-auto flex flex-col gap-8'>
+    <div className='w-full h-[94%] flex flex-col gap-6'>
       <MainSectionNavBar>
         <div className=' flex items-center space'>
           {isLargeDevice || (
@@ -116,70 +116,70 @@ const MainContentSection = (props: Props) => {
           setDiseaseType={setDiseaseType}
         />
       </MainSectionNavBar>
-      <section className='h-full w-full pt-4 pb-5 bg-gray-50/95 lg:rounded-2xl lg:border-2 border-primary-light'>
-        <div className='h-full w-full flex flex-col space-y-2'>
-          <div className=' py-2 w-full h-fit flex gap-x-1 justify-between px-4'>
-            <div className='flex w-fit space-x-1 lg:space-x-3'>
-              {/* right side */}
-              <div className={`chip active`}>
-                <Icon
-                  icon='akar-icons:image'
-                  className='h-5 w-5 lg:h-6 lg:w-6 mr-1'
-                />
-                {'  X-ray'}
-              </div>
-              <div className={`chip`}>
-                <Icon
-                  icon='akar-icons:image'
-                  className='h-5 w-5 lg:h-6 lg:w-6 mr-1'
-                />
-                {'  MRI'}
-              </div>
+      <section className='h-[94%] w-full pt-4 pb-5 bg-gray-50/95 lg:rounded-2xl lg:border-2 border-primary-light'>
+        <div className='py-2 w-full h-fit flex gap-x-1 justify-between px-4'>
+          <div className='flex w-fit space-x-1 lg:space-x-3'>
+            {/* right side */}
+            <div className={`chip active`}>
+              <Icon
+                icon='akar-icons:image'
+                className='h-5 w-5 lg:h-6 lg:w-6 mr-1'
+              />
+              {'X-ray'}
             </div>
-            <div className='flex w-fit space-x-1 lg:space-x-3'>
-              {isListView && (
-                <button
-                  type='button'
-                  className='flex justify-center items-center w-fit rounded-2xl border-2 border-dashed border-primary-light bg-transparent text-gray-900 font-medium py-2 px-2 hover:bg-primary-lightest'
-                  title='add image'
-                  onClick={() => setModalOpen(true)}
-                >
-                  <Icon
-                    icon={'fluent:add-24-filled'}
-                    className='h-5 w-5 lg:h-6 lg:w-6 fill-current text-primary-light stroke-[3px]'
-                  />
-                </button>
-              )}
-
-              {/* left side */}
-              <button
-                type='button'
-                className='flex justify-center items-center w-fit rounded-2xl border-2 border-dashed border-primary-light bg-transparent text-gray-900 font-medium py-2 px-4 hover:bg-primary-lightest'
-              >
-                <Icon
-                  icon={'material-symbols:sort-rounded'}
-                  className='h-6 w-6 fill-current text-primary-light mr-1 stroke-[3px]'
-                />
-                {'filters'}
-                {/* filter btn */}
-              </button>
-              <button
-                type='button'
-                className='b p-2 flex items-center justify-center bg-zinc-300/80 rounded-full hover:bg-red-500/30 active:bg-red-500/30'
-                arial-label='delete patient image button '
-              >
-                {/* delete button will prompt the user if sure he want to delete in a small modal*/}
-                <Icon
-                  icon='fluent:delete-16-regular'
-                  className='h-6 w-6 fill-current text-zinc-800'
-                />
-              </button>
+            <div className={`chip`}>
+              <Icon
+                icon='akar-icons:image'
+                className='h-5 w-5 lg:h-6 lg:w-6 mr-1'
+              />
+              {'MRI'}
             </div>
           </div>
+          <div className='flex w-fit space-x-1 lg:space-x-3'>
+            {isListView && (
+              <button
+                type='button'
+                className='flex justify-center items-center w-fit rounded-2xl border-2 border-dashed border-primary-light bg-transparent text-gray-900 font-medium py-2 px-2 hover:bg-primary-lightest'
+                title='add image'
+                onClick={() => setModalOpen(true)}
+              >
+                <Icon
+                  icon={'fluent:add-24-filled'}
+                  className='h-5 w-5 lg:h-6 lg:w-6 fill-current text-primary-light stroke-[3px]'
+                />
+              </button>
+            )}
 
-          <div className='px-4 h-full w-full lg:h-[560px] max-h-fit bg-white overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scroll-smooth'>
+            {/* left side */}
+            <button
+              type='button'
+              className='flex justify-center items-center w-fit rounded-2xl border-2 border-dashed border-primary-light bg-transparent text-gray-900 font-medium py-2 px-4 hover:bg-primary-lightest'
+            >
+              <Icon
+                icon={'material-symbols:sort-rounded'}
+                className='h-6 w-6 fill-current text-primary-light mr-1 stroke-[3px]'
+              />
+              {'filters'}
+              {/* filter btn */}
+            </button>
+            <button
+              type='button'
+              className='b p-2 flex items-center justify-center bg-zinc-300/80 rounded-full hover:bg-red-500/30 active:bg-red-500/30'
+              arial-label='delete patient image button '
+            >
+              {/* delete button will prompt the user if sure he want to delete in a small modal*/}
+              <Icon
+                icon='fluent:delete-16-regular'
+                className='h-6 w-6 fill-current text-zinc-800'
+              />
+            </button>
+          </div>
+        </div>
+        <div className=' w-full h-[94%] bg-gray-50/5 backdrop-blur lg:rounded-2xl overflow-y-hidden'>
+          <div className='h-[94%] w-full px-4  bg-white overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-[4px] scrollbar-track-rounded-full scroll-smooth'>
+            {/* px-6 py-4 w-full h-full xl:flex overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-[4px] scroll-smooth  */}
             {!isListView ? (
-              <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 2xl:gap-6 py-3 '>
+              <div className=' h-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 2xl:gap-6 py-3 '>
                 {/* Here will contain add button and image cards */}
                 {isLargeDevice && <AddImageBtn setOpen={setModalOpen} />}{' '}
                 {/* for grid view only large device for list view it would be place next to filter button and for small devices as floating action bar maybe*/}
@@ -189,7 +189,7 @@ const MainContentSection = (props: Props) => {
               </div>
             ) : (
               isMediumDevice && (
-                <div className='flex flex-col space-y-6 px-5 py-5'>
+                <div className='h-full flex flex-col space-y-6 px-5 py-5'>
                   {SampleImagesArr.map((item) => (
                     <ListViewImageCard
                       imageDetails={item}

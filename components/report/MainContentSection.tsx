@@ -58,7 +58,7 @@ const MainContentSection = ({ active, setActive }: Props) => {
                 download
               </Button>
               <button
-                className='bg-gray-500/[15%] shadow-md rounded-full flex items-center justify-center py-1.5 px-1.5'
+                className='hover:bg-gray-500/[15%] shadow-md hover:shadow-none rounded-full flex items-center justify-center py-1.5 px-1.5'
                 title='print the report'
               >
                 <Icon

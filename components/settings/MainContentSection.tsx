@@ -43,7 +43,7 @@ const MainContentSection = ({ active, setActive }: Props) => {
         {isLargeDevice && <NeuralLabsTextLogo />}
       </MainSectionNavBar>
       <div className=' w-full h-full bg-gray-50/5 backdrop-blur lg:rounded-2xl overflow-y-hidden'>
-        <section className='px-6 py-4 w-full h-full xl:flex overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-[4px]  scroll-smooth '>
+        <section className='px-6 py-4 w-full h-full xl:flex overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-[4px] scroll-smooth '>
           {active == 0 ? <EditProfile /> : <EditPassword />}
           <div className='xl:pl-4 pt-8 w-full xl:w-1/5'>
             <ContactUs />
