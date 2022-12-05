@@ -20,7 +20,7 @@ const Layout = ({ children }: Props) => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       {isLargeDevice || (
-        <header className='w-full h-fit'>
+        <header className='w-full h-fit print:hidden'>
           <SmallDeviceNavBar />
         </header>
       )}
@@ -29,7 +29,7 @@ const Layout = ({ children }: Props) => {
         {children}
       </div>
       {/* copyright */}
-      <footer className='absolute bottom-0 pb-3 flex w-full space-x-2 justify-center items-center'>
+      <footer className='print:hidden absolute bottom-0 pb-3 flex w-full space-x-2 justify-center items-center'>
         <p className=' text-sm lg:text-base text-slate-300 '>
           &#169; Neurallabs Africa
         </p>

@@ -154,7 +154,7 @@ const ModelResults = (props: Props) => {
   return (
     <div className='w-full h-fit flex flex-col space-y-1'>
       <div className=''>
-        <h4 className='capitalize text-primary-dark/90 text-center font-medium underline-offset-1 underline decoration-primary-dark/90 text-lg lg:text-xl mb-4'>
+        <h4 className='capitalize text-primary-dark/90 text-center font-medium print:underline-offset-4 underline-offset-1 underline decoration-primary-dark/90 text-lg lg:text-xl mb-4'>
           Neural Sight Interpretation
         </h4>
         <div className='report-sub-title'>Result</div>

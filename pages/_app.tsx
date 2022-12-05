@@ -55,7 +55,9 @@ function MyApp({ Component, pageProps }: AppProps) {
               {/* <Hydrate state={pageProps.dehydratedState}> */}
               <Component {...pageProps} />
               {/* </Hydrate> */}
-              <ReactQueryDevtools initialIsOpen={false} />
+              {process.env.NODE_ENV == 'production' || (
+                <ReactQueryDevtools initialIsOpen={false} />
+              )}
             </AuthProvider>
           </QueryClientProvider>
         </ErrorBoundary>

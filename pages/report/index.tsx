@@ -11,7 +11,7 @@ function Report({}: Props) {
   return (
     <Layout>
       <main className='w-full h-[94%] flex pt-6 justify-evenly'>
-        <section className='hidden lg:block w-full lg:w-auto xl:w-auto'>
+        <section className='hidden print:hidden lg:block w-full lg:w-auto xl:w-auto'>
           <PatientIDSection />
         </section>
         <section className='w-full lg:w-[55%] xl:w-[70%]'>

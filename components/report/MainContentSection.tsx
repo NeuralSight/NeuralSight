@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useRef, useState } from 'react'
 import { SCREEN } from '../../helper/responsive'
 import BurgerMenu from '../BurgerMenu'
 import Button from '../Button'
@@ -18,9 +18,13 @@ type Props = {
 const MainContentSection = ({ active, setActive }: Props) => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false)
   const isLargeDevice = useMediaQuery(`( min-width: ${SCREEN.lg} )`)
-  const isMediumDevice = useMediaQuery(`( min-width: ${SCREEN.md} )`)
+
+  const handlePrintReport = () => {
+    window.print()
+  }
+
   return (
-    <div className='w-full h-full flex flex-col gap-6'>
+    <div className='w-full h-full print:flex-none flex flex-col gap-6'>
       <MainSectionNavBar>
         <div className=' flex items-center'>
           {isLargeDevice || (
@@ -48,11 +52,11 @@ const MainContentSection = ({ active, setActive }: Props) => {
       </MainSectionNavBar>
       <div className=' w-full h-full lg:border-2 border-primary-light bg-gray-50/95 backdrop-blur lg:rounded-2xl overflow-y-hidden'>
         <div className='px-4 lg:px-8 h-full w-full pb-3 lg:overflow-y-scroll lg:scrollbar-thin lg:scrollbar-thumb-primary-light lg:scrollbar-track-primary-light/20 lg:scrollbar-thumb-rounded-[4px] lg:scroll-smooth'>
-          <div className=' py-3 w-full h-fit flex gap-x-1 justify-between items-center'>
+          <div className='py-3 w-full h-fit flex gap-x-1 justify-between items-center'>
             <div className='text-lg lg:text-2xl font-medium uppercase tracking-wider text-primary-dark/90'>
               report
             </div>
-            <div className='flex w-fit space-x-1 lg:space-x-3'>
+            <div className='flex w-fit space-x-1 lg:space-x-3 print:hidden'>
               {/* download the report to a pdf */}
               <Button type='button' hSize='py-5'>
                 download
@@ -60,6 +64,7 @@ const MainContentSection = ({ active, setActive }: Props) => {
               <button
                 className='hover:bg-gray-500/[15%] shadow-md hover:shadow-none rounded-full flex items-center justify-center py-1.5 px-1.5'
                 title='print the report'
+                onClick={handlePrintReport}
               >
                 <Icon
                   icon={'material-symbols:print-outline-rounded'}
@@ -68,20 +73,20 @@ const MainContentSection = ({ active, setActive }: Props) => {
               </button>
             </div>
           </div>
-          <section className='w-full h-full xl:flex xl:space-x-5 xl:space-y-0 space-y-5'>
+          <section className='w-full print:flex-none h-full xl:flex xl:space-x-5 xl:space-y-0 space-y-5'>
             <div className='w-full xl:w-[42%] flex flex-col space-y-5'>
               {/* right section*/}
-              <div className='h-fit w-full'>
+              <div className='h-fit w-full print:hidden'>
                 {/* image from backend along side the pathologies found and their modality */}
                 <ImageSlides />
               </div>
               <div className='flex flex-col space-y-3 w-full '>
                 <div className='flex space-x-4 w-full justify-center items-center'>
-                  <h4 className='text-primary-dark/90 text-xl font-medium capitalize underline underline-offset-1 decoration-primary'>
+                  <h4 className='text-primary-dark/90 text-xl font-medium capitalize print:no-underline underline underline-offset-1 decoration-primary'>
                     Doctor&apos;s Remarks
                   </h4>
                   <button
-                    className='text-primary-dark/90 cursor-pointer'
+                    className='print:hidden text-primary-dark/90 cursor-pointer'
                     title='edit'
                   >
                     <Icon
