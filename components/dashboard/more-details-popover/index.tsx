@@ -15,11 +15,11 @@ const MoreDetailsLinks = [
     link: '#',
   },
   {
-    name: 'Re Detect',
+    name: 'View Report',
     link: '#',
   },
   {
-    name: 'View Report',
+    name: 'Re Detect',
     link: '#',
   },
   {
