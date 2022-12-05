@@ -24,11 +24,9 @@ const CustomPopover = ({
       id={id}
       open={open}
       anchorEl={anchorEl}
-      disablePortal
       onClose={() => setAnchorElement(null)}
       anchorOrigin={anchorOrigin}
       sx={{ border: '1px solid gray', p: 1 }}
-      // className='rounded-md shadow px-2 py-3'
     >
       {children}
     </Popover>

@@ -44,7 +44,6 @@ export default function MoreDetails({
         vertical: 'bottom',
         horizontal: 'left',
       }}
-      // className='rounded-md shadow px-2 py-3'
     >
       {MoreDetailsLinks.map((item, key) => (
         <MoreDetailsBtn key={key} link={item.link}>

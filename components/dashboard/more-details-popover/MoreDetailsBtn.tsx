@@ -10,7 +10,7 @@ const MoreDetailsBtn = (props: Props) => {
     <a
       href={props.link}
       className={
-        'text-sm rounded-md hover:bg-slate-300/50 py-2 px-4 font-normal hover:font-medium block w-full whitespace-nowrap bg-transparent text-slate-700 '
+        'text-sm rounded-md hover:bg-slate-300/50 py-2 px-4 font-normal hover:font-medium block w-full whitespace-nowrap bg-transparent text-slate-700 capitalize'
       }
       // onClick={(e) => e.preventDefault()}
     >
