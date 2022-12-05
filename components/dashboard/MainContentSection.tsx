@@ -8,7 +8,7 @@ import AddImageBtn from '../AddImageBtn'
 import GridViewImageCard from './GridViewImageCard'
 import { ImageDetails } from '../../typings'
 import ImageSample from '../../public/images/trial.jpeg'
-import ListViewImageCard from './ListViewImageCard'
+import ListViewImageCard from './list-view-image-card'
 import UploadFile from './upload-file'
 import Modal from '../Modal'
 import { SCREEN } from '../../helper/responsive'
@@ -164,8 +164,9 @@ const MainContentSection = (props: Props) => {
             </button>
             <button
               type='button'
-              className='b p-2 flex items-center justify-center bg-zinc-300/80 rounded-full hover:bg-red-500/30 active:bg-red-500/30'
-              arial-label='delete patient image button '
+              className='p-2 flex items-center justify-center bg-zinc-300/80 rounded-full hover:bg-red-500/30 active:bg-red-500/30'
+              arial-label='delete patient details'
+              title='delete patient details'
             >
               {/* delete button will prompt the user if sure he want to delete in a small modal*/}
               <Icon
