@@ -24,7 +24,7 @@ const MainContentSection = ({ active, setActive }: Props) => {
   }
 
   return (
-    <div className='w-full h-full print:flex-none flex flex-col gap-6'>
+    <div className='w-full h-full print:flex-none flex flex-col gap-6 '>
       <MainSectionNavBar>
         <div className=' flex items-center'>
           {isLargeDevice || (
@@ -50,7 +50,7 @@ const MainContentSection = ({ active, setActive }: Props) => {
           600d475fa96e305as2e48c9cfbb851qs
         </div>
       </MainSectionNavBar>
-      <div className=' w-full h-full lg:border-2 border-primary-light bg-gray-50/95 backdrop-blur lg:rounded-2xl overflow-y-hidden'>
+      <div className='relative w-full h-full lg:border-2 border-primary-light backdrop-blur lg:rounded-2xl overflow-y-hidden bg-gray-50/95'>
         <div className='px-4 lg:px-8 h-full w-full pb-3 lg:overflow-y-scroll lg:scrollbar-thin lg:scrollbar-thumb-primary-light lg:scrollbar-track-primary-light/20 lg:scrollbar-thumb-rounded-[4px] lg:scroll-smooth'>
           <div className='py-3 w-full h-fit flex gap-x-1 justify-between items-center'>
             <div className='text-lg lg:text-2xl font-medium uppercase tracking-wider text-primary-dark/90'>
@@ -112,6 +112,7 @@ const MainContentSection = ({ active, setActive }: Props) => {
             </div>
           </section>
         </div>
+        <div className='absolute z-[40] bottom-0 bg-gradient-to-t from-gray-50/95 via-gray-50/60 to-transparent h-12 w-full'></div>
       </div>
     </div>
   )
