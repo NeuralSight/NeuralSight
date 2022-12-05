@@ -47,7 +47,7 @@ const MainContentSection = ({ active, setActive }: Props) => {
         </div>
       </MainSectionNavBar>
       <div className=' w-full h-full lg:border-2 border-primary-light bg-gray-50/95 backdrop-blur lg:rounded-2xl overflow-y-hidden'>
-        <div className='px-4 lg:px-8 h-full w-full pb-3 overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20 scrollbar-thumb-rounded-[4px] scroll-smooth'>
+        <div className='px-4 lg:px-8 h-full w-full pb-3 lg:overflow-y-scroll lg:scrollbar-thin lg:scrollbar-thumb-primary-light lg:scrollbar-track-primary-light/20 lg:scrollbar-thumb-rounded-[4px] lg:scroll-smooth'>
           <div className=' py-3 w-full h-fit flex gap-x-1 justify-between items-center'>
             <div className='text-lg lg:text-2xl font-medium uppercase tracking-wider text-primary-dark/90'>
               report
@@ -68,8 +68,8 @@ const MainContentSection = ({ active, setActive }: Props) => {
               </button>
             </div>
           </div>
-          <section className='w-full h-full lg:flex xl:space-x-5'>
-            <div className='w-[42%] flex flex-col space-y-5'>
+          <section className='w-full h-full xl:flex xl:space-x-5 xl:space-y-0 space-y-5'>
+            <div className='w-full xl:w-[42%] flex flex-col space-y-5'>
               {/* right section*/}
               <div className='h-fit w-full'>
                 {/* image from backend along side the pathologies found and their modality */}
@@ -101,7 +101,7 @@ const MainContentSection = ({ active, setActive }: Props) => {
                 </p>
               </div>
             </div>
-            <div className='w-[58%]'>
+            <div className='w-full xl:w-[58%]'>
               {/* left section */}
               <ModelResults />
             </div>
