@@ -4,10 +4,14 @@ import Image from 'next/legacy/image'
 import { IconButton } from '@mui/material'
 import { Icon } from '@iconify/react'
 import MoreDetails from './more-details-popover'
+import { formatDate } from '../../helper/datesFormatter'
 
 type Props = {
   imageDetails: ImageDetails
 }
+
+// placeholder date
+const date = new Date()
 
 const GrdViewImageCard = ({ imageDetails }: Props) => {
   // const [isImageHover, setIsImageHover] = React.useState<boolean>(false)
@@ -49,13 +53,14 @@ const GrdViewImageCard = ({ imageDetails }: Props) => {
 
       <div
         className={
-          'rounded-full py-3 w-full opacity-100 ease-in-out transition-opacity duration-300  h-fit absolute bottom-0  right-0 flex items-center justify-center text-center align-middle bg-primary-light/40 font-bold text-primary-dark text-sm'
+          'rounded-3xl pt-2.5 pb-1 w-full ease-linear transition-all duration-1000 absolute bottom-0 right-0 flex flex-col items-center justify-center text-center align-middle group-hover:bg-gradient-to-b group-hover:from-primary-light/30 group-hover:via-primary-light/40 group-hover:to-primary-lightest font-bold text-primary-dark text-sm group-hover:h-fit h-0'
         }
       >
         {/* show disease likelihood as summary maybe later it would be a bottomsheet for small devices for people to pull more info */}
-        {imageDetails.disease}{' '}
-        <span
-          className={`
+        <div className='mb-0.5 hidden group-hover:flex'>
+          {imageDetails.disease}{' '}
+          <span
+            className={`
           ml-2
           ${
             imageDetails.inference < 0.5
@@ -64,13 +69,17 @@ const GrdViewImageCard = ({ imageDetails }: Props) => {
               ? 'text-red-700'
               : 'text-orange-700'
           }`}
-        >
-          {imageDetails.inference < 0.5
-            ? 'low chances'
-            : imageDetails.inference > 0.5
-            ? 'highly likely'
-            : 'not sure'}
-        </span>
+          >
+            {imageDetails.inference < 0.5
+              ? 'low chances'
+              : imageDetails.inference > 0.5
+              ? 'highly likely'
+              : 'not sure'}
+          </span>
+        </div>
+        <p className='text-gray-500 font-light italic h-full capitalize hidden group-hover:block'>
+          last edited {formatDate(date)}
+        </p>
       </div>
       <MoreDetails
         id={id}

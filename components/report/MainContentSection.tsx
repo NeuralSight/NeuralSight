@@ -55,13 +55,13 @@ const MainContentSection = ({ active, setActive }: Props) => {
         </div>
       </MainSectionNavBar>
       <div className='relative w-full h-full lg:border-2 border-primary-light backdrop-blur lg:rounded-2xl overflow-y-hidden bg-gray-50/95'>
-        <div className='px-4 lg:px-8 h-full w-full pb-3 lg:overflow-y-scroll lg:scrollbar-thin lg:scrollbar-thumb-primary-light lg:scrollbar-track-primary-light/20 lg:scrollbar-thumb-rounded-[4px] lg:scroll-smooth'>
+        <div className='px-4 lg:px-8 h-full w-full lg:overflow-y-scroll lg:scrollbar-thin lg:scrollbar-thumb-primary-light lg:scrollbar-track-primary-light/20 lg:scrollbar-thumb-rounded-[4px] lg:scroll-smooth'>
           <div className='py-3 w-full h-fit flex gap-x-1 justify-between items-center'>
             <div className='text-lg lg:text-2xl font-medium uppercase tracking-wider text-primary-dark/90'>
               report
             </div>
-            <p className='text-gray-500 font-light italic h-full'>
-              {formatDate(date)}
+            <p className='text-gray-500 font-light italic h-full capitalize'>
+              last edited {formatDate(date)}
             </p>
             <div className='flex w-fit space-x-1 lg:space-x-3 print:hidden'>
               {/* download the report to a pdf */}
@@ -102,7 +102,7 @@ const MainContentSection = ({ active, setActive }: Props) => {
                     />
                   </button>
                 </div>
-                <p className=' text-zinc-700 font-regular text-sm lg:text-base leading-loose'>
+                <p className=' text-zinc-700 font-regular text-sm lg:text-base leading-loose print:first-letter:font-bold print:first-letter:text-4xl print:first-letter:'>
                   Opacity is observed in right lung and left lower zone.
                   Inhomogeneous Opacity, probable Consolidation is observed in
                   bilateral lower zones. Pleural Effusion is observed in

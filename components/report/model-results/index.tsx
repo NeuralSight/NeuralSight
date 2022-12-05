@@ -152,7 +152,7 @@ const bones = pathogens.filter((item) => item.category == 'b')
 console.log('lungs', lungs)
 const ModelResults = (props: Props) => {
   return (
-    <div className='w-full h-fit flex flex-col space-y-1'>
+    <div className='w-full h-fit flex flex-col space-y-1 pb-10'>
       <div className=''>
         <h4 className='capitalize text-primary-dark/90 text-center font-medium print:underline-offset-4 underline-offset-1 underline decoration-primary-dark/90 text-lg lg:text-xl mb-4'>
           Neural Sight Interpretation
