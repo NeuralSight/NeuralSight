@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction } from 'react'
 export interface AnyObject {
   [key: string]: any
 }
-interface Pathogen {
+export interface Pathogen {
   type: string
   confidence: string
 }
