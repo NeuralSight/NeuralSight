@@ -1,6 +1,7 @@
 import { Icon } from '@iconify/react'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { Dispatch, SetStateAction, useRef, useState } from 'react'
+import { formatDate } from '../../helper/datesFormatter'
 import { SCREEN } from '../../helper/responsive'
 import BurgerMenu from '../BurgerMenu'
 import Button from '../Button'
@@ -22,6 +23,9 @@ const MainContentSection = ({ active, setActive }: Props) => {
   const handlePrintReport = () => {
     window.print()
   }
+
+  //placeholder date
+  const date = new Date()
 
   return (
     <div className='w-full h-full print:flex-none flex flex-col gap-6 '>
@@ -56,6 +60,9 @@ const MainContentSection = ({ active, setActive }: Props) => {
             <div className='text-lg lg:text-2xl font-medium uppercase tracking-wider text-primary-dark/90'>
               report
             </div>
+            <p className='text-gray-500 font-light italic h-full'>
+              {formatDate(date)}
+            </p>
             <div className='flex w-fit space-x-1 lg:space-x-3 print:hidden'>
               {/* download the report to a pdf */}
               <Button type='button' hSize='py-5'>
