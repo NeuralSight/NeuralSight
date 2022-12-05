@@ -116,7 +116,7 @@ const MainContentSection = (props: Props) => {
           setDiseaseType={setDiseaseType}
         />
       </MainSectionNavBar>
-      <section className='h-[94%] w-full pt-4 pb-5 bg-gray-50/95 lg:rounded-2xl lg:border-2 border-primary-light'>
+      <section className='h-full w-full pt-4 pb-5 bg-gray-50/95 lg:rounded-2xl lg:border-2 border-primary-light'>
         <div className='py-2 w-full h-fit flex gap-x-1 justify-between px-4'>
           <div className='flex w-fit space-x-1 lg:space-x-3'>
             {/* right side */}
@@ -175,8 +175,8 @@ const MainContentSection = (props: Props) => {
             </button>
           </div>
         </div>
-        <div className=' w-full h-[94%] bg-gray-50/5 backdrop-blur lg:rounded-bl-2xl lg:rounded-br-2xl overflow-y-hidden'>
-          <div className='h-[94%] w-full px-4 bg-white overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-light scrollbar-track-primary-light/20  scrollbar-track-rounded-full scroll-smooth'>
+        <div className=' w-full h-full lg:h-[94%] bg-gray-50/5 backdrop-blur lg:rounded-bl-2xl lg:rounded-br-2xl overflow-y-hidden'>
+          <div className=' h-full lg:h-[94%] w-full px-4 bg-white lg:overflow-y-scroll lg:scrollbar-thin lg:scrollbar-thumb-primary-light lg:scrollbar-track-primary-light/20  lg:scrollbar-track-rounded-full lg:scroll-smooth'>
             {!isListView ? (
               <div className=' h-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 2xl:gap-6 py-3 '>
                 {/* Here will contain add button and image cards */}

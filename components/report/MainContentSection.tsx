@@ -22,7 +22,7 @@ const MainContentSection = ({ active, setActive }: Props) => {
   return (
     <div className='w-full h-full flex flex-col gap-6'>
       <MainSectionNavBar>
-        <div className=' flex items-center space'>
+        <div className=' flex items-center'>
           {isLargeDevice || (
             <Icon
               icon='ant-design:menu-outlined'
