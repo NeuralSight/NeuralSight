@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import { Component, Dispatch, SetStateAction } from 'react'
 import { EditorState, convertToRaw } from 'draft-js'
 import dynamic from 'next/dynamic'
 import draftToHtml from 'draftjs-to-html'
@@ -6,31 +6,35 @@ import htmlToDraft from 'html-to-draftjs'
 import { EditorProps } from 'react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import ColorPicker from './ColorPicker'
-import { RGBColor } from 'react-color'
-import { hexToRgb } from '@mui/material'
 
 const Editor = dynamic<EditorProps>(
   () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
   { ssr: false }
 )
 type EditorType = (editorState: EditorState) => void
+type Props = {
+  report: string
+  setReport: Dispatch<SetStateAction<string>>
+}
+type State = {
+  editorState: EditorState
+}
+class RichTextEditor extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props)
+  }
 
-class RichTextEditor extends Component {
-  state = {
+  state: State = {
     editorState: EditorState.createEmpty(),
-    colorState: hexToRgb('#ffffff'),
   }
 
   onEditorStateChange: EditorType = (editorState: EditorState) => {
     this.setState({
       editorState,
     })
-  }
-
-  onColorStateChange = (colorState: RGBColor) => {
-    this.setState({
-      colorState,
-    })
+    this.props.setReport(
+      draftToHtml(convertToRaw(editorState.getCurrentContent()))
+    )
   }
 
   // wrapperClassName: class applied around both the editor and the toolbar
