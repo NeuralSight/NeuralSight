@@ -1,23 +1,16 @@
-import { Icon } from '@iconify/react'
-import { hexToRgb } from '@mui/material'
-import { ChangeEvent, useState } from 'react'
+import { useState } from 'react'
 import {
-  RGBColor,
+  Color,
   ColorChangeHandler,
   SketchPicker,
   ColorResult,
 } from 'react-color'
 type Props = {
-  color: RGBColor
+  onChange: any
 }
 
-const ColorPicker = () => {
-  const [color, onSetChange] = useState<RGBColor>({
-    r: 0,
-    g: 0,
-    b: 0,
-    a: 0,
-  })
+const ColorPicker = ({ onChange }: Props) => {
+  const [color, onSetChange] = useState<Color>('#000000')
   const [expand, isExpanded] = useState<boolean>(false)
   const handleClose = () => {
     isExpanded(false)
@@ -26,8 +19,9 @@ const ColorPicker = () => {
     isExpanded(!expand)
   }
 
-  const onChange: ColorChangeHandler = (colorResult: ColorResult) => {
-    onSetChange(colorResult.rgb)
+  const handleChange: ColorChangeHandler = (colorResult: ColorResult) => {
+    onChange('color', colorResult.hex)
+    onSetChange(colorResult.hex)
   }
   return (
     <div onClick={(e) => e.stopPropagation()}>
@@ -36,7 +30,7 @@ const ColorPicker = () => {
           padding: '5px',
           background: '#fff',
           borderRadius: '1px',
-          boxShadow: '0 0 0 1px rgba(0,0,0,.1)',
+          boxShadow: '0 0 0 1px rgba(0,0,0,.2)',
           display: 'inline-block',
           cursor: 'pointer',
         }}
@@ -47,7 +41,7 @@ const ColorPicker = () => {
             width: '36px',
             height: '14px',
             borderRadius: '2px',
-            background: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+            background: color.toString(),
           }}
         />
       </div>
@@ -71,7 +65,7 @@ const ColorPicker = () => {
             }}
             onClick={handleClose}
           />
-          <SketchPicker color={color} onChange={onChange} />
+          <SketchPicker color={color} onChange={handleChange} />
         </div>
       ) : null}
     </div>
