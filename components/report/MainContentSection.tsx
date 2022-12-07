@@ -1,6 +1,7 @@
 import { Icon } from '@iconify/react'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { Dispatch, SetStateAction, useState } from 'react'
+import parse from 'html-react-parser'
 import { formatDate } from '../../helper/datesFormatter'
 import { SCREEN } from '../../helper/responsive'
 import BurgerMenu from '../BurgerMenu'
@@ -10,8 +11,8 @@ import MainSectionNavBar from '../MainSectionNavBar'
 import NeuralLabsTextLogo from '../NeuralLabsTextLogo'
 import ImageSlides from './image-slides'
 import ModelResults from './model-results'
-import Modal from '../Modal'
 import RichTextEditor from '../RichTextEditor'
+import Modal from '../Modal'
 
 type Props = {
   active: number
@@ -23,6 +24,10 @@ const MainContentSection = ({ active, setActive }: Props) => {
   const isLargeDevice = useMediaQuery(`( min-width: ${SCREEN.lg} )`)
   const [isOpen, setModalOpen] = useState<boolean>(false)
   const [date, setDate] = useState<Date>(new Date())
+
+  const [report, setReport] = useState(
+    '<p>Opacity is observed in right lung and left lower zone.Inhomogeneous Opacity, probable Consolidation is observed in bilateral lower zones. Pleural Effusion is observed in bilateral lower zones and right mid zoneBlunting of CP angle is observed in bilateral lower zonesThe Heart is enlarged. CardiomegalyBoth hila appear normalBony thorax appears unremarkable</p>'
+  )
 
   const handlePrintReport = () => {
     window.print()
@@ -104,13 +109,7 @@ const MainContentSection = ({ active, setActive }: Props) => {
                   </button>
                 </div>
                 <p className=' text-zinc-700 font-regular text-sm lg:text-base leading-loose print:first-letter:font-bold print:first-letter:text-4xl print:first-letter:'>
-                  Opacity is observed in right lung and left lower zone.
-                  Inhomogeneous Opacity, probable Consolidation is observed in
-                  bilateral lower zones. Pleural Effusion is observed in
-                  bilateral lower zones and right mid zoneBlunting of CP angle
-                  is observed in bilateral lower zonesThe Heart is enlarged.
-                  CardiomegalyBoth hila appear normalBony thorax appears
-                  unremarkable
+                  {parse(report)}
                 </p>
               </div>
             </div>
@@ -140,7 +139,7 @@ const MainContentSection = ({ active, setActive }: Props) => {
         }}
         setOpen={setModalOpen}
       >
-        <RichTextEditor />
+        <RichTextEditor report={report} setReport={setReport} />
       </Modal>
     </div>
   )
