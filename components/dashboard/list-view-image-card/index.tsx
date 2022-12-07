@@ -6,13 +6,14 @@ import { Icon } from '@iconify/react'
 import ProgressBar from './ProgressBar'
 import Inference from './Inference'
 import { formatDate } from '../../../helper/datesFormatter'
+import { useState } from 'react'
 
 type Props = {
   imageDetails: ImageDetails
 }
 // placeholder date
-const date = new Date()
 const ListViewImageCard = ({ imageDetails }: Props) => {
+  const [date, setDate] = useState<Date>(new Date())
   return (
     <div className='flex flex-col xl:flex-row w-full h-fit shadow-lg border-2 rounded-xl p-4 gap-6 bg-primary-lightest relative'>
       <button
@@ -73,12 +74,12 @@ const ListViewImageCard = ({ imageDetails }: Props) => {
           <div className='flex md:flex-nowrap lg:flex-wrap flex-wrap 2xl:flex-nowrap w-auto gap-3 justify-center items-center'>
             <Button type='button'>
               <Icon icon={'eva:edit-2-fill'} className='ml-2 h-5 w-5' />{' '}
-              <div className='text-sm font-bold'>Edit in OHIF</div>
+              <div className='text-sm font-bold'>Edit </div>
             </Button>
             <Button type='button' outlined>
               {' '}
               <Icon icon={'eos-icons:ai'} className='ml-2 h-5 w-5' />{' '}
-              <div className='text-sm font-bold'>Re-detect</div>
+              <div className='text-sm font-bold'>View Report</div>
             </Button>
           </div>
         </div>

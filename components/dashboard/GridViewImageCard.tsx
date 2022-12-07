@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 import { ImageDetails } from '../../typings'
 import Image from 'next/legacy/image'
 import { IconButton } from '@mui/material'
@@ -11,11 +11,11 @@ type Props = {
 }
 
 // placeholder date
-const date = new Date()
 
 const GrdViewImageCard = ({ imageDetails }: Props) => {
   // const [isImageHover, setIsImageHover] = React.useState<boolean>(false)
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const [date, setDate] = useState<Date>(new Date())
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)

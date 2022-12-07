@@ -19,10 +19,6 @@ const MoreDetailsLinks = [
     link: '#',
   },
   {
-    name: 'Re Detect',
-    link: '#',
-  },
-  {
     name: 'delete',
     link: '#',
   },
