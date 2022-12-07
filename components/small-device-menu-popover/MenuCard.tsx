@@ -2,13 +2,12 @@ import { Icon } from '@iconify/react'
 import Link from 'next/link'
 
 type Props = {
-  key: number
   text: string
   icon: string
   link: string
 }
 
-const MenuCard = ({ icon, text, link, key }: Props) => {
+const MenuCard = ({ icon, text, link }: Props) => {
   return (
     <Link href={link}>
       <div className='rounded-md flex w-full items-center space-x-1 text-slate-800 hover:text-slate-900 text-cnter px-2 py-2 active:bg-zinc-500/50'>
