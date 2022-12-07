@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { Dispatch, SetStateAction, useRef, useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { formatDate } from '../../helper/datesFormatter'
 import { SCREEN } from '../../helper/responsive'
 import BurgerMenu from '../BurgerMenu'
@@ -10,6 +10,8 @@ import MainSectionNavBar from '../MainSectionNavBar'
 import NeuralLabsTextLogo from '../NeuralLabsTextLogo'
 import ImageSlides from './image-slides'
 import ModelResults from './model-results'
+import Modal from '../Modal'
+import RichTextEditor from '../RichTextEditor'
 
 type Props = {
   active: number
@@ -19,13 +21,15 @@ type Props = {
 const MainContentSection = ({ active, setActive }: Props) => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false)
   const isLargeDevice = useMediaQuery(`( min-width: ${SCREEN.lg} )`)
+  const [isOpen, setModalOpen] = useState<boolean>(false)
+  const [date, setDate] = useState<Date>(new Date())
 
   const handlePrintReport = () => {
     window.print()
   }
-
-  //placeholder date
-  const date = new Date()
+  const handleDownloadPdf = () => {
+    // handle download the report to pdf
+  }
 
   return (
     <div className='w-full h-full print:flex-none flex flex-col gap-6 '>
@@ -43,11 +47,9 @@ const MainContentSection = ({ active, setActive }: Props) => {
               {<PatientIdSection />}
             </BurgerMenu>
           )}
-          {/* {isMediumDevice && (
-            <div className='text-lg lg:text-2xl font-medium capitalize tracking-wider text-slate-500'>
-              report
-            </div>
-          )} */}
+          <p className='text-gray-500 font-light italic h-full capitalize'>
+            last edited {formatDate(date)}
+          </p>
         </div>
         {isLargeDevice && <NeuralLabsTextLogo />}
         <div className='italic text-gray-400 text-sm'>
@@ -60,16 +62,14 @@ const MainContentSection = ({ active, setActive }: Props) => {
             <div className='text-lg lg:text-2xl font-medium uppercase tracking-wider text-primary-dark/90'>
               report
             </div>
-            <p className='text-gray-500 font-light italic h-full capitalize'>
-              last edited {formatDate(date)}
-            </p>
+
             <div className='flex w-fit space-x-1 lg:space-x-3 print:hidden'>
               {/* download the report to a pdf */}
               <Button type='button' hSize='py-5'>
                 download
               </Button>
               <button
-                className='hover:bg-gray-500/[15%] shadow-md hover:shadow-none rounded-full flex items-center justify-center py-1.5 px-1.5'
+                className='hover:bg-gray-500/[15%] transition-all duration-500 ease-in-out shadow-md hover:shadow-none rounded-full flex items-center justify-center py-1.5 px-1.5'
                 title='print the report'
                 onClick={handlePrintReport}
               >
@@ -95,6 +95,7 @@ const MainContentSection = ({ active, setActive }: Props) => {
                   <button
                     className='print:hidden text-primary-dark/90 cursor-pointer'
                     title='edit'
+                    onClick={() => setModalOpen(true)}
                   >
                     <Icon
                       icon={'material-symbols:edit-square-outline'}
@@ -121,6 +122,26 @@ const MainContentSection = ({ active, setActive }: Props) => {
         </div>
         <div className='absolute z-[40] bottom-0 bg-gradient-to-t from-gray-50/95 via-gray-50/60 to-transparent h-12 w-full'></div>
       </div>
+      <Modal
+        title='Edit Remarks'
+        description=''
+        open={isOpen}
+        style={{
+          position: 'absolute' as 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 'auto',
+          bgcolor: 'background.paper',
+          border: '2px solid #000',
+          boxShadow: 24,
+          borderRadius: '8px',
+          p: 4,
+        }}
+        setOpen={setModalOpen}
+      >
+        <RichTextEditor />
+      </Modal>
     </div>
   )
 }
