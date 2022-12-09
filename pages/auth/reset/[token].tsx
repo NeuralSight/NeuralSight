@@ -9,11 +9,13 @@ import Link from 'next/link'
 import Button from '../../../components/Button'
 import Image from 'next/image'
 import RobotCharging from '../../../public/robotCharging.svg'
-import ErrorMessage from '../../../components/ErrorMessage'
+import Message from '../../../components/Message'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Footer from '../../../components/Footer'
+import useReset from '../../../hooks/use-reset'
+import { ErrorDetails } from '../../../typings'
 import {
   FIELD_REQUIRED_ERR_MSG,
   PASSWORD_LENGTH_ERR_MSG,
@@ -53,7 +55,8 @@ function ChangePassword({}: Props) {
 
   const confirmPasswordField = watch('confirmPassword')
 
-  const [error, setError] = useState<string>('')
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
 
@@ -64,12 +67,60 @@ function ChangePassword({}: Props) {
     setShowConfirmPassword(!showConfirmPassword)
   }
 
-  const onSubmit: SubmitHandler<State> = (data) => console.log('data', data)
   const handleMouseDownPassword = (
     // prevent submitting while toggling show password btn
     event: MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault()
+  }
+
+  const { mutate, isLoading, status, isSuccess } = useReset()
+
+  //submit new password
+  const onSubmit: SubmitHandler<State> = (data) => {
+    return mutate(
+      {
+        token: typeof token == 'string' ? token : '',
+        newPassword: data.password,
+      },
+      {
+        onSuccess: (response, variable, context) => {
+          if (response.status === 200) {
+            if (response?.data?.msg) {
+              console.log('msg', response?.data?.msg)
+              // clear all the error message
+              setSuccess('Successfully reset password')
+              setError(null)
+              clearErrors('password')
+              clearErrors('confirmPassword')
+            } else {
+              setError('data is not in the right format')
+            }
+          } else {
+            const detail = response.data.detail
+
+            if (detail && typeof detail == 'object') {
+              detail.forEach((element: ErrorDetails) => {
+                setError(element.msg)
+                console.log('type', element.type)
+                console.log('loc', element.loc)
+              })
+            } else if (detail && typeof detail == 'string') {
+              setError(detail)
+            } else {
+              setError('failed to connect, try again')
+            }
+          }
+        },
+        onError: (err) => {
+          console.error('error', err)
+          setError('oops, something went wrong with the server, try again')
+        },
+        onSettled: () => {
+          console.log('settled')
+        },
+      }
+    )
   }
 
   // unsubscribe from watch
@@ -82,7 +133,8 @@ function ChangePassword({}: Props) {
   })
   useEffect(() => {
     setTimeout(() => {
-      setError('')
+      setError(null)
+      setSuccess(null)
       clearErrors('password')
       clearErrors('confirmPassword')
     }, 5000)
@@ -90,10 +142,11 @@ function ChangePassword({}: Props) {
   return (
     <div>
       {errors.password?.message || errors.confirmPassword?.message || error ? (
-        <ErrorMessage>
+        <Message>
           {errors.confirmPassword?.message || errors.password?.message || error}
-        </ErrorMessage>
+        </Message>
       ) : null}
+      {isSuccess && success && <Message isSuccess>{success}</Message>}
       <Head>
         <title>Reset Password</title>
       </Head>
@@ -176,10 +229,10 @@ function ChangePassword({}: Props) {
               outlined={false}
               disable={confirmPasswordField !== '' ? false : true}
             >
-              Change Password
+              {isLoading ? 'Resetting...' : 'Change Password'}
             </Button>
           </form>
-          <p className='text-sm lg:text-base text-slate-400 font-medium'>
+          <p className='text-sm lg:text-base text-slate-700 font-medium'>
             Go back to{' '}
             <Link href='/auth'>
               <span className='cursor-pointer capitalize text-primary-light hover:text-primary-dark transition-all duration-200'>

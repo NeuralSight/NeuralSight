@@ -18,7 +18,7 @@ import RobotImage from '../../public/robot.svg'
 import AccessBotIllustration from '../../public/loginillustration.svg'
 import Button from '../../components/Button'
 import ThirdPartyBtn from '../../components/auth/ThirdPartyBtn'
-import ErrorMessage from '../../components/ErrorMessage'
+import Message from '../../components/Message'
 import Footer from '../../components/Footer'
 import {
   EMAIL_INCORRECT_ERR_MSG,
@@ -27,17 +27,12 @@ import {
   PASSWORD_REQUIRED_ERR_MSG,
 } from '../../lang/auth'
 import { AuthContextType } from '../../typings'
-
+import { ErrorDetails } from '../../typings'
 type Props = {}
 
 type State = {
   email: string
   password: string
-}
-type ErrorDetails = {
-  loc: Array<string>
-  msg: string
-  type: string
 }
 
 function Auth({}: Props) {
@@ -55,8 +50,9 @@ function Auth({}: Props) {
   useEffect(() => {
     authContext?.getAuthState()
     // checks if the user is authenticated
-    authContext?.authState == null ||
-      (authContext?.isUserAuthenticated() && route.back())
+    authContext?.authState == null && !authContext?.isUserAuthenticated()
+      ? null
+      : route.replace('/', undefined, { shallow: true })
   }, [authContext, route])
 
   const [showPassword, setShowPassword] = useState<boolean>(false)
@@ -67,8 +63,8 @@ function Auth({}: Props) {
   const onSubmit: SubmitHandler<State> = (data) => {
     return mutate(
       {
-        username: 'info@neurallabs.africa',
-        password: 'Neur@l@bs202!',
+        username: data.email,
+        password: data.password,
       },
       {
         onSuccess: (data, variable, context) => {
@@ -86,13 +82,17 @@ function Auth({}: Props) {
               setError('data is not in the right format')
             }
           } else {
+            console.log('data', data.data)
             const detail = data.data.detail
+
             if (detail && typeof detail == 'object') {
               detail.forEach((element: ErrorDetails) => {
                 setError(element.msg)
                 console.log('type', element.type)
                 console.log('loc', element.loc)
               })
+            } else if (detail && typeof detail == 'string') {
+              setError(detail)
             } else {
               setError('failed to connect, try again')
             }
@@ -126,16 +126,16 @@ function Auth({}: Props) {
     return () => subscription.unsubscribe()
   }, [watch])
 
-  if (authContext?.authState != null || authContext?.isUserAuthenticated()) {
+  if (authContext?.authState != null) {
     return <Loading />
   }
 
   return (
     <div className=' bg-gray-50'>
       {errors.email?.message || errors.password?.message || error ? (
-        <ErrorMessage>
+        <Message>
           {errors.email?.message || errors.password?.message || error}
-        </ErrorMessage>
+        </Message>
       ) : null}
       <Head>
         <meta></meta>
@@ -163,7 +163,6 @@ function Auth({}: Props) {
             />
           </div>
           <div className='block lg:hidden absolute rounded-full h-80 w-80 bg-primary-light -top-[13em] -right-[13em] blur-3xl' />
-
           <div className='flex flex-col space-y-2 text-center justify-center w-full items-center'>
             {/* Inputs */}
             {/* Logo section */}

@@ -15,7 +15,7 @@ import {
 import useRecover from '../../../hooks/use-recover'
 import { useState } from 'react'
 import { ErrorDetails } from '../../../typings'
-import ErrorMessage from '../../../components/Message'
+import Message from '../../../components/Message'
 type Props = {}
 
 type State = {
@@ -81,9 +81,9 @@ function Reset({}: Props) {
   return (
     <div className=' bg-gray-50 '>
       {errors.email?.message || error ? (
-        <ErrorMessage>{errors.email?.message || error}</ErrorMessage>
+        <Message>{errors.email?.message || error}</Message>
       ) : null}
-      {isSuccess && success && <ErrorMessage isSuccess>{success}</ErrorMessage>}
+      {isSuccess && success && <Message isSuccess>{success}</Message>}
       <Head>
         <title>Reset Password</title>
       </Head>
