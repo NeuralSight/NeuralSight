@@ -44,3 +44,10 @@ export interface AuthContextType {
   setIsRemembered: Dispatch<SetStateAction<boolean>>
   isUserAuthenticated: () => boolean
 }
+
+// fast api error
+export type ErrorDetails = {
+  loc: Array<string>
+  msg: string
+  type: string
+}
