@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { changeObjToFormUrlencoded } from '../helper/changeJsonToFormUrlencoded'
+import { changeObjToFormUrlencoded } from '../helper/changeObjToOtherFormats'
+import { ContentType } from '../lang/content-type'
+
 type AuthUser = {
   grant_type?: 'password' | string
   username: string
@@ -10,14 +12,14 @@ type AuthUser = {
 }
 
 const headers = new Headers({
-  'Content-Type': 'application/x-www-form-urlencoded',
+  'Content-Type': ContentType.FormData,
 })
 
 const loginUser = async (user: AuthUser) => {
   const urlencoded = changeObjToFormUrlencoded(user)
   // console.log('urlencoded', urlencoded)
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_NEURALSIGHT_API_BASE_URL}/v1/login/access-token`,
+    `${process.env.NEXT_PUBLIC_NEURALSIGHT_API_BASE_URL}/user/login`,
     {
       mode: 'cors',
       method: 'POST',
