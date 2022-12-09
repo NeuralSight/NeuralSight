@@ -1,5 +1,10 @@
 import { Component, Dispatch, SetStateAction } from 'react'
-import { EditorState, convertToRaw } from 'draft-js'
+import {
+  EditorState,
+  convertToRaw,
+  convertFromHTML,
+  ContentState,
+} from 'draft-js'
 import dynamic from 'next/dynamic'
 import draftToHtml from 'draftjs-to-html'
 import htmlToDraft from 'html-to-draftjs'
@@ -12,10 +17,12 @@ const Editor = dynamic<EditorProps>(
   { ssr: false }
 )
 type EditorType = (editorState: EditorState) => void
+
 type Props = {
   report: string
   setReport: Dispatch<SetStateAction<string>>
 }
+
 type State = {
   editorState: EditorState
 }
@@ -25,9 +32,18 @@ class RichTextEditor extends Component<Props, State> {
   }
 
   state: State = {
-    editorState: EditorState.createEmpty(),
+    editorState: EditorState.createWithContent(
+      ContentState.createFromBlockArray(
+        convertFromHTML(this.props.report).contentBlocks
+      )
+    ),
   }
 
+  //is invoked immediately after a component is mounted (inserted into the tree). Initialization that requires DOM nodes should go here. If you need to load data from a remote endpoint, this is a good place to instantiate the network request.
+  componentDidMount() {
+    this.state
+    this.onEditorStateChange
+  }
   onEditorStateChange: EditorType = (editorState: EditorState) => {
     this.setState({
       editorState,
@@ -37,6 +53,7 @@ class RichTextEditor extends Component<Props, State> {
     )
   }
 
+  //OPTIONS
   // wrapperClassName: class applied around both the editor and the toolbar
   // editorClassName: class applied around the editor
   // toolbarClassName: class applied around the toolbar
@@ -53,7 +70,7 @@ class RichTextEditor extends Component<Props, State> {
   render() {
     const { editorState } = this.state
     return (
-      <div>
+      <div className='max-h-[75%] max-w-xl'>
         <Editor
           editorState={editorState}
           mention={{
@@ -62,14 +79,14 @@ class RichTextEditor extends Component<Props, State> {
             trigger: '@',
             suggestions: [
               // replace with meaningful suggestion
-              { text: 'APPLE', value: 'apple', url: 'apple' },
-              { text: 'BANANA', value: 'banana', url: 'banana' },
-              { text: 'CHERRY', value: 'cherry', url: 'cherry' },
-              { text: 'DURIAN', value: 'durian', url: 'durian' },
-              { text: 'EGGFRUIT', value: 'eggfruit', url: 'eggfruit' },
-              { text: 'FIG', value: 'fig', url: 'fig' },
-              { text: 'GRAPEFRUIT', value: 'grapefruit', url: 'grapefruit' },
-              { text: 'HONEYDEW', value: 'honeydew', url: 'honeydew' },
+              { text: 'Neural', value: 'Neural', url: 'Neural' },
+              { text: 'Sight', value: 'Sight', url: 'Sight' },
+              { text: 'TB', value: 'TB', url: 'TB' },
+              { text: 'pneumonia', value: 'pneumonia', url: 'pneumonia' },
+              { text: 'Patient', value: 'Patient', url: 'Patient' },
+              { text: 'Model', value: 'Model', url: 'Model' },
+              { text: 'pleural', value: 'pleural', url: 'pleural' },
+              { text: 'cadiomediac', value: 'cadiomediac', url: 'cadiomediac' },
             ],
           }}
           toolbar={{
@@ -79,13 +96,12 @@ class RichTextEditor extends Component<Props, State> {
           }}
           // hastags
           hashtag={{}}
-          wrapperClassName='demo-wrapper'
-          editorClassName='demo-editor h-[500px]'
+          toolbarClassName='toolbar-class border border-zinc-500'
+          wrapperClassName='demo-wrapper mt-5'
+          //   editorStyle={<editorStyleObject>}
+          // toolbarStyle={<toolbarStyleObject>}
+          editorClassName='demo-editor max-h-[500px] px-3 overflow-y-scroll scrollbar-thin scrollbar-thumb-zinc-400 scrollbar-track-zinc-400/30 border border-gray-500/40 border-b-2 rounded-sm scroll-smooth'
           onEditorStateChange={this.onEditorStateChange}
-        />
-        <textarea
-          disabled
-          value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
         />
       </div>
     )

@@ -23,10 +23,10 @@ const MainContentSection = ({ active, setActive }: Props) => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false)
   const isLargeDevice = useMediaQuery(`( min-width: ${SCREEN.lg} )`)
   const [isOpen, setModalOpen] = useState<boolean>(false)
-  const [date, setDate] = useState<Date>(new Date())
+  const [date, setDate] = useState<Date>(new Date('Dec/09/2022 10:40:00'))
 
   const [report, setReport] = useState(
-    '<p>Opacity is observed in right lung and left lower zone.Inhomogeneous Opacity, probable Consolidation is observed in bilateral lower zones. Pleural Effusion is observed in bilateral lower zones and right mid zoneBlunting of CP angle is observed in bilateral lower zonesThe Heart is enlarged. CardiomegalyBoth hila appear normalBony thorax appears unremarkable</p>'
+    '<p>Opacity is observed in the right lung and left lower zone. Inhomogeneous Opacity, probable Consolidation is observed in bilateral lower zones. Pleural Effusion is observed in bilateral lower zones and right mid zoneBlunting of CP angle is observed in bilateral lower zonesThe heart is enlarged. CardiomegalyBoth hila appear normalBony thorax appears unremarkable</p>'
   )
 
   const handlePrintReport = () => {
@@ -53,7 +53,7 @@ const MainContentSection = ({ active, setActive }: Props) => {
             </BurgerMenu>
           )}
           <p className='text-gray-500 font-light italic h-full capitalize'>
-            last edited {formatDate(date)}
+            inference at {formatDate(date)}
           </p>
         </div>
         {isLargeDevice && <NeuralLabsTextLogo />}
@@ -108,9 +108,9 @@ const MainContentSection = ({ active, setActive }: Props) => {
                     />
                   </button>
                 </div>
-                <p className=' text-zinc-700 font-regular text-sm lg:text-base leading-loose print:first-letter:font-bold print:first-letter:text-4xl print:first-letter:'>
+                <div className='break-all text-zinc-700 font-regular text-sm lg:text-base leading-loose print:first-letter:font-bold first-line:tracking-wider print:first-letter:text-7xl print:first-letter:text-white print:first-letter:mr-3 print:first-letter:float-left '>
                   {parse(report)}
-                </p>
+                </div>
               </div>
             </div>
             <div className='w-full xl:w-[58%]'>
