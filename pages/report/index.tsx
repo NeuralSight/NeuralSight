@@ -1,13 +1,34 @@
-import React from 'react'
+import { useContext, useEffect } from 'react'
 import Layout from '../layout'
 import PatientIDSection from '../../components/dashboard/PatientIdSection'
 import { useState } from 'react'
 import MainContentSection from '../../components/report/MainContentSection'
+import { AuthContextType } from '../../typings'
+import { AuthContext } from '../../context/auth-context'
+import { useRouter } from 'next/router'
+import Loading from '../loading'
 
 type Props = {}
 
 function Report({}: Props) {
+  const router = useRouter()
   const [active, setActive] = useState<number>(0)
+  const authContext = useContext<AuthContextType | null>(AuthContext)
+  useEffect(() => {
+    authContext?.getAuthState()
+    // checks if the user is authenticated
+
+    !authContext?.isUserAuthenticated() && authContext?.authState !== undefined
+      ? router.push('/auth')
+      : null
+  }, [authContext, router])
+
+  if (
+    authContext?.isUserAuthenticated() == false &&
+    authContext?.authState == undefined
+  ) {
+    return <Loading />
+  }
   return (
     <Layout>
       <main className='w-full h-[94%] flex pt-6 justify-evenly'>
