@@ -11,7 +11,7 @@ import {
 } from 'react'
 import { FileInfo, FileTypeError } from '../../../typings'
 import Button from '../../Button'
-import ErrorMessage from '../../ErrorMessage'
+import ErrorMessage from '../../Message'
 import FilePreviewCard from './FilePreviewCard'
 
 type Props = {
