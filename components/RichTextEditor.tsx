@@ -100,7 +100,7 @@ class RichTextEditor extends Component<Props, State> {
           wrapperClassName='demo-wrapper mt-5'
           //   editorStyle={<editorStyleObject>}
           // toolbarStyle={<toolbarStyleObject>}
-          editorClassName='demo-editor max-h-[500px] px-3 overflow-y-scroll scrollbar-thin scrollbar-thumb-zinc-400 scrollbar-track-zinc-400/30 border border-gray-500/40 border-b-2 rounded-sm scroll-smooth'
+          editorClassName='demo-editor max-h-[500px] px-3 overflow-y-scroll scrollbar-thin scrollbar-thumb-zinc-400 scrollbar-track-zinc-400/30 border border-gray-500/30 border-b-[3px] rounded-sm scroll-smooth'
           onEditorStateChange={this.onEditorStateChange}
         />
       </div>
