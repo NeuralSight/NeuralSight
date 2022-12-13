@@ -66,7 +66,6 @@ const Modal = ({
   open,
   setOpen,
 }: Props) => {
-  const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
   return (
