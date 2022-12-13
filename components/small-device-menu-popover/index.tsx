@@ -1,6 +1,7 @@
 import { Icon } from '@iconify/react'
 import React from 'react'
 import { Menu as MenuList } from '../../helper/menu'
+import useLogout from '../../hooks/use-logout'
 import CustomPopover from '../Popover'
 import MenuCard from './MenuCard'
 
@@ -11,6 +12,14 @@ type Props = {
   setAnchorElement: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }
 const Menu = ({ id, open, anchorEl, setAnchorElement }: Props) => {
+  const { isLoggingOut, error, logout } = useLogout('/api/logout')
+
+  const handleLogout = async () => {
+    await logout()
+  }
+
+  error && console.log('oops, their was an error', error)
+
   return (
     <CustomPopover
       id={id}
@@ -27,12 +36,14 @@ const Menu = ({ id, open, anchorEl, setAnchorElement }: Props) => {
         {MenuList.map((item, key) => (
           <MenuCard {...item} key={item.key} />
         ))}
-        <MenuCard
-          link='./logout'
-          icon='majesticons:logout-half-circle-line'
-          text='logout'
-          key={1000}
-        />
+        <button onClick={handleLogout}>
+          <MenuCard
+            isClicked={isLoggingOut}
+            icon='majesticons:logout-half-circle-line'
+            text={'logout'}
+            key={1000}
+          />
+        </button>
       </div>
     </CustomPopover>
   )
