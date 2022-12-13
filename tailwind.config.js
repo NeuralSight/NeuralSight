@@ -34,6 +34,21 @@ module.exports = {
         },
         accent: { one: '#D7BAAD', two: '#3F3D56', three: '#2E4450' },
       },
+      keyframes: {
+        bouncex: {
+          '0%, 100%': {
+            transform: 'translateX(-25%)',
+            'animation-timing-function': 'cubic-bezier(0.8,0,1,1)',
+          },
+          '50%': {
+            transform: 'none',
+            'animation-timing-function': ' cubic-bezier(0,0,0.2,1)',
+          },
+        },
+      },
+      animation: {
+        bounceX: 'bouncex 1s infinite',
+      },
     },
   },
   plugins: [require('tailwind-scrollbar')({ nocompatible: true })], // be warying!!! as they are only supported in Webkit-based browsers
