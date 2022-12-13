@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { MouseEvent } from 'react'
 
 type Props = {
   children: React.ReactNode
@@ -9,7 +9,7 @@ type Props = {
   wSize?: 'px-6' | 'px-4' | 'px-3'
   textSize?: 'text-sm' | 'text-md' | 'text-lg' | string | undefined
   textBold?: 'font-bold' | 'font-semibold' | 'font-medium' | 'font-normal'
-  onClick?: () => void
+  onClick?: (e: MouseEvent<HTMLButtonElement>) => void
 }
 
 const Button = ({
