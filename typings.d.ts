@@ -38,7 +38,7 @@ export interface UserInfo {
 }
 
 export interface AuthContextType {
-  authState: string | null | undefined
+  authState: string | undefined | null
   setAuthState: (user: UserInfo) => void
   getAuthState: () => void
   setIsRemembered: Dispatch<SetStateAction<boolean>>
@@ -46,8 +46,47 @@ export interface AuthContextType {
 }
 
 // fast api error
-export type ErrorDetails = {
+export interface ErrorDetails {
   loc: Array<string>
   msg: string
   type: string
+}
+
+// patient types
+export interface Patient {
+  patientId: string
+  token: string
+}
+export interface Report {
+  reportId: string
+  token: string
+}
+
+export interface PatientPredictImage extends Patient {
+  file: File | undefined
+}
+export interface PatientUpdateReport extends Report {
+  report: string
+}
+
+// user types
+interface User {
+  name: string
+  email: string
+  phone: string
+  address: string
+  location: string
+  hospital: string
+}
+export interface UserToken {
+  user: User
+  token: string
+}
+export interface UserId {
+  token: string
+  userId: string
+}
+
+export interface UserUpdate extends UserId {
+  user: User
 }
