@@ -90,3 +90,10 @@ export interface UserId {
 export interface UserUpdate extends UserId {
   user: User
 }
+
+export interface PatientResult {
+  created_at: string
+  id: string
+  updated_at: string
+  user_id: number
+}
