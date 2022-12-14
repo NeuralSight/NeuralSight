@@ -34,6 +34,8 @@ const ListViewImageCard = ({ imageDetails }: Props) => {
           alt={`patient's image testing ${imageDetails.disease}`}
           width={100}
           height={100}
+          placeholder='blur'
+          blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=='
           className='rounded-xl w-auto xl:w-full h-96 xl:h-80'
         />
         <div className='absolute top-4 left-4 z-10 p-2 rounded-2xl my-auto bg-primary-dark text-gray-50 font-semibold text-sm uppercase shadow-lg shadow-primary-dark/25 group-hover:shadow-none text-center align-middle'>
