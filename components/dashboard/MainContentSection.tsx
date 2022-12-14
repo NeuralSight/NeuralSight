@@ -136,7 +136,7 @@ const MainContentSection = (props: Props) => {
             </div>
           </div>
           <div className='flex w-fit space-x-1 lg:space-x-3'>
-            {isListView && (
+            {isListView || !isLargeDevice ? (
               <button
                 type='button'
                 className='flex justify-center items-center w-fit rounded-2xl border-2 border-dashed border-primary-light bg-transparent text-gray-900 font-medium py-2 px-2 hover:bg-primary-lightest'
@@ -148,7 +148,7 @@ const MainContentSection = (props: Props) => {
                   className='h-5 w-5 lg:h-6 lg:w-6 fill-current text-primary-light stroke-[3px]'
                 />
               </button>
-            )}
+            ) : null}
 
             {/* left side */}
             <button
@@ -220,7 +220,7 @@ const MainContentSection = (props: Props) => {
             >
               {/* <AddImageModalContent/> */}
               <div className='my-5'>
-                <UploadFile setOpen={setModalOpen} />
+                <UploadFile setOpen={setModalOpen} patientId={''} />
               </div>
             </Modal>
           </div>
