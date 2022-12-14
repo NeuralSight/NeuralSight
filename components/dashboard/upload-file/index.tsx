@@ -8,24 +8,50 @@ import {
   SyntheticEvent,
   Dispatch,
   SetStateAction,
+  useContext,
+  useEffect,
 } from 'react'
-import { FileInfo, FileTypeError } from '../../../typings'
+import { FileInfo, FileTypeError, PatientPredictImage } from '../../../typings'
 import Button from '../../Button'
 import ErrorMessage from '../../Message'
 import FilePreviewCard from './FilePreviewCard'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { predictPatientImage } from '../../../services/patient-api'
+import { AuthContext } from '../../../context/auth-context'
+import useErrorMsgHandler from '../../../hooks/use-error-msg-handler'
+import { ContentType } from '../../../lang/content-type'
 
 type Props = {
   setOpen: Dispatch<SetStateAction<boolean>>
+  patientId: string
 }
 
 const UploadFile = (props: Props) => {
-  // close modal
-  const handleClose = () => props.setOpen(false)
-
+  // states
+  const [success, setSuccess] = useState<string | null>(null)
   // drag state
   const [dragActive, setDragActive] = useState<boolean>(false)
   const [fileInfo, setFileInfo] = useState<File[]>()
-  const [error, setError] = useState<FileTypeError | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const [fileError, setFileError] = useState<FileTypeError | null>(null)
+
+  // error messages handling hook
+  const { setDetails, detail } = useErrorMsgHandler({ setError })
+
+  // close modal
+  const handleClose = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    props.setOpen(false)
+  }
+
+  // authContext
+  const authContext = useContext(AuthContext)
+
+  // token
+  const token = authContext?.authState
+
+  // use query
+  const currentClient = useQueryClient()
 
   const uploadedFileNo = 0
   // ref
@@ -75,14 +101,14 @@ const UploadFile = (props: Props) => {
         files[i].type !== 'image/dicom'
       ) {
         // raise an error
-        setError({
+        setFileError({
           type: 'FILETYPE_ERR',
           message: 'wrong file type only images allowed!',
         })
         return
       }
       if (files[i].size > 100000000) {
-        setError({
+        setFileError({
           type: 'FILESIZE_ERR',
           message: 'file allowed <strong>MUST</strong> be 100mbs and below',
         })
@@ -90,17 +116,59 @@ const UploadFile = (props: Props) => {
       }
       // set file info in the file state handler
       setFileInfo(files)
-      setError(null)
+      setFileError(null)
     }
   }
 
+  const { isLoading, mutate, status } = useMutation(predictPatientImage, {
+    onMutate: async (newPatient) => {
+      // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+      // await currentClient.cancelQueries('patients')
+      // Snapshot the previous value
+      // const previousPatients = currentClient.getQueryData('patients')
+      // Optimistically update to the new value
+      // currentClient.setQueryData('patients', (old) => [...old, newPatient])
+      // Return a context object with the snapshotted value
+      // return { previousPatients }
+      console.log('newPatient from uploading file', newPatient)
+    },
+  })
   // handle Submit
   const handleSubmit = (e: SyntheticEvent) => {
+    e.preventDefault()
     // animate uploading the show when finished and list the file
     // if clicks save changes upload the files
-    console.log(fileInfo)
-    console.log(inputRef.current?.files)
-    e.preventDefault()
+
+    //image data
+    const imageData: PatientPredictImage = {
+      token: token || '',
+      file: fileInfo && fileInfo[0],
+      patientId: props.patientId || 'testid',
+    }
+
+    mutate(imageData, {
+      onSuccess: async (response, variable, context) => {
+        const data = await response.json()
+        if (response.status === 201 || response.status === 200) {
+          console.log('data', data)
+          setSuccess(data.message)
+          // currentClient.invalidateQueries('patient')
+        } else {
+          const detail = data.detail
+          console.log('detail', detail)
+          setDetails(detail)
+        }
+      },
+      onError: async (err: any, variables, context) => {
+        // currentClient.setQueryData('patient', context.previousPatients)
+        setError(err)
+        console.log('Error while posting...', err)
+        console.log('data sent is', variables)
+      },
+      onSettled: async () => {
+        // currentClient.invalidateQueries('patient')
+      },
+    })
     // submit result to backend
   }
 
@@ -112,15 +180,26 @@ const UploadFile = (props: Props) => {
     }
   }
 
+  useEffect(() => {
+    setTimeout(() => {
+      setFileError(null)
+      setError(null)
+      // setSuccess(null)
+    }, 5000)
+  })
+
   return (
     <form
-      // encType='multipart/form-data'
       className='h-fit w-[28rem] max-w-full text-center position relative'
       onDragEnter={handleDrag}
       onSubmit={handleSubmit}
+      encType={ContentType.MultiPart}
     >
-      <div className='pb-3'>
-        {error && <ErrorMessage>{error?.message}</ErrorMessage>}
+      <div className='pb-3 flex flex-col space-x-2'>
+        {error || fileError ? (
+          <ErrorMessage>{error || fileError?.message}</ErrorMessage>
+        ) : null}
+        {success && <ErrorMessage isSuccess>{success}</ErrorMessage>}
       </div>
       <input
         ref={inputRef}
@@ -197,8 +276,10 @@ const UploadFile = (props: Props) => {
         </div>
       </div>
       <div className='flex w-full space-x-4'>
-        <Button type='submit'>save</Button>
-        <Button type='button' onClick={handleClose} outlined>
+        <Button type='submit'>
+          {isLoading ? 'saving & predicting...' : 'save'}
+        </Button>
+        <Button type='button' outlined onClick={handleClose}>
           cancel
         </Button>
       </div>
