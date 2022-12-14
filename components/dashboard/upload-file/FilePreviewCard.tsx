@@ -2,6 +2,7 @@ import { Icon } from '@iconify/react'
 import { Dispatch, SetStateAction, RefObject } from 'react'
 import { calFileSizeBytesToKbsToGbs } from '../../../helper/fileInfoHelper'
 import { FileInfo } from '../../../typings'
+import { MouseEvent } from 'react'
 
 type Props = {
   file: FileInfo
@@ -15,7 +16,7 @@ const FilePreviewCard = ({
   setFileInfo,
   inputFileRef,
 }: Props) => {
-  const handleDeleteAFile = () => {
+  const handleDeleteAFile = (e: MouseEvent<SVGSVGElement>) => {
     const RemainingFileList = fileList.filter((item) => item.name !== file.name)
     setFileInfo(RemainingFileList)
     if (inputFileRef.current?.value !== undefined) {
