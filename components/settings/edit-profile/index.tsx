@@ -5,7 +5,7 @@ import Profile from './EditProfileImage'
 import InputField from '../../inputs/CustomInput'
 import Button from '../../Button'
 import Title from '../Title'
-import { EMAIL_INCORRECT_ERR_MSG } from '../../../lang/auth'
+import { EMAIL_INCORRECT_ERR_MSG } from '../../../lang/errorMessages'
 
 type Props = {}
 

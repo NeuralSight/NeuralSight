@@ -9,7 +9,7 @@ import {
   PASSWORD_LENGTH_ERR_MSG,
   PASSWORD_MISMATCH_ERR_MSG,
   PASSWORD_REQUIRED_ERR_MSG,
-} from '../../../lang/auth'
+} from '../../../lang/errorMessages'
 
 type Props = {}
 
