@@ -52,9 +52,9 @@ function MyApp({ Component, pageProps }: AppProps) {
                   content='width=device-width, initial-scale=1.0'
                 ></meta>
               </Head>
-              {/* <Hydrate state={pageProps.dehydratedState}> */}
-              <Component {...pageProps} />
-              {/* </Hydrate> */}
+              <Hydrate state={pageProps.dehydratedState}>
+                <Component {...pageProps} />
+              </Hydrate>
               {process.env.NODE_ENV == 'production' || (
                 <ReactQueryDevtools initialIsOpen={false} />
               )}
