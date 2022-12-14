@@ -1,17 +1,24 @@
 import { Icon } from '@iconify/react'
-import { useState, ChangeEvent, useContext, useEffect } from 'react'
+import { useEffect, Dispatch, SetStateAction } from 'react'
 import InputField from '../inputs/MUIInput'
 import ListNavigationWrapper from '../ListNavigationWrapper'
 import PatientIdCard from '../ListNavigationCard'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { postPatient } from '../../services/patient-api'
+import { useQuery } from '@tanstack/react-query'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { FIELD_REQUIRED_ERR_MSG } from '../../lang/errorMessages'
-import { AuthContext } from '../../context/auth-context'
-import { Patient } from '../../typings'
-import useErrorMsgHandler from '../../hooks/use-error-msg-handler'
+import {
+  FIELD_REQUIRED_ERR_MSG,
+  SERVER_ERR_MSG,
+} from '../../lang/errorMessages'
+import { fetchPatients } from '../../utils/config'
+import Loading from '../../pages/loading'
+import usePostPatient from '../../hooks/use-post-patient'
+import { PatientResult } from '../../typings'
+import { reverse } from '../../helper/reverseArray'
 
-type Props = {}
+type Props = {
+  active: string
+  setActive: Dispatch<SetStateAction<string>>
+}
 
 type State = {
   patientId: string
@@ -19,34 +26,19 @@ type State = {
 
 // dark:bg-secondary-dark
 
-const patientIDs = [
-  '600d475fa96e305as2e48c9cfbb851as',
-  '600d475fa96e305as2e48c9cfbb851qs',
-  '600d475fa96e305as2e48c9cfbb851qs',
-  '600d475fa96e305as2e48c9cfbb851qs',
-  '600d475fa96e305as2e48c9cfbb851qs',
-  '600d475fa96e305as2e48c9cfbb851qs',
-  '600d475fa96e305as2e48c9cfbb851qs',
-  '00d475fa96e305as2e48c9cfbb851qs',
-  '600d475fa96e305as2e48c9cfbb851qs',
-  '6440d475s96e305as2e48c9cfbb851qs',
-  '600d475fa96e305as2e48c9cfbb851qs',
-  '600d475fa96e305as2e48c9cfbb851qs',
-  '00d475fa96e305as2e48c9cfbb851qs',
-  '600d475fa96e305as2e48c9cfbb851qs',
-]
-
-function PatientIdSection({}: Props) {
-  const [active, setActive] = useState<number>(0)
-  const [error, setError] = useState<string | null>(null)
-  const [patient, setPatient] = useState<string | null>(null)
-
-  const { setDetails, detail } = useErrorMsgHandler({ setError })
-
-  // authContext
-  const authContext = useContext(AuthContext)
-  // Token
-  const token = authContext?.authState
+function PatientIdSection({ active, setActive }: Props) {
+  //hook for post patient
+  const {
+    setPatient,
+    setError,
+    patient,
+    isLoading,
+    isSuccess,
+    status,
+    detail,
+    error,
+    onClick,
+  } = usePostPatient()
 
   const {
     register,
@@ -56,60 +48,31 @@ function PatientIdSection({}: Props) {
     formState: { errors },
   } = useForm<State>()
 
-  // use query
-  const currentClient = useQueryClient()
-
-  const { isLoading, mutate, status, isSuccess } = useMutation(postPatient, {
-    onMutate: async (newPatient) => {
-      // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
-      // await currentClient.cancelQueries('patients')
-      // Snapshot the previous value
-      // const previousPatients = currentClient.getQueryData('patients')
-      // Optimistically update to the new value
-      // currentClient.setQueryData('patients', (old) => [...old, newPatient])
-      // Return a context object with the snapshotted value
-      // return { previousPatients }
-      console.log('newPatient', newPatient)
-    },
-  })
   const onHandleSubmit: SubmitHandler<State> = (data) => {
-    console.log('data', data)
-    console.log('token', token)
-    const AddPatient: Patient = {
-      patientId: data.patientId,
-      token: token || '',
-    }
-    mutate(AddPatient, {
-      onSuccess: async (response, variable, context) => {
-        const data = await response.json()
-        if (response.status === 201 || response.status === 200) {
-          console.log('data', data)
-          setPatient(data?.patient?.id)
-          // currentClient.invalidateQueries('patient')
-        } else {
-          const detail = data.detail
-          console.log('detail', detail)
-          setDetails(detail)
-        }
-      },
-      onError: async (err: any, variables, context) => {
-        // currentClient.setQueryData('patient', context.previousPatients)
-        setError(err)
-        console.log('Error while posting...', err)
-        console.log('data sent is', variables)
-      },
-      onSettled: async () => {
-        // currentClient.invalidateQueries('patient')
-      },
-    })
+    onClick(data.patientId)
   }
+
+  const query = useQuery(
+    ['patients'],
+    async () => (await fetchPatients()).json() as Promise<PatientResult[]>
+  )
+
+  const NO_ID_TO_SHOW_BY_DEFAULT = 10
+  const patientArr = query.data
+  // sort to start with the latest use reverse function since the last element is latest
+  const sortByDate = reverse(patientArr || [])
+  console.log('sortByDate', sortByDate)
+  // slice the elements
+  const filterTenLatest = sortByDate?.slice(0, NO_ID_TO_SHOW_BY_DEFAULT)
+  // include a filter for the search query
+
   useEffect(() => {
     setTimeout(() => {
       setError(null)
       setPatient(null)
       clearErrors('patientId')
     }, 8000)
-  }, [clearErrors, setError])
+  }, [clearErrors, setError, setPatient])
   return (
     <ListNavigationWrapper
       title='patient&#39;s id'
@@ -136,7 +99,7 @@ function PatientIdSection({}: Props) {
             className='flex flex-col space-y-0.5 py-2'
           >
             <InputField
-              id='search'
+              id='patientAdd'
               type='text'
               size='small'
               label='New ID'
@@ -178,17 +141,29 @@ function PatientIdSection({}: Props) {
         </div>
       }
     >
-      {patientIDs.map((patientId, key) => (
-        <PatientIdCard
-          key={key}
-          idKey={key}
-          active={key === active}
-          setActive={setActive}
-          className={`justify-center ${key === active ? 'font-semibold' : ''}`}
-        >
-          {patientId}
-        </PatientIdCard>
-      ))}
+      {query.isSuccess &&
+        filterTenLatest?.map((patient) => (
+          <PatientIdCard
+            key={patient.id}
+            idKey={patient.id}
+            active={patient.id === active}
+            setActive={setActive}
+            className={`justify-center ${
+              patient.id === active ? 'font-semibold' : ''
+            }`}
+          >
+            {patient.id}
+          </PatientIdCard>
+        ))}
+      {filterTenLatest?.length == 0 && (
+        <p className='text-base font-medium text-gray-500 px-3'>
+          No Patient ID
+        </p>
+      )}
+      {query.isLoading && <Loading />}
+      {query.isError && (
+        <p className='font-medium text-red-500 px-3'>{SERVER_ERR_MSG}</p>
+      )}
     </ListNavigationWrapper>
   )
 }
