@@ -11,8 +11,7 @@ import MainSectionNavBar from '../MainSectionNavBar'
 import NeuralLabsTextLogo from '../NeuralLabsTextLogo'
 import ImageSlides from './image-slides'
 import ModelResults from './model-results'
-import RichTextEditor from '../RichTextEditor'
-import Modal from '../Modal'
+import EditReport from './EditReportModal'
 
 type Props = {
   active: number
@@ -22,12 +21,8 @@ type Props = {
 const MainContentSection = ({ active, setActive }: Props) => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false)
   const isLargeDevice = useMediaQuery(`( min-width: ${SCREEN.lg} )`)
-  const [isOpen, setModalOpen] = useState<boolean>(false)
+  const [isOpenModal, setModalOpen] = useState<boolean>(false)
   const [date, setDate] = useState<Date>(new Date('Dec/09/2022 10:40:00'))
-
-  const [report, setReport] = useState(
-    '<p>Opacity is observed in the right lung and left lower zone. Inhomogeneous Opacity, probable Consolidation is observed in bilateral lower zones. Pleural Effusion is observed in bilateral lower zones and right mid zoneBlunting of CP angle is observed in bilateral lower zonesThe heart is enlarged. CardiomegalyBoth hila appear normalBony thorax appears unremarkable</p>'
-  )
 
   const handlePrintReport = () => {
     window.print()
@@ -109,7 +104,7 @@ const MainContentSection = ({ active, setActive }: Props) => {
                   </button>
                 </div>
                 <div className='break-all text-zinc-700 font-regular text-sm lg:text-base leading-loose print:first-letter:font-bold first-line:tracking-wider print:first-letter:text-7xl print:first-letter:text-white print:first-letter:mr-3 print:first-letter:float-left '>
-                  {parse(report)}
+                  {parse('<p>report</p>')}
                 </div>
               </div>
             </div>
@@ -121,26 +116,12 @@ const MainContentSection = ({ active, setActive }: Props) => {
         </div>
         <div className='absolute z-[40] bottom-0 bg-gradient-to-t from-gray-50/95 via-gray-50/60 to-transparent h-12 w-full'></div>
       </div>
-      <Modal
-        title='Edit Remarks'
-        description=''
-        open={isOpen}
-        style={{
-          position: 'absolute' as 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 'auto',
-          bgcolor: 'background.paper',
-          border: '2px solid #000',
-          boxShadow: 24,
-          borderRadius: '8px',
-          p: 4,
-        }}
-        setOpen={setModalOpen}
-      >
-        <RichTextEditor report={report} setReport={setReport} />
-      </Modal>
+      {/* edit report */}
+      <EditReport
+        isOpen={isOpenModal}
+        setModalOpen={setModalOpen}
+        reportId=''
+      />
     </div>
   )
 }
