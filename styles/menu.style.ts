@@ -16,6 +16,9 @@ export const bugerStyles = {
     background: 'rgba(0, 0, 0, 0.3)',
     position: 'fixed',
     top: '0',
+    bottom: '0',
+    right: '0',
+    left: '0',
   },
   bmMenu: {
     background: '#fafafa',
@@ -24,7 +27,6 @@ export const bugerStyles = {
   },
 
   bmItemList: {
-    color: '#b8b7ad',
     padding: '0.8em 0',
   },
   bmItem: {
