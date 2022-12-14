@@ -52,7 +52,7 @@ export const getPatientImageReport = async ({ patientId, token }: Patient) => {
 
 // get all all patient
 export const getAllPatients = async (token: string) => {
-  const response = await fetch(Url, {
+  const response = await fetch(`${Url}/doctor/all`, {
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': ContentType.FormData,
