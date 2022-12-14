@@ -4,6 +4,8 @@ const PASSWORD_MISMATCH_ERR_MSG = 'Passwords does not match'
 const FIELD_REQUIRED_ERR_MSG = 'this field is required'
 const EMAIL_REQUIRED_ERR_MSG = 'email is required'
 const EMAIL_INCORRECT_ERR_MSG = 'email is not correct'
+const SERVER_ERR_MSG = 'oops, something went wrong with the server, try again'
+const CONNECTION_ERR_MSG = 'failed to connect, try again!'
 export {
   PASSWORD_REQUIRED_ERR_MSG,
   PASSWORD_LENGTH_ERR_MSG,
@@ -11,4 +13,6 @@ export {
   FIELD_REQUIRED_ERR_MSG,
   EMAIL_INCORRECT_ERR_MSG,
   EMAIL_REQUIRED_ERR_MSG,
+  SERVER_ERR_MSG,
+  CONNECTION_ERR_MSG,
 }
