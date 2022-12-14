@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { ImageDetails } from '../../typings'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import { IconButton } from '@mui/material'
 import { Icon } from '@iconify/react'
 import MoreDetails from './more-details-popover'
@@ -29,9 +29,10 @@ const GrdViewImageCard = ({ imageDetails }: Props) => {
       <Image
         src={imageDetails.src}
         alt={`patient's image testing ${imageDetails.disease}`}
-        objectFit={'cover'}
-        layout='fill'
-        className='rounded-3xl'
+        fill
+        placeholder='blur'
+        blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=='
+        className='rounded-3xl object-cover'
       />
       <div className='rounded-3xl w-full h-fit absolute top-0 right-0 px-2 py-3 flex justify-between'>
         <div className='p-2 rounded-2xl my-auto bg-primary-dark text-gray-50 font-semibold text-sm uppercase shadow-lg shadow-primary-dark/25 group-hover:shadow-none text-center align-middle'>

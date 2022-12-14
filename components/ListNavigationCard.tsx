@@ -3,9 +3,9 @@ import { ReactNode } from 'react'
 
 type Props = {
   children: ReactNode
-  idKey: number
+  idKey: string
   active?: boolean
-  setActive: React.Dispatch<React.SetStateAction<number>>
+  setActive: React.Dispatch<React.SetStateAction<string>>
   className?: string | undefined
 }
 
