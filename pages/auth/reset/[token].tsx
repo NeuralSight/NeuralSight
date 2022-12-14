@@ -21,7 +21,9 @@ import {
   PASSWORD_LENGTH_ERR_MSG,
   PASSWORD_MISMATCH_ERR_MSG,
   PASSWORD_REQUIRED_ERR_MSG,
-} from '../../../lang/auth'
+  SERVER_ERR_MSG,
+} from '../../../lang/errorMessages'
+import useErrorHandler from '../../../hooks/use-error-msg-handler'
 
 type State = {
   password: string
@@ -56,6 +58,7 @@ function ChangePassword({}: Props) {
   const confirmPasswordField = watch('confirmPassword')
 
   const [error, setError] = useState<string | null>(null)
+  const { setDetails, detail } = useErrorHandler({ setError })
   const [success, setSuccess] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
@@ -93,28 +96,18 @@ function ChangePassword({}: Props) {
               setError(null)
               clearErrors('password')
               clearErrors('confirmPassword')
+              router.push('/auth')
             } else {
               setError('data is not in the right format')
             }
           } else {
             const detail = response.data.detail
-
-            if (detail && typeof detail == 'object') {
-              detail.forEach((element: ErrorDetails) => {
-                setError(element.msg)
-                console.log('type', element.type)
-                console.log('loc', element.loc)
-              })
-            } else if (detail && typeof detail == 'string') {
-              setError(detail)
-            } else {
-              setError('failed to connect, try again')
-            }
+            setDetails(detail)
           }
         },
         onError: (err) => {
           console.error('error', err)
-          setError('oops, something went wrong with the server, try again')
+          setError(SERVER_ERR_MSG)
         },
         onSettled: () => {
           console.log('settled')
@@ -146,7 +139,7 @@ function ChangePassword({}: Props) {
           {errors.confirmPassword?.message || errors.password?.message || error}
         </Message>
       ) : null}
-      {isSuccess && success && <Message isSuccess>{success}</Message>}
+      {isSuccess && success ? <Message isSuccess>{success}</Message> : null}
       <Head>
         <title>Reset Password</title>
       </Head>
@@ -201,7 +194,7 @@ function ChangePassword({}: Props) {
             <InputField
               id='confirmPassword'
               type={showConfirmPassword ? 'text' : 'password'}
-              label='confirmPassword'
+              label='confirm password'
               register={register('confirmPassword')}
               icon={
                 <IconButton

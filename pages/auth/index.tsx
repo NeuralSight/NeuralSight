@@ -25,9 +25,11 @@ import {
   EMAIL_REQUIRED_ERR_MSG,
   PASSWORD_LENGTH_ERR_MSG,
   PASSWORD_REQUIRED_ERR_MSG,
-} from '../../lang/auth'
+  SERVER_ERR_MSG,
+} from '../../lang/errorMessages'
 import { AuthContextType } from '../../typings'
 import { ErrorDetails } from '../../typings'
+import useErrorMsgHandler from '../../hooks/use-error-msg-handler'
 type Props = {}
 
 type State = {
@@ -57,6 +59,7 @@ function Auth({}: Props) {
 
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
+  const { setDetails, detail } = useErrorMsgHandler({ setError })
 
   const { mutate, isLoading, status } = useLogin()
 
@@ -82,25 +85,13 @@ function Auth({}: Props) {
               setError('data is not in the right format')
             }
           } else {
-            console.log('data', data.data)
             const detail = data.data.detail
-
-            if (detail && typeof detail == 'object') {
-              detail.forEach((element: ErrorDetails) => {
-                setError(element.msg)
-                console.log('type', element.type)
-                console.log('loc', element.loc)
-              })
-            } else if (detail && typeof detail == 'string') {
-              setError(detail)
-            } else {
-              setError('failed to connect, try again')
-            }
+            setDetails(detail)
           }
         },
         onError: (err) => {
           console.error('error', err)
-          setError('oops, something went wrong with the server, try again')
+          setError(SERVER_ERR_MSG)
         },
         onSettled: () => {
           console.log('settled')

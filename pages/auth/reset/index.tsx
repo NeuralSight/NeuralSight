@@ -11,11 +11,13 @@ import Footer from '../../../components/Footer'
 import {
   EMAIL_INCORRECT_ERR_MSG,
   EMAIL_REQUIRED_ERR_MSG,
-} from '../../../lang/auth'
+  SERVER_ERR_MSG,
+} from '../../../lang/errorMessages'
 import useRecover from '../../../hooks/use-recover'
 import { useState } from 'react'
 import { ErrorDetails } from '../../../typings'
 import Message from '../../../components/Message'
+import useErrorMsgHandler from '../../../hooks/use-error-msg-handler'
 type Props = {}
 
 type State = {
@@ -33,7 +35,7 @@ function Reset({}: Props) {
   // error
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
-
+  const { setDetails, detail } = useErrorMsgHandler({ setError })
   // use recover
   const { mutate, isLoading, status, isSuccess } = useRecover()
 
@@ -55,23 +57,12 @@ function Reset({}: Props) {
           }
         } else {
           const detail = response.data.detail
-
-          if (detail && typeof detail == 'object') {
-            detail.forEach((element: ErrorDetails) => {
-              setError(element.msg)
-              console.log('type', element.type)
-              console.log('loc', element.loc)
-            })
-          } else if (detail && typeof detail == 'string') {
-            setError(detail)
-          } else {
-            setError('failed to connect, try again')
-          }
+          setDetails(detail)
         }
       },
       onError: (err) => {
         console.error('error', err)
-        setError('oops, something went wrong with the server, try again')
+        setError(SERVER_ERR_MSG)
       },
       onSettled: () => {
         console.log('settled')
