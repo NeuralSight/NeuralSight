@@ -22,6 +22,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     console.log('api_token', api_token)
     if (api_token) {
       // okay
+      //TODO:remember to unexpose the token and other critcal backend inf such as the key
       res.status(201).json(api_token)
     } else {
       // unauthorized
