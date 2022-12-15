@@ -12,15 +12,12 @@ import { fetchPatients } from '../utils/config'
 
 function Dashboard() {
   const router = useRouter()
-  const queryClient = useQueryClient()
-  const patients: any = queryClient.getQueriesData<PatientResult[]>([
-    'patients',
-  ])
-  const [active, setActive] = useState<string>(patients[0].id)
+  const [active, setActive] = useState<string>('')
 
   const authContext = useContext<AuthContextType | null>(AuthContext)
   useEffect(() => {
     authContext?.getAuthState()
+
     // checks if the user is authenticated
 
     !authContext?.isUserAuthenticated() && authContext?.authState !== undefined
@@ -41,7 +38,7 @@ function Dashboard() {
           <PatientIDSection active={active} setActive={setActive} />
         </section>
         <section className='h-full lg:h-[94%] w-full lg:w-[55%] xl:w-[70%]'>
-          <MainContentSection />
+          <MainContentSection active={active} setActive={setActive} />
         </section>
       </main>
     </Layout>
