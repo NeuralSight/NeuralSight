@@ -14,6 +14,8 @@ import Loading from '../../pages/loading'
 import usePostPatient from '../../hooks/use-post-patient'
 import { PatientResult } from '../../typings'
 import { reverse } from '../../helper/reverseArray'
+import PatientIdCardSkeleton from '../skeletons/PatientIdCard'
+import { generateRandomString } from '../../helper/randomStringGenerator'
 
 type Props = {
   active: string
@@ -54,17 +56,29 @@ function PatientIdSection({ active, setActive }: Props) {
 
   const query = useQuery(
     ['patients'],
-    async () => (await fetchPatients()).json() as Promise<PatientResult[]>
+    async () => (await fetchPatients()).json() as Promise<PatientResult[]>,
+    {}
   )
 
   const NO_ID_TO_SHOW_BY_DEFAULT = 10
   const patientArr = query.data
+
   // sort to start with the latest use reverse function since the last element is latest
   const sortByDate = reverse(patientArr || [])
+
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     setActive(sortByDate[0].id)
+  //   }
+  // }, [isSuccess, setActive, sortByDate])
+
   console.log('sortByDate', sortByDate)
   // slice the elements
   const filterTenLatest = sortByDate?.slice(0, NO_ID_TO_SHOW_BY_DEFAULT)
   // include a filter for the search query
+
+  // skeleton values
+  const skeletonArray = new Array(10)
 
   useEffect(() => {
     setTimeout(() => {
@@ -155,12 +169,21 @@ function PatientIdSection({ active, setActive }: Props) {
             {patient.id}
           </PatientIdCard>
         ))}
-      {filterTenLatest?.length == 0 && (
+      {patientArr?.length == 0 && (
         <p className='text-base font-medium text-gray-500 px-3'>
           No Patient ID
         </p>
       )}
-      {query.isLoading && <Loading />}
+      {query.isLoading && (
+        <div className='px-3 space-y-2'>
+          {skeletonArray.map(() => (
+            <PatientIdCardSkeleton
+              key={generateRandomString(128)}
+              height={'40px'}
+            />
+          ))}
+        </div>
+      )}
       {query.isError && (
         <p className='font-medium text-red-500 px-3'>{SERVER_ERR_MSG}</p>
       )}
