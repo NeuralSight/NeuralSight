@@ -16,8 +16,7 @@ import Button from '../../Button'
 import ErrorMessage from '../../Message'
 import FilePreviewCard from './FilePreviewCard'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { predictPatientImage } from '../../../services/patient-api'
-import { AuthContext } from '../../../context/auth-context'
+import { postPatientImage } from '../../../utils/config'
 import useErrorMsgHandler from '../../../hooks/use-error-msg-handler'
 import { ContentType } from '../../../lang/content-type'
 
@@ -43,12 +42,6 @@ const UploadFile = (props: Props) => {
     e.preventDefault()
     props.setOpen(false)
   }
-
-  // authContext
-  const authContext = useContext(AuthContext)
-
-  // token
-  const token = authContext?.authState
 
   // use query
   const currentClient = useQueryClient()
@@ -120,7 +113,7 @@ const UploadFile = (props: Props) => {
     }
   }
 
-  const { isLoading, mutate, status } = useMutation(predictPatientImage, {
+  const { isLoading, mutate, status } = useMutation(postPatientImage, {
     onMutate: async (newPatient) => {
       // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
       // await currentClient.cancelQueries('patients')
@@ -140,8 +133,7 @@ const UploadFile = (props: Props) => {
     // if clicks save changes upload the files
 
     //image data
-    const imageData: PatientPredictImage = {
-      token: token || '',
+    const imageData = {
       file: fileInfo && fileInfo[0],
       patientId: props.patientId || 'testid',
     }
