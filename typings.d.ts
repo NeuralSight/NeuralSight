@@ -62,8 +62,9 @@ export interface Report {
   token: string
 }
 
-export interface PatientPredictImage extends Patient {
-  file: File | undefined
+export interface PatientPredictImage {
+  formdata: FormData
+  token: string
 }
 export interface PatientUpdateReport extends Report {
   report: string
