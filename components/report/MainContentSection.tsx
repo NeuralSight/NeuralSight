@@ -14,11 +14,13 @@ import ModelResults from './model-results'
 import EditReport from './EditReportModal'
 
 type Props = {
-  active: number
-  setActive: Dispatch<SetStateAction<number>>
+  active: string
+  setActive: Dispatch<SetStateAction<string>>
 }
 
 const MainContentSection = ({ active, setActive }: Props) => {
+  console.log('active', active)
+
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false)
   const isLargeDevice = useMediaQuery(`( min-width: ${SCREEN.lg} )`)
   const [isOpenModal, setModalOpen] = useState<boolean>(false)
@@ -44,7 +46,7 @@ const MainContentSection = ({ active, setActive }: Props) => {
           )}
           {isLargeDevice || (
             <BurgerMenu isOpen={isOpenMenu} setIsOpen={setIsOpenMenu}>
-              {<PatientIdSection />}
+              {<PatientIdSection active={active} setActive={setActive} />}
             </BurgerMenu>
           )}
           <p className='text-gray-500 font-light italic h-full capitalize'>
