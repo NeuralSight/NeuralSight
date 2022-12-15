@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react'
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { useMediaQuery } from '@mui/material'
 import DiseaseTypeSelection from '../DiseaseTypeSelection'
 import NeuralLabsTextLogo from '../NeuralLabsTextLogo'
@@ -15,8 +15,13 @@ import { SCREEN } from '../../helper/responsive'
 import BurgerMenu from '../BurgerMenu'
 import PatientIdSection from './PatientIdSection'
 import MainSectionNavBar from '../MainSectionNavBar'
+import { useQuery } from '@tanstack/react-query'
+import { fetchPatientReport } from '../../utils/config'
 
-type Props = {}
+type Props = {
+  active: string
+  setActive: Dispatch<SetStateAction<string>>
+}
 
 // to removed when actual data is introduced
 export const SampleImagesArr: ImageDetails[] = [
@@ -76,7 +81,7 @@ export const SampleImagesArr: ImageDetails[] = [
   },
 ]
 
-const MainContentSection = (props: Props) => {
+const MainContentSection = ({ active, setActive }: Props) => {
   const [isOpen, setModalOpen] = useState<boolean>(false)
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false)
   // toggle state between listView and grid
@@ -86,6 +91,11 @@ const MainContentSection = (props: Props) => {
   // query
   const isLargeDevice = useMediaQuery(`( min-width: ${SCREEN.lg} )`)
   const isMediumDevice = useMediaQuery(`( min-width: ${SCREEN.md} )`)
+
+  const query = useQuery(['patients', active], async () =>
+    (await fetchPatientReport(active)).json()
+  )
+  console.log('query patient report', query.data)
 
   return (
     <div className='w-full h-[94%] flex flex-col gap-6'>
@@ -100,7 +110,7 @@ const MainContentSection = (props: Props) => {
           )}
           {isLargeDevice || (
             <BurgerMenu isOpen={isOpenMenu} setIsOpen={setIsOpenMenu}>
-              {<PatientIdSection />}
+              {<PatientIdSection active={active} setActive={setActive} />}
             </BurgerMenu>
           )}
           {isMediumDevice && (
@@ -176,6 +186,7 @@ const MainContentSection = (props: Props) => {
             </button>
           </div>
         </div>
+        {query.isError && <div>The patient does not exist</div>}
         <div className=' w-full h-full lg:h-[94%] bg-gray-50/5 backdrop-blur lg:rounded-bl-2xl lg:rounded-br-2xl overflow-y-hidden'>
           <div className=' h-full lg:h-[94%] w-full px-4 bg-white lg:overflow-y-scroll lg:scrollbar-thin lg:scrollbar-thumb-primary-light lg:scrollbar-track-primary-light/20  lg:scrollbar-track-rounded-full lg:scroll-smooth'>
             {!isListView ? (
@@ -199,6 +210,7 @@ const MainContentSection = (props: Props) => {
                 </div>
               )
             )}
+
             <Modal
               open={isOpen}
               setOpen={setModalOpen}
