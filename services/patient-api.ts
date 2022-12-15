@@ -1,3 +1,4 @@
+import { NextApiRequest, NextApiResponse } from 'next'
 import { ContentType } from '../lang/content-type'
 import {
   changeObjToFormUrlencoded,
@@ -21,21 +22,22 @@ export const postPatient = async ({ patientId, token }: Patient) => {
 }
 
 // post patient image for prediction
-export const predictPatientImage = async ({
-  patientId,
-  token,
-  file,
-}: PatientPredictImage) => {
-  const formdata = changeObjToFormData({ patient_id: patientId, file })
-  console.log('formdata', formdata)
+export const predictPatientImage = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  token: string
+) => {
   const response = await fetch(`${Url}/predict`, {
     method: 'POST',
+    responseType: 'stream',
     headers: {
       Authorization: `Bearer ${token}`,
-      // 'Content-Type': undefined,
-    },
-    body: formdata,
+      'Content-Type': req.headers['content-type'],
+      // api key
+    }, // which is multipart/form-data with boundary included
+    body: req,
   })
+  // response.pipe(res)
   return response
 }
 
@@ -67,7 +69,7 @@ export const updatePatientReport = async ({
   report,
   token,
 }: PatientUpdateReport) => {
-  const response = await fetch(`${Url}/${reportId}`, {
+  const response = await fetch(`${Url}/report/update/${reportId}`, {
     method: 'PUT',
     headers: {
       Authorization: `Bearer ${token}`,
