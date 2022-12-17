@@ -20,6 +20,7 @@ const ImageSlides = (props: Props) => {
       grabCursor={true}
       modules={[EffectCards]}
       className='mySwiper'
+      onSlideChange={(swiper) => console.log('changed', swiper.snapIndex)}
     >
       {SampleImagesArr.map((item, key) => (
         <SwiperSlide key={key + item.patientID}>
