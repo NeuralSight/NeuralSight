@@ -5,15 +5,23 @@ type Props = {
   children: ReactNode
   idKey: string
   active?: boolean
-  setActive: React.Dispatch<React.SetStateAction<string>>
+  setActive: React.Dispatch<React.SetStateAction<string>> | undefined
   className?: string | undefined
 }
 
 const ListNavigationCard = (props: Props) => {
+  const activePatientId = () => {
+    if (props.setActive) {
+      return props.setActive(props.idKey)
+    }
+    return
+  }
+
   return (
-    <div
+    <button
       className={`cursor-pointer relative  `}
-      onClick={() => props.setActive(props.idKey)}
+      onClick={activePatientId}
+      disabled={!props.setActive}
     >
       <div
         className={`${props.className} text-sm 2xl:text-base flex items-center mx-[26px] py-2 px-6 text-center rounded-full hover:bg-primary-light/20`}
@@ -30,7 +38,7 @@ const ListNavigationCard = (props: Props) => {
           />
         </div>
       ) : null}
-    </div>
+    </button>
   )
 }
 
