@@ -1,26 +1,20 @@
 import { Icon } from '@iconify/react'
 import { useEffect, Dispatch, SetStateAction } from 'react'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { useContext } from 'react'
 import InputField from '../inputs/MUIInput'
 import ListNavigationWrapper from '../ListNavigationWrapper'
 import PatientIdCard from '../ListNavigationCard'
-import { useQuery } from '@tanstack/react-query'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import Loading from '../../pages/loading'
+import { generateRandomString } from '../../helper/randomStringGenerator'
 import {
   FIELD_REQUIRED_ERR_MSG,
   SERVER_ERR_MSG,
 } from '../../lang/errorMessages'
-import { fetchPatients } from '../../utils/config'
-import Loading from '../../pages/loading'
 import usePostPatient from '../../hooks/use-post-patient'
-import { PatientResult } from '../../typings'
-import { reverse } from '../../helper/reverseArray'
 import PatientIdCardSkeleton from '../skeletons/PatientIdCard'
-import { generateRandomString } from '../../helper/randomStringGenerator'
-
-type Props = {
-  active: string
-  setActive: Dispatch<SetStateAction<string>>
-}
+import { PatientContext } from '../../context/patient-context'
+import { PatientContextType } from '../../typings'
 
 type State = {
   patientId: string
@@ -28,7 +22,7 @@ type State = {
 
 // dark:bg-secondary-dark
 
-function PatientIdSection({ active, setActive }: Props) {
+function PatientIdSection() {
   //hook for post patient
   const {
     setPatient,
@@ -42,6 +36,8 @@ function PatientIdSection({ active, setActive }: Props) {
     onClick,
   } = usePostPatient()
 
+  const patientContext = useContext<PatientContextType | null>(PatientContext)
+
   const {
     register,
     handleSubmit,
@@ -54,32 +50,17 @@ function PatientIdSection({ active, setActive }: Props) {
     onClick(data.patientId)
   }
 
-  const query = useQuery(
-    ['patients'],
-    async () => (await fetchPatients()).json() as Promise<PatientResult[]>,
-    {}
+  const patientInfoArr = patientContext?.getPatientsInfo()
+  const filterTenLatest = patientContext?.getLatestPatient(
+    10,
+    patientInfoArr || []
   )
-
-  const NO_ID_TO_SHOW_BY_DEFAULT = 10
-  const patientArr = query.data
-
-  // sort to start with the latest use reverse function since the last element is latest
-  const sortByDate = reverse(patientArr || [])
-
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     setActive(sortByDate[0].id)
-  //   }
-  // }, [isSuccess, setActive, sortByDate])
-
-  console.log('sortByDate', sortByDate)
-  // slice the elements
-  const filterTenLatest = sortByDate?.slice(0, NO_ID_TO_SHOW_BY_DEFAULT)
-  // include a filter for the search query
+  const isQueryLoading = patientContext?.isLoading()
+  const isQueryError = patientContext?.isError()
+  const isQuerySuccess = patientContext?.isSuccess()
 
   // skeleton values
-  const skeletonArray = new Array(10)
-
+  const skeletonArray: number[] = new Array(10).fill(128)
   useEffect(() => {
     setTimeout(() => {
       setError(null)
@@ -155,36 +136,36 @@ function PatientIdSection({ active, setActive }: Props) {
         </div>
       }
     >
-      {query.isSuccess &&
+      {isQuerySuccess &&
         filterTenLatest?.map((patient) => (
           <PatientIdCard
             key={patient.id}
             idKey={patient.id}
-            active={patient.id === active}
-            setActive={setActive}
+            active={patient.id === patientContext?.patientId}
+            setActive={patientContext?.setPatientInfo}
             className={`justify-center ${
-              patient.id === active ? 'font-semibold' : ''
+              patient.id === patientContext?.patientId ? 'font-semibold' : ''
             }`}
           >
             {patient.id}
           </PatientIdCard>
         ))}
-      {patientArr?.length == 0 && (
+      {/* {patientInfoArr?.length == 0 && (
         <p className='text-base font-medium text-gray-500 px-3'>
           No Patient ID
         </p>
-      )}
-      {query.isLoading && (
+      )} */}
+      {isQueryLoading && (
         <div className='px-3 space-y-2'>
-          {skeletonArray.map(() => (
+          {skeletonArray.map((item: number) => (
             <PatientIdCardSkeleton
-              key={generateRandomString(128)}
+              key={generateRandomString(item)}
               height={'40px'}
             />
           ))}
         </div>
       )}
-      {query.isError && (
+      {isQueryError && (
         <p className='font-medium text-red-500 px-3'>{SERVER_ERR_MSG}</p>
       )}
     </ListNavigationWrapper>

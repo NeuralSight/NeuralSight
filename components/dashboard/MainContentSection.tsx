@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react'
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useContext, useState } from 'react'
 import { useMediaQuery } from '@mui/material'
 import DiseaseTypeSelection from '../DiseaseTypeSelection'
 import NeuralLabsTextLogo from '../NeuralLabsTextLogo'
@@ -17,6 +17,7 @@ import PatientIdSection from './PatientIdSection'
 import MainSectionNavBar from '../MainSectionNavBar'
 import { useQuery } from '@tanstack/react-query'
 import { fetchPatientReport } from '../../utils/config'
+import { PatientContext } from '../../context/patient-context'
 
 type Props = {
   active: string
@@ -81,7 +82,7 @@ export const SampleImagesArr: ImageDetails[] = [
   },
 ]
 
-const MainContentSection = ({ active, setActive }: Props) => {
+const MainContentSection = () => {
   const [isOpen, setModalOpen] = useState<boolean>(false)
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false)
   // toggle state between listView and grid
@@ -91,9 +92,10 @@ const MainContentSection = ({ active, setActive }: Props) => {
   // query
   const isLargeDevice = useMediaQuery(`( min-width: ${SCREEN.lg} )`)
   const isMediumDevice = useMediaQuery(`( min-width: ${SCREEN.md} )`)
+  const patientContext = useContext(PatientContext)
 
-  const query = useQuery(['patients', active], async () =>
-    (await fetchPatientReport(active)).json()
+  const query = useQuery(['patients', patientContext?.patientId], async () =>
+    (await fetchPatientReport(patientContext?.patientId || '')).json()
   )
   console.log('query patient report', query.data)
 
@@ -110,7 +112,7 @@ const MainContentSection = ({ active, setActive }: Props) => {
           )}
           {isLargeDevice || (
             <BurgerMenu isOpen={isOpenMenu} setIsOpen={setIsOpenMenu}>
-              {<PatientIdSection active={active} setActive={setActive} />}
+              {<PatientIdSection />}
             </BurgerMenu>
           )}
           {isMediumDevice && (
