@@ -37,6 +37,17 @@ export interface UserInfo {
   token_type?: string
 }
 
+export interface PatientContextType {
+  patientId: string | undefined
+  query: UseQueryResult<PatientResult[]>
+  setPatientInfo: Dispatch<SetStateAction<string>>
+  getPatientsInfo: () => PatientResult[]
+  getLatestPatient: (NO: number, sortByDate: PatientResult[]) => PatientResult[]
+  isLoading: () => boolean
+  isError: () => boolean
+  isSuccess: () => boolean
+}
+
 export interface AuthContextType {
   authState: string | undefined | null
   setAuthState: (user: UserInfo) => void
@@ -59,7 +70,6 @@ export interface Patient {
 }
 export interface Report {
   reportId: string
-  token: string
 }
 
 export interface PatientPredictImage {
@@ -67,6 +77,10 @@ export interface PatientPredictImage {
   token: string
 }
 export interface PatientUpdateReport extends Report {
+  token: string
+  report: string
+}
+export interface PatientReport extends Report {
   report: string
 }
 
@@ -78,6 +92,7 @@ interface User {
   address: string
   location: string
   hospital: string
+  userProfile: File // user image
 }
 export interface UserToken {
   user: User
@@ -92,9 +107,28 @@ export interface UserUpdate extends UserId {
   user: User
 }
 
+// backend data
 export interface PatientResult {
   created_at: string
   id: string
+  updated_at: string
+  user_id: number
+}
+
+export interface PatientReportResult {
+  annotation_path: string
+  created_at: string
+  id: string
+  inference_path: string
+  patient_id: string
+  report: string | null
+  updated_at: string
+}
+
+export interface PatientInfoData {
+  created_at: string
+  id: string
+  report: PatientReportResult[]
   updated_at: string
   user_id: number
 }
