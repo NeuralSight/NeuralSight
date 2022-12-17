@@ -7,18 +7,20 @@ import ListNavigationWrapper from '../ListNavigationWrapper'
 
 const SETTINGS_OPTION = [
   {
+    id: '1',
     btnName: 'Edit profile',
     icon: 'eva:edit-2-fill',
   },
   {
+    id: '2',
     btnName: 'Security & Password',
     icon: 'ic:outline-security',
   },
 ]
 
 type Props = {
-  active: number
-  setActive: Dispatch<SetStateAction<number>>
+  active: string
+  setActive: Dispatch<SetStateAction<string>>
 }
 
 const SettingOptionSection = (props: Props) => {
@@ -38,20 +40,20 @@ const SettingOptionSection = (props: Props) => {
         </div>
       }
     >
-      {SETTINGS_OPTION.map((item, key) => (
+      {SETTINGS_OPTION.map((item) => (
         <ListNavigationCard
-          idKey={key}
+          idKey={item.id}
           setActive={props.setActive}
-          key={key}
-          active={key === props.active}
+          key={item.id}
+          active={item.id === props.active}
           className={`font-medium ${
-            props.active === key ? 'text-zinc-800' : 'text-zinc-500'
+            props.active === item.id ? 'text-zinc-800' : 'text-zinc-500'
           }`}
         >
           <Icon
             icon={item.icon}
             className={`h-6 w-6 fill-current mr-1 ${
-              props.active === key && 'text-primary-light'
+              props.active === item.id && 'text-primary-light'
             }`}
           />
           <p>{item.btnName}</p>

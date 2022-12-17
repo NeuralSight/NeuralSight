@@ -11,7 +11,7 @@ import Loading from '../loading'
 type Props = {}
 
 function Settings({}: Props) {
-  const [active, setActive] = useState<number>(0)
+  const [active, setActive] = useState<string>('1')
   const router = useRouter()
   const authContext = useContext<AuthContextType | null>(AuthContext)
   useEffect(() => {

@@ -64,7 +64,7 @@ const EditPassword = (props: Props) => {
       />
       <InputField
         type='password'
-        label='confirm passowrd'
+        label='confirm password'
         control={control}
         spaceY='2'
         fieldName='confirmpass'
