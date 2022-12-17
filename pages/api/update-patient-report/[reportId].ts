@@ -14,6 +14,7 @@ export default async function handler(
   const api_token = cookies.user
 
   let { reportId } = req.query
+  console.log('reportId', reportId)
 
   if (reportId && typeof reportId != 'string') {
     // incase of string array this might change or never
@@ -23,6 +24,8 @@ export default async function handler(
   }
 
   const report = JSON.parse(req.body)
+  console.log('report', report)
+
   const response = await updatePatientReport({
     token: api_token || '',
     reportId,

@@ -1,11 +1,15 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getPatientImageReport } from '../../../services/patient-api'
-import { PatientResult } from '../../../typings'
+import { PatientReportResult, PatientInfoData } from '../../../typings'
 
+type Data = {
+  patient: PatientInfoData
+  'patient report': PatientReportResult[]
+}
 export default async function getPatients(
   req: NextApiRequest,
-  res: NextApiResponse<PatientResult[]>
+  res: NextApiResponse<Data>
 ) {
   const { cookies } = req
   const api_token = cookies.user || ''
@@ -21,7 +25,7 @@ export default async function getPatients(
     patientId: patient || '',
     token: api_token,
   })
-  const data = await response.json()
+  const data: Data = (await response.json()) as Data
   console.log('data', data)
-  res.status(response.status).json(data?.patients || data)
+  res.status(response.status).json(data)
 }

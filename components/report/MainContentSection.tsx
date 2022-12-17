@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useContext, useState } from 'react'
 import parse from 'html-react-parser'
 import { formatDate } from '../../helper/datesFormatter'
 import { SCREEN } from '../../helper/responsive'
@@ -12,19 +12,52 @@ import NeuralLabsTextLogo from '../NeuralLabsTextLogo'
 import ImageSlides from './image-slides'
 import ModelResults from './model-results'
 import EditReport from './EditReportModal'
+import { PatientContext } from '../../context/patient-context'
+import { useQuery } from '@tanstack/react-query'
+import {
+  ErrorDetails,
+  PatientContextType,
+  PatientInfoData,
+  PatientReportResult,
+} from '../../typings'
+import { fetchPatientReport } from '../../utils/config'
+import useErrorMsgHandler from '../../hooks/use-error-msg-handler'
+import Loading from '../../pages/loading'
 
-type Props = {
-  active: string
-  setActive: Dispatch<SetStateAction<string>>
+type Data = {
+  patient: PatientInfoData
+  'patient report': PatientReportResult[]
 }
 
-const MainContentSection = ({ active, setActive }: Props) => {
-  console.log('active', active)
-
+const MainContentSection = () => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false)
   const isLargeDevice = useMediaQuery(`( min-width: ${SCREEN.lg} )`)
   const [isOpenModal, setModalOpen] = useState<boolean>(false)
   const [date, setDate] = useState<Date>(new Date('Dec/09/2022 10:40:00'))
+  const patientContext = useContext<PatientContextType | null>(PatientContext)
+  const [error, setError] = useState<string | null>(null)
+  const { setDetails } = useErrorMsgHandler({ setError })
+
+  const query = useQuery(
+    ['patients', patientContext?.patientId],
+    async () =>
+      (
+        await fetchPatientReport(patientContext?.patientId || '')
+      ).json() as Promise<Data>,
+    {
+      onSuccess: (data) => {},
+      onError: (error: ErrorDetails[] | undefined) => {
+        // setError
+        setDetails(error)
+      },
+    }
+  )
+  console.log('query patient report', query.data)
+
+  const patientReportArray: PatientReportResult[] =
+    query.data?.['patient report'] || []
+
+  console.log('patientReportArray', patientReportArray)
 
   const handlePrintReport = () => {
     window.print()
@@ -33,20 +66,27 @@ const MainContentSection = ({ active, setActive }: Props) => {
     // handle download the report to pdf
   }
 
+  if (query.isError) {
+    return <>their was an error</>
+  }
+  if (query.isLoading) {
+    return <Loading />
+  }
+
   return (
     <div className='w-full h-full print:flex-none flex flex-col gap-6 '>
       <MainSectionNavBar>
-        <div className=' flex items-center'>
+        <div className=' flex items-center space-x-1'>
           {isLargeDevice || (
             <Icon
               icon='ant-design:menu-outlined'
-              className='h-7 w-7 text-gray-600 active:text-primary-light'
+              className='h-7 w-7 text-gray-600 active:text-primary-light '
               onClick={() => setIsOpenMenu(true)}
             />
           )}
           {isLargeDevice || (
             <BurgerMenu isOpen={isOpenMenu} setIsOpen={setIsOpenMenu}>
-              {<PatientIdSection active={active} setActive={setActive} />}
+              {<PatientIdSection />}
             </BurgerMenu>
           )}
           <p className='text-gray-500 font-light italic h-full capitalize'>
@@ -54,7 +94,7 @@ const MainContentSection = ({ active, setActive }: Props) => {
           </p>
         </div>
         {isLargeDevice && <NeuralLabsTextLogo />}
-        <div className='italic text-gray-400 text-sm'>
+        <div className='italic text-gray-400 text-xs lg:text-sm'>
           600d475fa96e305as2e48c9cfbb851qs
         </div>
       </MainSectionNavBar>
@@ -122,7 +162,7 @@ const MainContentSection = ({ active, setActive }: Props) => {
       <EditReport
         isOpen={isOpenModal}
         setModalOpen={setModalOpen}
-        reportId=''
+        reportId={patientReportArray[0].id}
       />
     </div>
   )

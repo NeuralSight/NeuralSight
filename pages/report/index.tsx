@@ -1,7 +1,6 @@
 import { useContext, useEffect } from 'react'
 import Layout from '../layout'
 import PatientIDSection from '../../components/dashboard/PatientIdSection'
-import { useState } from 'react'
 import MainContentSection from '../../components/report/MainContentSection'
 import { AuthContextType } from '../../typings'
 import { AuthContext } from '../../context/auth-context'
@@ -12,8 +11,9 @@ type Props = {}
 
 function Report({}: Props) {
   const router = useRouter()
-  const [active, setActive] = useState<number>(0)
+
   const authContext = useContext<AuthContextType | null>(AuthContext)
+
   useEffect(() => {
     authContext?.getAuthState()
     // checks if the user is authenticated
@@ -36,7 +36,7 @@ function Report({}: Props) {
           <PatientIDSection />
         </section>
         <section className='w-full lg:w-[55%] xl:w-[70%]'>
-          <MainContentSection active={active} setActive={setActive} />
+          <MainContentSection />
         </section>
       </main>
     </Layout>
