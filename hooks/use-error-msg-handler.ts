@@ -6,6 +6,12 @@ interface ErrorHandler {
   setError: Dispatch<SetStateAction<string | null>>
 }
 
+/**
+ *
+ * @param {ErrorHandler} error.setError error state handler
+ * @returns  setDetails and detail
+ */
+
 export default function useErrorMsgHandler({ setError }: ErrorHandler) {
   const [detail, setDetails] = useState<ErrorDetails[] | string | undefined>()
   useEffect(() => {
