@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie'
 import { ReactNode, useState } from 'react'
 import { createContext } from 'react'
 import { UserInfo, AuthContextType } from '../typings'
@@ -53,5 +52,5 @@ const AuthProvider = ({ children }: Props) => {
     </AuthContext.Provider>
   )
 }
-AuthProvider.getServerSideProps = () => {}
+
 export { AuthContext, AuthProvider }

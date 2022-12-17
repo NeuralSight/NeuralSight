@@ -1,5 +1,3 @@
-import * as React from 'react'
-import Box from '@mui/material/Box'
 import Skeleton from '@mui/material/Skeleton'
 
 type Props = {
@@ -16,13 +14,11 @@ export default function PatientIdCardSkeleton({
   height,
 }: Props) {
   return (
-    // <Box sx={{ width: 'full', height: height }}>
     <Skeleton
       animation={style}
       width={'full'}
       height={height}
       sx={{ borderRadius: '10px' }}
     />
-    // </Box>
   )
 }
