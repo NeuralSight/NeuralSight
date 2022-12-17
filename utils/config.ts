@@ -1,3 +1,4 @@
+import { PatientReport } from './../typings.d'
 /**
  * all the request to api will be written here
  */
@@ -24,7 +25,7 @@ export const postPatient = async (patientId: string) => {
 }
 // fetch patients reports
 
-export const fetchPatientReport = async (patientId: string) =>
+export const fetchPatientReport = async (patientId: string | number) =>
   await fetch(`/api/get-patient-report/${patientId}`)
 
 // post and predict a patient image
@@ -33,19 +34,21 @@ export const postPatientImage = async ({
   file,
 }: PostPatientImage) => {
   const formdata = changeObjToFormData({ patient_id: patientId, file })
-  const response = await fetch(
-    `http://d1fa-197-248-65-3.ngrok.io/v1/api/image-upload`,
-    {
-      method: 'POST',
-      body: formdata,
-    }
-  )
+  const response = await fetch(`/api/image-upload`, {
+    method: 'POST',
+    body: formdata,
+  })
   return response
 }
-//  update patient report
 
-export const updatePatientReport = async (reportId: string, report: string) =>
-  await fetch(`/api/update-patient-report/${reportId}`, {
+//  update patient report
+export const updatePatientReport = async ({
+  reportId,
+  report,
+}: PatientReport) => {
+  const stringified = JSON.stringify(report)
+  return await fetch(`/api/update-patient-report/${reportId}`, {
     method: 'PUT',
-    body: JSON.stringify(report),
+    body: stringified,
   })
+}
