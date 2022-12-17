@@ -3,10 +3,10 @@ import React from 'react'
 
 const NeuralLabsTextLogo = () => {
   return (
-    <div className='flex space-x-1 items-center'>
+    <div className='flex  items-center'>
       <h2
         style={{ fontFamily: 'Oswald' }}
-        className='font-medium text-sm md:text-xl tracking-widest uppercase text-primary-dark my-auto align-middle text-centez flex'
+        className='font-medium text-base xl:text-xl tracking-widest uppercase text-primary-dark my-auto align-middle text-centez flex'
       >
         Neural Sight{' '}
       </h2>
