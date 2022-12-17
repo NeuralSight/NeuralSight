@@ -12,7 +12,6 @@ import { fetchPatients } from '../utils/config'
 
 function Dashboard() {
   const router = useRouter()
-  const [active, setActive] = useState<string>('')
 
   const authContext = useContext<AuthContextType | null>(AuthContext)
   useEffect(() => {
@@ -35,10 +34,10 @@ function Dashboard() {
     <Layout>
       <main className='w-full h-[94%] flex pt-6 justify-evenly'>
         <section className='hidden lg:block h-full w-full lg:w-auto xl:w-auto'>
-          <PatientIDSection active={active} setActive={setActive} />
+          <PatientIDSection />
         </section>
         <section className='h-full lg:h-[94%] w-full lg:w-[55%] xl:w-[70%]'>
-          <MainContentSection active={active} setActive={setActive} />
+          <MainContentSection />
         </section>
       </main>
     </Layout>
