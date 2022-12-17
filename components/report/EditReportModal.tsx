@@ -6,13 +6,11 @@ import {
   useState,
   MouseEvent,
   SyntheticEvent,
-  useContext,
 } from 'react'
 import Button from '../Button'
 import { useMutation } from '@tanstack/react-query'
-import { updatePatientReport } from '../../services/patient-api'
-import { PatientUpdateReport } from '../../typings'
-import { AuthContext } from '../../context/auth-context'
+import { updatePatientReport } from '../../utils/config'
+import { PatientReport } from '../../typings'
 import useErrorMsgHandler from '../../hooks/use-error-msg-handler'
 import ErrorMessage from '../Message'
 
@@ -29,11 +27,6 @@ const EditReport = ({ isOpen, setModalOpen, reportId }: Props) => {
   const [report, setReport] = useState<string>(
     '<p>Opacity is observed in the right lung and left lower zone. Inhomogeneous Opacity, probable Consolidation is observed in bilateral lower zones. Pleural Effusion is observed in bilateral lower zones and right mid zone Blunting of CP angle is observed in bilateral lower zonesThe heart is enlarged. CardiomegalyBoth hila appear normalBony thorax appears unremarkable</p>'
   )
-  // authContext
-  const authContext = useContext(AuthContext)
-
-  // token
-  const token = authContext?.authState
 
   const { isLoading, mutate, status } = useMutation(updatePatientReport, {
     onMutate: async (report) => {
@@ -45,6 +38,7 @@ const EditReport = ({ isOpen, setModalOpen, reportId }: Props) => {
       // currentClient.setQueryData('patients', (old) => [...old, newPatient])
       // Return a context object with the snapshotted value
       // return { previousPatients }
+      console.log('report', report)
     },
   })
   // handle Submit
@@ -54,10 +48,9 @@ const EditReport = ({ isOpen, setModalOpen, reportId }: Props) => {
     // if clicks save changes upload the files
 
     //image data
-    const patientData: PatientUpdateReport = {
+    const patientData: PatientReport = {
       reportId: reportId,
       report: report,
-      token: token || '',
     }
 
     mutate(patientData, {
