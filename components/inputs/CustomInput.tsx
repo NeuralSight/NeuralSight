@@ -1,12 +1,20 @@
 import { useState } from 'react'
-import { Control, FieldValues, useController } from 'react-hook-form'
+import { Control, FieldError, useController } from 'react-hook-form'
+import { NewUser } from '../../typings'
 
 type Props = {
   label: string
   type: 'text' | 'tel' | 'password' | 'number' | 'email'
   icon?: React.ReactNode | undefined
-  control: Control<FieldValues>
-  fieldName: string
+  control: Control<NewUser>
+  fieldName:
+    | 'email'
+    | 'firstname'
+    | 'lastname'
+    | 'address'
+    | 'location'
+    | 'phone'
+    | 'hospital'
   rules?: object
   spaceY?: '1' | '2' | '3' | '4' | '5' | '6'
   placeholder?: string | undefined
@@ -14,6 +22,7 @@ type Props = {
   min?: number
   defaultValue?: string | undefined
   className?: string
+  error?: FieldError
 }
 
 const CustomInput = (props: Props) => {
@@ -67,6 +76,11 @@ const CustomInput = (props: Props) => {
             : ' hover:outline-1 hover:outline-secondary-dark bg-gray-100'
         }`}
       />
+      {props.error && (
+        <p className='text-sm text-red-500 font-semibold'>
+          {props.error.message}
+        </p>
+      )}
     </div>
   )
 }
