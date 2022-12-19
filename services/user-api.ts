@@ -1,43 +1,48 @@
+import { NextApiRequest, NextApiResponse } from 'next'
 import { ContentType } from '../lang/content-type'
-import {
-  changeObjToFormUrlencoded,
-  changeObjToFormData,
-} from '../helper/changeObjToOtherFormats'
-import { UserId, UserToken, UserUpdate } from '../typings'
 
-const Url = `${process.env.NEXT_PUBLIC_NEURALSIGHT_API_BASE_URL}/user`
+import { NewUser, User } from '../typings'
+
+const Url = `${process.env.NEXT_PUBLIC_NEURALSIGHT_API_BASE_URL}/users`
 // get a user
-export const getUserImageReport = async ({ userId, token }: UserId) => {
-  const response = await fetch(`${Url}/${userId}`, {
+export const getUserImageReport = async (token: string) => {
+  const response = await fetch(`${Url}/me`, {
     headers: {
-      Authorization: token,
-      'Content-Type': ContentType.FormData,
+      'Content-Type': ContentType.Json,
+      Authorization: `Bearer ${token}`,
     },
   })
   return response
 }
 // post a user
-export const postUser = async ({ user, token }: UserToken) => {
+export const postUser = async (user: NewUser, token: string) => {
   const response = await fetch(Url, {
     method: 'POST',
     headers: {
-      Authorization: token,
-      'Content-Type': ContentType.FormData,
+      'Content-Type': ContentType.Json,
+      Authorization: `Bearer ${token}`,
     },
-    body: changeObjToFormUrlencoded(user),
+    body: JSON.stringify(user),
   })
   return response
 }
 // update user information
 
-export const updateUserInfo = async ({ user, userId, token }: UserUpdate) => {
-  const response = await fetch(`${URL}/${userId}`, {
+export const updateUserInfo = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  token: string
+) => {
+  const response = await fetch(`${Url}/profile/update`, {
     method: 'PUT',
+    responseType: 'stream',
     headers: {
-      Authorization: token,
-      'Content-Type': ContentType.FormData,
-    },
-    body: JSON.stringify(user),
+      Authorization: `Bearer ${token}`,
+      'Content-Type': req.headers['content-type'],
+      // api key
+    }, // which is multipart/form-data with boundary included
+    body: req,
   })
+  // response.pipe(res)
   return response
 }
