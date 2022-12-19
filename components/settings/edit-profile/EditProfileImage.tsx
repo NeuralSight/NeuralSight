@@ -1,15 +1,24 @@
 import { Icon } from '@iconify/react'
 import Image from 'next/image'
-import { ChangeEvent, useRef, useState, useEffect } from 'react'
+import {
+  ChangeEvent,
+  useRef,
+  useState,
+  useEffect,
+  SetStateAction,
+  Dispatch,
+} from 'react'
 import { FileTypeError } from '../../../typings'
 
-type Props = {}
+type Props = {
+  profileImage: File | undefined
+  setProfileImage: Dispatch<SetStateAction<File | undefined>>
+}
 
-const EditProfileImage = (props: Props) => {
-  const [selectedFile, setSelectedFile] = useState<File | undefined | null>(
-    null
-  )
+const EditProfileImage = ({ profileImage, setProfileImage }: Props) => {
+  const [selectedFile, setSelectedFile] = useState<File | undefined>()
   const [preview, setPreview] = useState<string | undefined>()
+  const [imageError, setError] = useState<FileTypeError | null>(null)
   // create a preview as a side effect, whenever selected file is changed
   useEffect(() => {
     if (!selectedFile) {
@@ -19,11 +28,11 @@ const EditProfileImage = (props: Props) => {
 
     const objectUrl = URL.createObjectURL(selectedFile)
     setPreview(objectUrl)
-
+    setProfileImage(selectedFile)
     // free memory when ever this component is unmounted
     return () => URL.revokeObjectURL(objectUrl)
-  }, [selectedFile])
-  const [imageError, setError] = useState<FileTypeError | null>(null)
+  }, [selectedFile, setProfileImage])
+
   const onSelectFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) {
       setSelectedFile(undefined)
@@ -53,6 +62,11 @@ const EditProfileImage = (props: Props) => {
   const inputRef = useRef<HTMLInputElement>(null)
   return (
     <div className='flex relative h-fit'>
+      {imageError && (
+        <p className='text-sm text-red-500 font-semibold'>
+          {imageError.message}
+        </p>
+      )}
       <Image
         className='relative h-24 w-24 lg:h-32 lg:w-32 rounded-full border-2 border-primary-light object-cover'
         src={
