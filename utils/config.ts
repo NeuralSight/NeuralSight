@@ -1,4 +1,4 @@
-import { PatientReport } from './../typings.d'
+import { PatientReport, User } from './../typings.d'
 /**
  * all the request to api will be written here
  */
@@ -51,4 +51,24 @@ export const updatePatientReport = async ({
     method: 'PUT',
     body: stringified,
   })
+}
+
+// get user info
+
+export const fetchUserInfo = async () => {
+  const response = await (await fetch(`/api/get-user`)).json()
+
+  return response
+}
+
+// update user info
+
+export const updateUser = async (user: User) => {
+  console.log('user', user)
+  const formdata = changeObjToFormData(user)
+  const response = await fetch(`/api/update-user`, {
+    method: 'PUT',
+    body: formdata,
+  })
+  return response
 }
