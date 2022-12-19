@@ -6,7 +6,11 @@ import NeuralLabsTextLogo from '../NeuralLabsTextLogo'
 import ViewToggleBtn from '../ViewToggleBtn'
 import AddImageBtn from '../AddImageBtn'
 import GridViewImageCard from './GridViewImageCard'
-import { ImageDetails } from '../../typings'
+import {
+  ImageDetails,
+  PatientInfoData,
+  PatientReportResult,
+} from '../../typings'
 import ImageSample from '../../public/images/trial.jpeg'
 import ListViewImageCard from './list-view-image-card'
 import UploadFile from './upload-file'
@@ -18,10 +22,16 @@ import MainSectionNavBar from '../MainSectionNavBar'
 import { useQuery } from '@tanstack/react-query'
 import { fetchPatientReport } from '../../utils/config'
 import { PatientContext } from '../../context/patient-context'
+import { getObject } from '../../lib/aws-get-object'
+import useGetAWSfile from '../../hooks/use-get-aws-file'
 
 type Props = {
   active: string
   setActive: Dispatch<SetStateAction<string>>
+}
+type Data = {
+  patient: PatientInfoData
+  'patient report': PatientReportResult[]
 }
 
 // to removed when actual data is introduced
@@ -85,6 +95,7 @@ export const SampleImagesArr: ImageDetails[] = [
 const MainContentSection = () => {
   const [isOpen, setModalOpen] = useState<boolean>(false)
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false)
+
   // toggle state between listView and grid
   const [isListView, setIsListView] = useState<boolean>(false)
   // set DiseaseType
@@ -94,10 +105,18 @@ const MainContentSection = () => {
   const isMediumDevice = useMediaQuery(`( min-width: ${SCREEN.md} )`)
   const patientContext = useContext(PatientContext)
 
-  const query = useQuery(['patients', patientContext?.patientId], async () =>
-    (await fetchPatientReport(patientContext?.patientId || '')).json()
+  const query = useQuery(
+    ['patients', patientContext?.patientId],
+    async () =>
+      (
+        await fetchPatientReport(patientContext?.patientId || '')
+      ).json() as Promise<Data>
   )
   console.log('query patient report', query.data)
+  const imagePathQuery = useGetAWSfile(
+    query.data?.['patient report'][0].inference_path || ''
+  )
+  console.log('imagePathQuery', imagePathQuery.data)
 
   return (
     <div className='w-full h-[94%] flex flex-col gap-6'>
