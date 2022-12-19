@@ -24,7 +24,8 @@ const PatientProvider = ({ children }: Props) => {
       // onSuccess onError onFinish
       onSuccess: (data: PatientResult[]) => {
         currentClient.setQueryData(['patients'], data)
-        setPatient(data[0].id)
+        // only if their is an id then set it
+        data[0] && setPatient(data[0].id)
       },
     }
   )
