@@ -1,14 +1,14 @@
 import { Dispatch, SetStateAction } from 'react'
 
 // ImageDetails
-export interface AnyObject {
+interface AnyObject {
   [key: string]: any
 }
-export interface Pathogen {
+interface Pathogen {
   type: string
   confidence: string
 }
-export interface ImageDetails {
+interface ImageDetails {
   patientID: string
   modality: string
   src: string | import('../dist/client/image').StaticImageData
@@ -27,17 +27,17 @@ interface FileInfo {
   webkitRelativePath: string
 }
 
-export interface FileTypeError {
+interface FileTypeError {
   type: 'FILETYPE_ERR' | 'FILESIZE_ERR' | 'FILES_SELECTED_ERR'
   message?: string | 'oops something went wrong'
 }
 
-export interface UserInfo {
+interface UserInfo {
   access_token: string
   token_type?: string
 }
 
-export interface PatientContextType {
+interface PatientContextType {
   patientId: string | undefined
   query: UseQueryResult<PatientResult[]>
   setPatientInfo: Dispatch<SetStateAction<string>>
@@ -48,7 +48,7 @@ export interface PatientContextType {
   isSuccess: () => boolean
 }
 
-export interface AuthContextType {
+interface AuthContextType {
   authState: string | undefined | null
   setAuthState: (user: UserInfo) => void
   getAuthState: () => void
@@ -57,65 +57,64 @@ export interface AuthContextType {
 }
 
 // fast api error
-export interface ErrorDetails {
+interface ErrorDetails {
   loc: Array<string>
   msg: string
   type: string
 }
 
 // patient types
-export interface Patient {
+interface Patient {
   patientId: string
   token: string
 }
-export interface Report {
+interface Report {
   reportId: string
 }
 
-export interface PatientPredictImage {
+interface PatientPredictImage {
   formdata: FormData
   token: string
 }
-export interface PatientUpdateReport extends Report {
+interface PatientUpdateReport extends Report {
   token: string
   report: string
 }
-export interface PatientReport extends Report {
+interface PatientReport extends Report {
   report: string
 }
 
-// user types
-interface User {
-  name: string
+interface NewUser {
   email: string
-  phone: string
+  firstname: string
+  lastname: string
   address: string
   location: string
+  phone: string
   hospital: string
-  userProfile: File // user image
 }
-export interface UserToken {
-  user: User
-  token: string
-}
-export interface UserId {
-  token: string
-  userId: string
-}
-
-export interface UserUpdate extends UserId {
-  user: User
+// user types
+interface User {
+  email: string
+  full_name: string
+  address: string
+  location: string
+  userProfile: string | File | undefined
+  phone: string
+  hospital: string
+  is_active?: boolean
+  is_superuser?: boolean
 }
 
 // backend data
-export interface PatientResult {
+interface PatientResult {
   created_at: string
   id: string
   updated_at: string
   user_id: number
 }
 
-export interface PatientReportResult {
+interface PatientReportResult {
   annotation_path: string
   created_at: string
   id: string
@@ -125,7 +124,7 @@ export interface PatientReportResult {
   updated_at: string
 }
 
-export interface PatientInfoData {
+interface PatientInfoData {
   created_at: string
   id: string
   report: PatientReportResult[]
