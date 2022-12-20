@@ -37,17 +37,30 @@ interface UserInfo {
   token_type?: string
 }
 
+// context types
 interface PatientContextType {
   patientId: string | undefined
   query: UseQueryResult<PatientResult[]>
   setPatientInfo: Dispatch<SetStateAction<string>>
   getPatientsInfo: () => PatientResult[]
-  getLatestPatient: (NO: number, sortByDate: PatientResult[]) => PatientResult[]
+  getSearchedPatient: (searchValueKey: string) => PatientResult[]
+  getLatestPatient: (NO: number) => PatientResult[]
   isLoading: () => boolean
   isError: () => boolean
   isSuccess: () => boolean
 }
 
+interface ReportContextType {
+  error: string | null
+  detail: string | ErrorDetails[] | undefined
+  setSetCurrentId: Dispatch<SetStateAction<number>>
+  setPatientId: Dispatch<SetStateAction<string>>
+  getAllReport: () => PatientReportResult[]
+  getReportByKey: () => PatientReportResult | undefined
+  isLoading: boolean
+  isError: boolean
+  isSuccess: boolean
+}
 interface AuthContextType {
   authState: string | undefined | null
   setAuthState: (user: UserInfo) => void
@@ -85,23 +98,21 @@ interface PatientReport extends Report {
 }
 
 interface NewUser {
-  email: string
   firstname: string
   lastname: string
   address: string
   location: string
   phone: string
-  hospital: string
 }
 // user types
 interface User {
-  email: string
+  email?: string
   full_name: string
   address: string
   location: string
   userProfile: string | File | undefined
   phone: string
-  hospital: string
+  hospital?: string
   is_active?: boolean
   is_superuser?: boolean
 }
