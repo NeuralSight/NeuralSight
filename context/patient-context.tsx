@@ -34,6 +34,10 @@ const PatientProvider = ({ children }: Props) => {
   const isSuccess = () => query.isSuccess
   const isError = () => query.isError
 
+  /**
+   *
+   * @returns {PatientResult[]} returns a sorted by date array of all patients from the api
+   */
   const getPatientsInfo = (): PatientResult[] => {
     const patientArr = query.data
     // sort to start with the latest use reverse function since the last element is latest
@@ -41,12 +45,33 @@ const PatientProvider = ({ children }: Props) => {
     return sortByDate
   }
 
-  const NoOfPatientDisplayByDefault = (
-    NO: number,
-    sortByDate: PatientResult[]
-  ): PatientResult[] => {
+  /**
+   *
+   * @param {string} searchValueKey this the value from the search param
+   * @returns {PatientResult[]} all found result if any
+   */
+  const getSearchedPatient = (searchValueKey: string): PatientResult[] => {
+    if (searchValueKey == '') {
+      return getPatientsInfo()
+    }
+    const patientSorted = getPatientsInfo()
+    const patientFound = patientSorted.filter((item: PatientResult) =>
+      item.id.includes(searchValueKey)
+    )
+    return patientFound
+  }
+
+  /**
+   * @param {number} NO number of ids to show by default
+   * @param {PatientResult[]} patientIds this the array return of all patients ids sorted by date
+   * @returns {PatientResult[]} this is the filtered array by the number at NO
+   */
+  const NoOfPatientDisplayByDefault = (NO: number): PatientResult[] => {
     // slice the elements
-    const filterTenLatest = sortByDate?.slice(0, NO || NO_ID_TO_SHOW_BY_DEFAULT)
+    const filterTenLatest = getPatientsInfo()?.slice(
+      0,
+      NO || NO_ID_TO_SHOW_BY_DEFAULT
+    )
     return filterTenLatest
   }
   const samplePatientContext: PatientContextType = {
@@ -55,6 +80,7 @@ const PatientProvider = ({ children }: Props) => {
     setPatientInfo: setPatient,
     getPatientsInfo,
     getLatestPatient: NoOfPatientDisplayByDefault,
+    getSearchedPatient,
     isLoading,
     isSuccess,
     isError,
