@@ -1,5 +1,11 @@
 import { Icon } from '@iconify/react'
-import { Dispatch, SetStateAction, useContext, useState } from 'react'
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import { useMediaQuery } from '@mui/material'
 import DiseaseTypeSelection from '../DiseaseTypeSelection'
 import NeuralLabsTextLogo from '../NeuralLabsTextLogo'
@@ -19,11 +25,12 @@ import { SCREEN } from '../../helper/responsive'
 import BurgerMenu from '../BurgerMenu'
 import PatientIdSection from './PatientIdSection'
 import MainSectionNavBar from '../MainSectionNavBar'
-import { useQuery } from '@tanstack/react-query'
+import { isError, useQuery } from '@tanstack/react-query'
 import { fetchPatientReport } from '../../utils/config'
 import { PatientContext } from '../../context/patient-context'
 import { getObject } from '../../lib/aws-get-object'
 import useGetAWSfile from '../../hooks/use-get-aws-file'
+import { ReportContext } from '../../context/report-context'
 
 type Props = {
   active: string
@@ -104,19 +111,14 @@ const MainContentSection = () => {
   const isLargeDevice = useMediaQuery(`( min-width: ${SCREEN.lg} )`)
   const isMediumDevice = useMediaQuery(`( min-width: ${SCREEN.md} )`)
   const patientContext = useContext(PatientContext)
+  const reportContext = useContext(ReportContext)
 
-  const query = useQuery(
-    ['patients', patientContext?.patientId],
-    async () =>
-      (
-        await fetchPatientReport(patientContext?.patientId || '')
-      ).json() as Promise<Data>
-  )
-  console.log('query patient report', query.data)
-  const imagePathQuery = useGetAWSfile(
-    query.data?.['patient report'][0].inference_path || ''
-  )
-  console.log('imagePathQuery', imagePathQuery.data)
+  useEffect(() => {
+    reportContext?.setPatientId(patientContext?.patientId || '')
+  }, [patientContext?.patientId, reportContext])
+  const allReport = reportContext?.getAllReport()
+  const isError = reportContext?.isError
+  console.log('allReport', allReport)
 
   return (
     <div className='w-full h-[94%] flex flex-col gap-6'>
@@ -207,57 +209,75 @@ const MainContentSection = () => {
             </button>
           </div>
         </div>
-        {query.isError && <div>The patient does not exist</div>}
-        <div className=' w-full h-full lg:h-[94%] bg-gray-50/5 backdrop-blur lg:rounded-bl-2xl lg:rounded-br-2xl overflow-y-hidden'>
-          <div className=' h-full lg:h-[94%] w-full px-4 bg-white lg:overflow-y-scroll lg:scrollbar-thin lg:scrollbar-thumb-primary-light lg:scrollbar-track-primary-light/20  lg:scrollbar-track-rounded-full lg:scroll-smooth'>
-            {!isListView ? (
-              <div className=' h-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 2xl:gap-6 py-3 '>
-                {/* Here will contain add button and image cards */}
-                {isLargeDevice && <AddImageBtn setOpen={setModalOpen} />}{' '}
-                {/* for grid view only large device for list view it would be place next to filter button and for small devices as floating action bar maybe*/}
-                {SampleImagesArr.map((item) => (
-                  <GridViewImageCard imageDetails={item} key={item.patientID} />
-                ))}
-              </div>
-            ) : (
-              isMediumDevice && (
-                <div className='h-full flex flex-col space-y-6 px-5 py-5'>
-                  {SampleImagesArr.map((item) => (
-                    <ListViewImageCard
-                      imageDetails={item}
-                      key={item.patientID}
-                    />
-                  ))}
-                </div>
-              )
-            )}
-
-            <Modal
-              open={isOpen}
-              setOpen={setModalOpen}
-              style={{
-                position: 'absolute' as 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: 'fit-content',
-                maxWidth: 800,
-                bgcolor: 'background.paper',
-                border: '2px solid #16C2D5',
-                boxShadow: 24,
-                borderRadius: '8px',
-                p: 4,
-              }}
-              title='Upload  Files'
-              description='JPEG, JPG, PNG and DICOM are allowed'
-            >
-              {/* <AddImageModalContent/> */}
-              <div className='my-5'>
-                <UploadFile setOpen={setModalOpen} patientId={''} />
-              </div>
-            </Modal>
+        {isError ? (
+          <div className=' h-full w-full px-4 flex items-center justify-center'>
+            <p className='text-lg font-medium text-gray-700'>
+              The patient does not exist
+            </p>
           </div>
-        </div>
+        ) : (
+          <div className=' w-full h-full lg:h-[94%] bg-gray-50/5 backdrop-blur lg:rounded-bl-2xl lg:rounded-br-2xl overflow-y-hidden'>
+            <div className=' h-full lg:h-[94%] w-full px-4 bg-white lg:overflow-y-scroll lg:scrollbar-thin lg:scrollbar-thumb-primary-light lg:scrollbar-track-primary-light/20  lg:scrollbar-track-rounded-full lg:scroll-smooth'>
+              {!isListView ? (
+                <div className=' h-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 2xl:gap-6 py-3 '>
+                  {/* Here will contain add button and image cards */}
+                  {isLargeDevice && <AddImageBtn setOpen={setModalOpen} />}{' '}
+                  {/* for grid view only large device for list view it would be place next to filter button and for small devices as floating action bar maybe*/}
+                  {allReport?.length == 0 ? (
+                    <div className='h-full w-full flex justify-center items-center'>
+                      <p className='text-lg font-medium text-gray-800'>
+                        No Image
+                      </p>
+                    </div>
+                  ) : (
+                    SampleImagesArr.map((item) => (
+                      <GridViewImageCard
+                        imageDetails={item}
+                        key={item.patientID}
+                      />
+                    ))
+                  )}
+                </div>
+              ) : (
+                isMediumDevice && (
+                  <div className='h-full flex flex-col space-y-6 px-5 py-5'>
+                    {SampleImagesArr.map((item) => (
+                      <ListViewImageCard
+                        imageDetails={item}
+                        key={item.patientID}
+                      />
+                    ))}
+                  </div>
+                )
+              )}
+
+              <Modal
+                open={isOpen}
+                setOpen={setModalOpen}
+                style={{
+                  position: 'absolute' as 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  width: 'fit-content',
+                  maxWidth: 800,
+                  bgcolor: 'background.paper',
+                  border: '2px solid #16C2D5',
+                  boxShadow: 24,
+                  borderRadius: '8px',
+                  p: 4,
+                }}
+                title='Upload  Files'
+                description='JPEG, JPG, PNG and DICOM are allowed'
+              >
+                {/* <AddImageModalContent/> */}
+                <div className='my-5'>
+                  <UploadFile setOpen={setModalOpen} patientId={''} />
+                </div>
+              </Modal>
+            </div>
+          </div>
+        )}
       </section>
     </div>
   )
