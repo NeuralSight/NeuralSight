@@ -17,7 +17,7 @@ export default function useErrorMsgHandler({ setError }: ErrorHandler) {
   useEffect(() => {
     if (detail && typeof detail == 'string') {
       setError(detail)
-    } else if (detail && typeof detail != 'string') {
+    } else if (detail && Array.isArray(detail)) {
       detail.forEach((element: ErrorDetails) => {
         setError(element.msg)
         console.log('type', element.type)
