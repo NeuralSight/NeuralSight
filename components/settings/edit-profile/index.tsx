@@ -66,9 +66,7 @@ const EditProfile = (props: Props) => {
     let newTel = newData.phone
     let new_firstname = newData.firstname
     let new_lastname = newData.lastname
-    let email = newData.email
     let address = newData.address
-    let hospital = newData.hospital
     let location = newData.location
 
     // check what is the  country code
@@ -83,27 +81,19 @@ const EditProfile = (props: Props) => {
     if (!new_lastname) {
       new_lastname = lastname
     }
-    if (!email && data) {
-      email = data?.email
-    }
     if (!location && data) {
       location = data?.location
     }
     if (!address && data) {
       address = data?.address
     }
-    if (!hospital && data) {
-      hospital = data?.hospital
-    }
 
     const UpdatedUser: User = {
       userProfile: profileImage,
       full_name: `${new_firstname} ${new_lastname}`,
-      email,
       address,
       phone: newTel,
       location,
-      hospital,
     }
     mutate(UpdatedUser, {
       onSuccess: async (response, variable, context) => {
@@ -196,7 +186,7 @@ const EditProfile = (props: Props) => {
           }}
         />
       </div>
-      <InputField
+      {/* <InputField
         type='email'
         label='email'
         fieldName='email'
@@ -215,7 +205,7 @@ const EditProfile = (props: Props) => {
             message: 'maximum word length 50',
           },
         }}
-      />
+      /> */}
       <div className='relative h-fit w-full'>
         <select
           id='countrycode'
@@ -299,7 +289,7 @@ const EditProfile = (props: Props) => {
           }
         />
       </div>
-      <InputField
+      {/* <InputField
         type='text'
         label='Hospital / Medical Institution'
         spaceY='2'
@@ -313,7 +303,7 @@ const EditProfile = (props: Props) => {
             // pattern:
           }
         }
-      />
+      /> */}
       <div className='grid gap-2 grid-cols-1 md:grid-cols-2 h-fit pb-3'>
         <Button type='submit'>
           {isLoading ? 'Saving...' : 'Save Changes'}
