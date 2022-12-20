@@ -7,14 +7,7 @@ type Props = {
   type: 'text' | 'tel' | 'password' | 'number' | 'email'
   icon?: React.ReactNode | undefined
   control: Control<NewUser>
-  fieldName:
-    | 'email'
-    | 'firstname'
-    | 'lastname'
-    | 'address'
-    | 'location'
-    | 'phone'
-    | 'hospital'
+  fieldName: 'firstname' | 'lastname' | 'address' | 'location' | 'phone'
   rules?: object
   spaceY?: '1' | '2' | '3' | '4' | '5' | '6'
   placeholder?: string | undefined
