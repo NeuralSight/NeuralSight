@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react'
-import { useEffect, Dispatch, SetStateAction } from 'react'
+import { useEffect, ChangeEvent, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useContext } from 'react'
 import InputField from '../inputs/MUIInput'
@@ -14,7 +14,7 @@ import {
 import usePostPatient from '../../hooks/use-post-patient'
 import PatientIdCardSkeleton from '../skeletons/PatientIdCard'
 import { PatientContext } from '../../context/patient-context'
-import { PatientContextType } from '../../typings'
+import { PatientContextType, PatientResult } from '../../typings'
 
 type State = {
   patientId: string
@@ -23,6 +23,7 @@ type State = {
 // dark:bg-secondary-dark
 
 function PatientIdSection() {
+  const [searchValue, setSearchValue] = useState<string>('')
   //hook for post patient
   const {
     setPatient,
@@ -50,15 +51,19 @@ function PatientIdSection() {
     onClick(data.patientId)
   }
 
-  const patientInfoArr = patientContext?.getPatientsInfo()
-  const filterTenLatest = patientContext?.getLatestPatient(
-    10,
-    patientInfoArr || []
-  )
+  let patientIdsArr: PatientResult[] = []
+
+  const patientFiltered = patientContext?.getSearchedPatient(searchValue)
+  const filterTenLatest = patientContext?.getLatestPatient(10)
   const isQueryLoading = patientContext?.isLoading()
   const isQueryError = patientContext?.isError()
   const isQuerySuccess = patientContext?.isSuccess()
-
+  if (searchValue && patientFiltered) {
+    patientIdsArr = patientFiltered
+  }
+  if (!searchValue && filterTenLatest) {
+    patientIdsArr = filterTenLatest
+  }
   // skeleton values
   const skeletonArray: number[] = new Array(10).fill(128)
   useEffect(() => {
@@ -80,11 +85,18 @@ function PatientIdSection() {
             placeholder='Search Patient Id...'
             size='small'
             label='search'
+            isUsingReactHookForm={false}
+            value={searchValue}
+            onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
+              setSearchValue(target.value)
+            }}
+            // register={register('search')}
             borderRadius='25px'
             icon={
               <Icon
                 icon='ep:search'
                 className='cursor-pointer w-6 h-6 fill-current text-zinc-500/50'
+                // onClick={}
               />
             }
           />
@@ -137,7 +149,7 @@ function PatientIdSection() {
       }
     >
       {isQuerySuccess &&
-        filterTenLatest?.map((patient) => (
+        patientIdsArr?.map((patient) => (
           <PatientIdCard
             key={patient.id}
             idKey={patient.id}
