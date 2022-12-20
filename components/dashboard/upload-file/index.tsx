@@ -144,7 +144,7 @@ const UploadFile = (props: Props) => {
         if (response.status === 201 || response.status === 200) {
           console.log('data', data)
           setSuccess(data.message)
-          // currentClient.invalidateQueries('patient')
+          currentClient.invalidateQueries(['patients'])
         } else {
           const detail = data.detail
           console.log('detail', detail)
@@ -161,7 +161,6 @@ const UploadFile = (props: Props) => {
         // currentClient.invalidateQueries('patient')
       },
     })
-    // submit result to backend
   }
 
   // handle clear all files
