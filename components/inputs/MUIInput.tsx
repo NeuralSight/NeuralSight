@@ -5,7 +5,7 @@ import {
   OutlinedInput,
   InputAdornment,
 } from '@mui/material'
-import React from 'react'
+import { ChangeEvent } from 'react'
 import styled from '@emotion/styled'
 
 type Props = {
@@ -18,6 +18,9 @@ type Props = {
   icon?: React.ReactNode | undefined
   size?: 'medium' | 'small' | undefined
   borderRadius?: string | undefined
+  isUsingReactHookForm?: boolean
+  value?: number | string
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
 const CustomFormControl = styled(FormControl)({
@@ -52,8 +55,21 @@ const CustomOutlinedInput = styled(OutlinedInput)({})
  * @returns
  */
 
-const InputField = (props: Props) => {
-  let InputRadius = props.borderRadius || '10px'
+const InputField = ({
+  borderRadius,
+  register,
+  ref,
+  id,
+  label,
+  icon,
+  size,
+  type,
+  value,
+  placeholder,
+  isUsingReactHookForm = true,
+  onChange,
+}: Props) => {
+  let InputRadius = borderRadius || '10px'
   return (
     <Box
       sx={{
@@ -68,30 +84,46 @@ const InputField = (props: Props) => {
         color='warning'
         fullWidth
         variant='outlined'
-        size={props.size}
+        size={size}
       >
         <InputLabel
-          htmlFor={props.id}
+          htmlFor={id}
           sx={{
             textDecoration: 'capitalized',
             width: 'fit',
             textAlign: 'center',
           }}
         >
-          {props.label}
+          {label}
         </InputLabel>
-        <OutlinedInput
-          sx={{ borderRadius: InputRadius }}
-          id={props.id}
-          ref={props.ref}
-          type={props.type}
-          {...props.register}
-          placeholder={props.placeholder}
-          endAdornment={
-            <InputAdornment position='end'>{props.icon}</InputAdornment>
-          }
-          label={props.label}
-        />
+        {isUsingReactHookForm ? (
+          <OutlinedInput
+            sx={{ borderRadius: InputRadius }}
+            id={id}
+            ref={ref}
+            type={type}
+            {...register}
+            placeholder={placeholder}
+            endAdornment={
+              <InputAdornment position='end'>{icon}</InputAdornment>
+            }
+            label={label}
+          />
+        ) : (
+          <OutlinedInput
+            sx={{ borderRadius: InputRadius }}
+            id={id}
+            ref={ref}
+            type={type}
+            value={value}
+            onChange={onChange}
+            placeholder={placeholder}
+            endAdornment={
+              <InputAdornment position='end'>{icon}</InputAdornment>
+            }
+            label={label}
+          />
+        )}
       </CustomFormControl>
     </Box>
   )
