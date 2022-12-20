@@ -6,13 +6,17 @@ import {
   useState,
   MouseEvent,
   SyntheticEvent,
+  useContext,
+  useEffect,
 } from 'react'
 import Button from '../Button'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { updatePatientReport } from '../../utils/config'
 import { PatientReport } from '../../typings'
 import useErrorMsgHandler from '../../hooks/use-error-msg-handler'
 import ErrorMessage from '../Message'
+import { PatientContext } from '../../context/patient-context'
+import { ReportContext } from '../../context/report-context'
 
 type Props = {
   isOpen: boolean
@@ -21,26 +25,25 @@ type Props = {
 }
 
 const EditReport = ({ isOpen, setModalOpen, reportId }: Props) => {
+  const currentClient = useQueryClient()
   const [error, setError] = useState<string | null>(null)
   const { setDetails } = useErrorMsgHandler({ setError })
   const [success, setSuccess] = useState<string | null>(null)
-  const [report, setReport] = useState<string>(
-    '<p>Opacity is observed in the right lung and left lower zone. Inhomogeneous Opacity, probable Consolidation is observed in bilateral lower zones. Pleural Effusion is observed in bilateral lower zones and right mid zone Blunting of CP angle is observed in bilateral lower zonesThe heart is enlarged. CardiomegalyBoth hila appear normalBony thorax appears unremarkable</p>'
-  )
+  const patientContext = useContext(PatientContext)
+  const reportContext = useContext(ReportContext)
+  const [report, setReport] = useState<string>('')
+  //  '<p>Opacity is observed in the right lung and left lower zone. Inhomogeneous Opacity, probable Consolidation is observed in bilateral lower zones. Pleural Effusion is observed in bilateral lower zones and right mid zone Blunting of CP angle is observed in bilateral lower zonesThe heart is enlarged. CardiomegalyBoth hila appear normalBony thorax appears unremarkable</p>'
 
   const { isLoading, mutate, status } = useMutation(updatePatientReport, {
-    onMutate: async (report) => {
-      // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
-      // await currentClient.cancelQueries('patients')
-      // Snapshot the previous value
-      // const previousPatients = currentClient.getQueryData('patients')
-      // Optimistically update to the new value
-      // currentClient.setQueryData('patients', (old) => [...old, newPatient])
-      // Return a context object with the snapshotted value
-      // return { previousPatients }
-      console.log('report', report)
+    onMutate: async (newReport) => {
+      // optimistic update can be done here ⚠ not good if we do serverside
+      console.log('report', newReport)
     },
   })
+
+  useEffect(() => {
+    setReport(reportContext?.getReportByKey()?.report || '')
+  }, [reportContext])
   // handle Submit
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault()
@@ -56,10 +59,17 @@ const EditReport = ({ isOpen, setModalOpen, reportId }: Props) => {
     mutate(patientData, {
       onSuccess: async (response, variable, context) => {
         const data = await response.json()
+        console.log('data', data)
         if (response.status === 201 || response.status === 200) {
           console.log('data', data)
-          setSuccess(data.message)
-          // currentClient.invalidateQueries('patient')
+          setSuccess(
+            `successfully updated ${reportId} report for patient with id ${patientContext?.patientId}`
+          )
+          setReport(data.report)
+          currentClient.invalidateQueries([
+            'patients',
+            patientContext?.patientId,
+          ])
         } else {
           const detail = data.detail
           console.log('detail', detail)
@@ -67,7 +77,6 @@ const EditReport = ({ isOpen, setModalOpen, reportId }: Props) => {
         }
       },
       onError: async (err: any, variables, context) => {
-        // currentClient.setQueryData('patient', context.previousPatients)
         setError(err)
         console.log('Error while posting...', err)
         console.log('data sent is', variables)
@@ -81,8 +90,18 @@ const EditReport = ({ isOpen, setModalOpen, reportId }: Props) => {
   const handleClose = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     setModalOpen(false)
+    setSuccess(null)
+    setError(null)
     console.log('close', close)
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setSuccess(null)
+      setError(null)
+    }, 5000)
+  })
+
   return (
     <Modal
       title='Edit Remarks'
@@ -111,7 +130,7 @@ const EditReport = ({ isOpen, setModalOpen, reportId }: Props) => {
         <div className='flex w-full space-x-4'>
           <Button type='submit'>{isLoading ? 'updating...' : 'update'}</Button>
           <Button type='button' outlined onClick={handleClose}>
-            cancel
+            close
           </Button>
         </div>
       </form>
