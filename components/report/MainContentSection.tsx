@@ -1,14 +1,8 @@
 import { Icon } from '@iconify/react'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
+import { ChangeEvent, useContext, useEffect, useState } from 'react'
 import parse from 'html-react-parser'
-import { formatDate, formatDateFromString } from '../../helper/datesFormatter'
+import { formatDateFromString } from '../../helper/datesFormatter'
 import { SCREEN } from '../../helper/responsive'
 import BurgerMenu from '../BurgerMenu'
 import Button from '../Button'
@@ -19,18 +13,20 @@ import ImageSlides from './image-slides'
 import ModelResults from './model-results'
 import EditReport from './EditReportModal'
 import { PatientContext } from '../../context/patient-context'
-import {
-  PatientContextType,
-  PatientInfoData,
-  PatientReportResult,
-  ReportContextType,
-} from '../../typings'
+import { PatientContextType, ReportContextType } from '../../typings'
 
 import Loading from '../../pages/loading'
 import Link from 'next/link'
 import { ReportContext } from '../../context/report-context'
+import ToolTip from '../ToolTip'
+import { setStorageItem, getStorageItem } from '../../helper/localStorageAccess'
 
 const MainContentSection = () => {
+  const KEY = 'isPercentageSelected'
+
+  const [selected, setSelected] = useState<boolean>(
+    getStorageItem(KEY) || false
+  )
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false)
   const isLargeDevice = useMediaQuery(`( min-width: ${SCREEN.lg} )`)
   const [isOpenModal, setModalOpen] = useState<boolean>(false)
@@ -50,6 +46,10 @@ const MainContentSection = () => {
   }
   const handleDownloadPdf = () => {
     // handle download the report to pdf
+  }
+  const handleShowPercentage = (e: ChangeEvent<HTMLInputElement>) => {
+    setSelected(e.target.checked)
+    setStorageItem(KEY, e.target.checked)
   }
 
   if (isError) {
@@ -88,8 +88,8 @@ const MainContentSection = () => {
           )}
           <p className='text-gray-500 font-light italic h-full capitalize'>
             inference at{' '}
-            {report?.created_at
-              ? formatDateFromString(report?.created_at)
+            {report?.details?.created_at
+              ? formatDateFromString(report?.details?.created_at)
               : 'N0 created at date for this report'}
           </p>
         </div>
@@ -111,7 +111,7 @@ const MainContentSection = () => {
         </div>
       ) : (
         <div className='relative w-full h-full lg:border-2 border-primary-light backdrop-blur lg:rounded-2xl overflow-y-hidden bg-gray-50/95'>
-          <div className='px-4 lg:px-8 h-full w-full lg:overflow-y-scroll lg:scrollbar-thin lg:scrollbar-thumb-primary-light lg:scrollbar-track-primary-light/20 lg:scrollbar-thumb-rounded-[4px] lg:scroll-smooth'>
+          <div className='px-4 lg:px-8 h-full w-full lg:overflow-y-scroll lg:scrollbar-thin lg:scrollbar-thumb-primary-light lg:scrollbar-track-primary-light/20 lg:scrollbar-thumb-rounded-[4px] lg:scroll-smooth '>
             <div className='py-3 w-full h-fit flex gap-x-1 justify-between items-center'>
               <div className='text-lg lg:text-2xl font-medium uppercase tracking-wider text-primary-dark/90'>
                 Report
@@ -122,6 +122,25 @@ const MainContentSection = () => {
                 {/* <Button type='button' hSize='py-5'>
                   download
                 </Button> */}
+                <div className='flex items-center'>
+                  <label
+                    className='inline-flex relative items-center cursor-pointer h-fit'
+                    data-tooltip-target='percentage-toggle'
+                    data-tooltip-placement='top'
+                  >
+                    <input
+                      type='checkbox'
+                      value=''
+                      className='sr-only peer'
+                      checked={selected}
+                      onChange={handleShowPercentage}
+                    />
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-primary-light/50 rounded-full peer dark:bg-gray-700/40 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-light"></div>
+                  </label>
+                  <ToolTip target='percentage-toggle'>
+                    check to see the percentage
+                  </ToolTip>
+                </div>
                 <button
                   className='hover:bg-gray-500/[15%] transition-all duration-500 ease-in-out shadow-md hover:shadow-none rounded-full flex items-center justify-center py-1.5 px-1.5'
                   title='print the report'
@@ -158,8 +177,8 @@ const MainContentSection = () => {
                     </button>
                   </div>
                   <div className='break-all text-zinc-700 font-regular text-sm lg:text-base leading-loose print:first-letter:font-bold tracking-wider print:first-letter:text-7xl print:first-letter:text-white print:first-letter:mr-3 print:first-letter:float-left '>
-                    {report?.report ? (
-                      parse(report.report)
+                    {report.details?.report ? (
+                      parse(report.details.report)
                     ) : (
                       <div className='flex flex-col space-y-10 mt-6 lg:mt-11 w-full h-full justify-center items-center px-4 '>
                         <p className='text-xl capitalize w-full text-center  font-regular italic text-secondary-dark'>
@@ -179,7 +198,11 @@ const MainContentSection = () => {
               </div>
               <div className='w-full xl:w-[58%]'>
                 {/* left section */}
-                <ModelResults />
+                <ModelResults
+                  disease={report?.disease || ''}
+                  patientId={report?.details?.patient_id || ''}
+                  selected={selected}
+                />
               </div>
             </section>
           </div>
@@ -192,7 +215,7 @@ const MainContentSection = () => {
         <EditReport
           isOpen={isOpenModal}
           setModalOpen={setModalOpen}
-          reportId={report?.id}
+          reportId={report.details?.id}
         />
       )}
     </div>
