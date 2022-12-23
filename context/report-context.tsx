@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { ReactNode, createContext, useState } from 'react'
 import { fetchPatientReport } from '../utils/config'
+
 import {
   ErrorDetails,
   PatientInfoData,
@@ -17,8 +18,7 @@ type Props = {
 }
 
 type Data = {
-  patient: PatientInfoData
-  'patient report': PatientReportResult[]
+  patient: PatientReportResult[]
 }
 
 const ReportContext = createContext<null | ReportContextType>(null)
@@ -34,7 +34,9 @@ const ReportProvider = ({ children }: Props) => {
     async () =>
       (await fetchPatientReport(patientId || '')).json() as Promise<Data>,
     {
-      onSuccess: (data) => {},
+      onSuccess: (data) => {
+        console.log('data', data)
+      },
       onError: (error: ErrorDetails[] | undefined) => {
         // setError
         setDetails(error)
@@ -42,9 +44,11 @@ const ReportProvider = ({ children }: Props) => {
     }
   )
 
+  // const imageQuery= useQuery([patientId,"image"], async () =>
+  //     (await (patientId || '')).json() as Promise<Data>)
+
   const getAllReport = (): PatientReportResult[] => {
-    const patientReportArray: PatientReportResult[] =
-      query.data?.['patient report'] || []
+    const patientReportArray: PatientReportResult[] = query.data?.patient || []
     return patientReportArray
   }
   // fetch report depending on the patient id set
@@ -55,7 +59,6 @@ const ReportProvider = ({ children }: Props) => {
 
     return report
   }
-
   return (
     <Provider
       value={{
