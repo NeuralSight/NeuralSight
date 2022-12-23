@@ -1,12 +1,19 @@
 import React from 'react'
-import { ImageDetails } from '../../../typings'
+import { ImageDetails, PatientReportResult } from '../../../typings'
 import Image from 'next/legacy/image'
+import useGetAWSfile from '../../../hooks/use-get-aws-file'
 
 type Props = {
   imageDetails: ImageDetails
+  patientReportResult: PatientReportResult
 }
 
-const ImageCard = ({ imageDetails }: Props) => {
+const ImageCard = ({ imageDetails, patientReportResult }: Props) => {
+  // const imageQuery = useGetAWSfile(
+  //   patientReportResult.details.inference_path,
+  //   patientReportResult.details.id
+  // )
+
   return (
     <div
       className='relative rounded-3xl border-2 w-full h-full transition-all ease-in duration-200 border-primary-light group group'
@@ -16,6 +23,7 @@ const ImageCard = ({ imageDetails }: Props) => {
         src={imageDetails.src}
         alt={`patient's image testing ${imageDetails.disease}`}
         objectFit={'cover'}
+        priority
         layout='fill'
         className='rounded-3xl'
       />
