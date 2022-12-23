@@ -25,11 +25,7 @@ import { SCREEN } from '../../helper/responsive'
 import BurgerMenu from '../BurgerMenu'
 import PatientIdSection from './PatientIdSection'
 import MainSectionNavBar from '../MainSectionNavBar'
-import { isError, useQuery } from '@tanstack/react-query'
-import { fetchPatientReport } from '../../utils/config'
 import { PatientContext } from '../../context/patient-context'
-import { getObject } from '../../lib/aws-get-object'
-import useGetAWSfile from '../../hooks/use-get-aws-file'
 import { ReportContext } from '../../context/report-context'
 
 type Props = {
@@ -118,6 +114,7 @@ const MainContentSection = () => {
   }, [patientContext?.patientId, reportContext])
   const allReport = reportContext?.getAllReport()
   const isError = reportContext?.isError
+  const isLoading = reportContext?.isLoading
   console.log('allReport', allReport)
 
   return (
@@ -209,7 +206,7 @@ const MainContentSection = () => {
             </button>
           </div>
         </div>
-        {isError ? (
+        {isError && !isLoading ? (
           <div className=' h-full w-full px-4 flex items-center justify-center'>
             <p className='text-lg font-medium text-gray-700'>
               The patient does not exist
@@ -223,11 +220,16 @@ const MainContentSection = () => {
                   {/* Here will contain add button and image cards */}
                   {isLargeDevice && <AddImageBtn setOpen={setModalOpen} />}{' '}
                   {/* for grid view only large device for list view it would be place next to filter button and for small devices as floating action bar maybe*/}
-                  {allReport?.length == 0 ? (
+                  {allReport?.length == 0 && !isLoading ? (
                     <div className='h-full w-full flex justify-center items-center'>
                       <p className='text-lg font-medium text-gray-800'>
                         No Image
                       </p>
+                    </div>
+                  ) : isLoading ? (
+                    <div>
+                      {/* add skeleton for loading */}
+                      loading...
                     </div>
                   ) : (
                     SampleImagesArr.map((item) => (
@@ -241,12 +243,25 @@ const MainContentSection = () => {
               ) : (
                 isMediumDevice && (
                   <div className='h-full flex flex-col space-y-6 px-5 py-5'>
-                    {SampleImagesArr.map((item) => (
-                      <ListViewImageCard
-                        imageDetails={item}
-                        key={item.patientID}
-                      />
-                    ))}
+                    {allReport?.length == 0 && !isLoading ? (
+                      <div className='h-full w-full flex justify-center items-center'>
+                        <p className='text-lg font-medium text-gray-800'>
+                          No Image
+                        </p>
+                      </div>
+                    ) : isLoading ? (
+                      <div>
+                        {/* add skeleton for loading */}
+                        loading...
+                      </div>
+                    ) : (
+                      SampleImagesArr.map((item) => (
+                        <ListViewImageCard
+                          imageDetails={item}
+                          key={item.patientID}
+                        />
+                      ))
+                    )}
                   </div>
                 )
               )}
