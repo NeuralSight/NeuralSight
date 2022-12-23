@@ -11,8 +11,8 @@ import {
 import { FileTypeError } from '../../../typings'
 
 type Props = {
-  profileImage: File | undefined
-  setProfileImage: Dispatch<SetStateAction<File | undefined>>
+  profileImage: File | null
+  setProfileImage: Dispatch<SetStateAction<File | null>>
 }
 
 const EditProfileImage = ({ profileImage, setProfileImage }: Props) => {
