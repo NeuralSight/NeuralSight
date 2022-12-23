@@ -41,6 +41,7 @@ const PatientProvider = ({ children }: Props) => {
   const getPatientsInfo = (): PatientResult[] => {
     const patientArr = query.data
     // sort to start with the latest use reverse function since the last element is latest
+
     const sortByDate = reverse(patientArr || [])
     return sortByDate
   }
