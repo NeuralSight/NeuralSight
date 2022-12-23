@@ -34,6 +34,7 @@ const ImageSlides = (props: Props) => {
         reportAll?.map((item, key) => (
           <SwiperSlide key={key}>
             <ImageCard
+              patientReportResult={item}
               imageDetails={SampleImagesArr[key % SampleImagesArr.length]}
             />
           </SwiperSlide>
