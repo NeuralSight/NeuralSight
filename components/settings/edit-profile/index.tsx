@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, useState } from 'react'
+import { ChangeEvent, MouseEvent, useEffect, useState } from 'react'
 import { CountryCodes } from '../../../helper/countryCodes'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import Profile from './EditProfileImage'
@@ -12,7 +12,7 @@ import {
 } from '../../../lang/errorMessages'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { fetchUserInfo, updateUser } from '../../../utils/config'
-import { NewUser, User } from '../../../typings'
+import { NewUser, User, UserWithoutFile } from '../../../typings'
 import useErrorMsgHandler from '../../../hooks/use-error-msg-handler'
 
 type Props = {}
@@ -23,7 +23,7 @@ const EditProfile = (props: Props) => {
 
   const [countryCode, setCountryCode] = useState<string>(CountryCodes[0].code)
   const [isClicked, setIsClicked] = useState<boolean>(false)
-  const [profileImage, setProfileImage] = useState<File | undefined>()
+  const [profileImage, setProfileImage] = useState<File | null>(null)
   console.log('profileImage', profileImage)
   const [success, setSuccess] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -57,67 +57,79 @@ const EditProfile = (props: Props) => {
   } = useForm<NewUser>()
 
   const { isLoading, mutate, status } = useMutation(updateUser, {
-    onMutate: async (newUser: User) => {
+    onMutate: async (newUser: User | UserWithoutFile) => {
       console.log('newPatient from uploading file', newUser)
     },
   })
 
   const onSubmit: SubmitHandler<NewUser> = (newData: NewUser) => {
-    let newTel = newData.phone
-    let new_firstname = newData.firstname
-    let new_lastname = newData.lastname
-    let address = newData.address
-    let location = newData.location
-
-    // check what is the  country code
-    if (newTel == '' && data) {
-      newTel = data?.phone
+    if (!newData || !profileImage) {
+      setError('Change atleast one field')
     } else {
-      newTel = '+' + countryCode + newData.phone
-    }
-    if (!new_firstname) {
-      new_firstname = firstname
-    }
-    if (!new_lastname) {
-      new_lastname = lastname
-    }
-    if (!location && data) {
-      location = data?.location
-    }
-    if (!address && data) {
-      address = data?.address
-    }
+      let newTel = newData.phone
+      let new_firstname = newData.firstname
+      let new_lastname = newData.lastname
+      let address = newData.address
+      let location = newData.location
 
-    const UpdatedUser: User = {
-      userProfile: profileImage,
-      full_name: `${new_firstname} ${new_lastname}`,
-      address,
-      phone: newTel,
-      location,
-    }
-    mutate(UpdatedUser, {
-      onSuccess: async (response, variable, context) => {
-        const data = await response.json()
-        if (response.status === 201 || response.status === 200) {
-          console.log('data', data)
-          setSuccess('Successfully updated your information')
+      // check what is the  country code
+      if (newTel == '' && data) {
+        newTel = data?.phone
+      } else {
+        newTel = '+' + countryCode + newData.phone
+      }
+      if (!new_firstname) {
+        new_firstname = firstname
+      }
+      if (!new_lastname) {
+        new_lastname = lastname
+      }
+      if (!location && data) {
+        location = data?.location
+      }
+      if (!address && data) {
+        address = data?.address
+      }
+
+      const UpdatedUser: User = {
+        userProfile: profileImage,
+        full_name: `${new_firstname} ${new_lastname}`,
+        address,
+        phone: newTel,
+        location,
+      }
+      const UpdatedUserWithoutFile: UserWithoutFile = {
+        full_name: `${new_firstname} ${new_lastname}`,
+        address,
+        phone: newTel,
+        location,
+      }
+
+      console.log('UpdatedUser', UpdatedUser)
+      mutate(profileImage ? UpdatedUser : UpdatedUserWithoutFile, {
+        onSuccess: async (response, variable, context) => {
+          const data = await response.json()
+          if (response.status === 201 || response.status === 200) {
+            console.log('data', data)
+            setSuccess('Successfully updated your information')
+            // currentClient.invalidateQueries('patient')
+          } else {
+            const detail = data.detail
+            console.log('detail', detail)
+            setDetails(detail)
+          }
+        },
+        onError: async (err: any, variables, context) => {
+          // currentClient.setQueryData('patient', context.previousPatients)
+          setError(err)
+          console.log('Error while posting...', err)
+          console.log('data sent is', variables)
+        },
+        onSettled: async () => {
           // currentClient.invalidateQueries('patient')
-        } else {
-          const detail = data.detail
-          console.log('detail', detail)
-          setDetails(detail)
-        }
-      },
-      onError: async (err: any, variables, context) => {
-        // currentClient.setQueryData('patient', context.previousPatients)
-        setError(err)
-        console.log('Error while posting...', err)
-        console.log('data sent is', variables)
-      },
-      onSettled: async () => {
-        // currentClient.invalidateQueries('patient')
-      },
-    })
+        },
+      })
+    }
   }
 
   // handle Cancel Update
@@ -125,6 +137,13 @@ const EditProfile = (props: Props) => {
     e.preventDefault()
     // cancel mutation
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setError(null)
+      setSuccess(null)
+    }, 5000)
+  }, [])
 
   return (
     <form
@@ -257,38 +276,38 @@ const EditProfile = (props: Props) => {
           className='pl-36'
         />
       </div>
-      <div className='grid gap-2 grid-cols-1 md:grid-cols-2 h-fit'>
-        <InputField
-          type='text'
-          label='address'
-          fieldName='address'
-          spaceY='2'
-          defaultValue={data?.address || ''}
-          error={errors.address}
-          placeholder={data?.address || 'Jenga Leo, WestPark Tower'}
-          control={control}
-          rules={
-            {
-              // pattern:
-            }
+      {/* <div className='grid gap-2 grid-cols-1 md:grid-cols-2 h-fit'> */}
+      <InputField
+        type='text'
+        label='address'
+        fieldName='address'
+        spaceY='2'
+        defaultValue={data?.address || ''}
+        error={errors.address}
+        placeholder={data?.address || 'Jenga Leo, WestPark Tower'}
+        control={control}
+        rules={
+          {
+            // pattern:
           }
-        />
-        <InputField
-          type='text'
-          label='location'
-          fieldName='location'
-          error={errors.location}
-          spaceY='2'
-          placeholder={data?.location || 'Nairobi'}
-          defaultValue={data?.location || ''}
-          control={control}
-          rules={
-            {
-              // pattern:
-            }
+        }
+      />
+      <InputField
+        type='text'
+        label='location'
+        fieldName='location'
+        error={errors.location}
+        spaceY='2'
+        placeholder={data?.location || 'Nairobi'}
+        defaultValue={data?.location || ''}
+        control={control}
+        rules={
+          {
+            // pattern:
           }
-        />
-      </div>
+        }
+      />
+      {/* </div> */}
       {/* <InputField
         type='text'
         label='Hospital / Medical Institution'

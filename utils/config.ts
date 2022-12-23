@@ -1,4 +1,4 @@
-import { PatientReport, User } from './../typings.d'
+import { PatientReport, User, UserWithoutFile } from './../typings.d'
 /**
  * all the request to api will be written here
  */
@@ -25,8 +25,9 @@ export const postPatient = async (patientId: string) => {
 }
 // fetch patients reports
 
-export const fetchPatientReport = async (patientId: string | number) =>
-  await fetch(`/api/get-patient-report/${patientId}`)
+export const fetchPatientReport = async (patientId: string | number) => {
+  return await fetch(`/api/get-patient-report/${patientId}`)
+}
 
 // post and predict a patient image
 export const postPatientImage = async ({
@@ -63,7 +64,7 @@ export const fetchUserInfo = async () => {
 
 // update user info
 
-export const updateUser = async (user: User) => {
+export const updateUser = async (user: User | UserWithoutFile) => {
   console.log('user', user)
   const formdata = changeObjToFormData(user)
   const response = await fetch(`/api/update-user`, {
