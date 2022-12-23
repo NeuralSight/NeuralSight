@@ -28,8 +28,8 @@ import {
   SERVER_ERR_MSG,
 } from '../../lang/errorMessages'
 import { AuthContextType } from '../../typings'
-import { ErrorDetails } from '../../typings'
 import useErrorMsgHandler from '../../hooks/use-error-msg-handler'
+import { useQueryClient } from '@tanstack/react-query'
 type Props = {}
 
 type State = {
@@ -46,6 +46,7 @@ function Auth({}: Props) {
     formState: { errors },
   } = useForm<State>()
   // create authContext
+  const currentClient = useQueryClient()
   const authContext = useContext<AuthContextType | null>(AuthContext)
   const route = useRouter()
 
@@ -75,8 +76,10 @@ function Auth({}: Props) {
             if (data?.data?.access_token) {
               // console.log('data', data)
               authContext?.setAuthState(data.data)
+              currentClient.invalidateQueries()
               // go to dashboard
               route.push('/')
+
               // clear all the error message
               setError(null)
               clearErrors('email')
