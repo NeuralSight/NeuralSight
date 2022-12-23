@@ -4,6 +4,7 @@ import { formatStringDecimalToPercentage } from '../../../helper/AIResponseForma
 type Props = {
   type: string
   confidence: string
+  showPercentage: boolean
 }
 
 const ResultCard = (props: Props) => {
@@ -20,7 +21,9 @@ const ResultCard = (props: Props) => {
           result != 'YES' ? 'text-green-500' : 'text-red-500'
         }`}
       >
-        {result}
+        {props.showPercentage
+          ? `${formatStringDecimalToPercentage(props.confidence)}%`
+          : result}
       </p>
     </div>
   )
