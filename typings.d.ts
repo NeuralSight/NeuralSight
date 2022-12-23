@@ -110,7 +110,17 @@ interface User {
   full_name: string
   address: string
   location: string
-  userProfile: string | File | undefined
+  userProfile: string | File | null
+  phone: string
+  hospital?: string
+  is_active?: boolean
+  is_superuser?: boolean
+}
+interface UserWithoutFile {
+  email?: string
+  full_name: string
+  address: string
+  location: string
   phone: string
   hospital?: string
   is_active?: boolean
@@ -126,13 +136,16 @@ interface PatientResult {
 }
 
 interface PatientReportResult {
-  annotation_path: string
-  created_at: string
-  id: string
-  inference_path: string
-  patient_id: string
-  report: string | null
-  updated_at: string
+  disease: string
+  details: {
+    annotation_path: string
+    created_at: string
+    id: string
+    inference_path: string
+    patient_id: string
+    report: string | null
+    updated_at: string
+  }
 }
 
 interface PatientInfoData {
