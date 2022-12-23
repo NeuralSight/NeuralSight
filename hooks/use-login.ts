@@ -19,7 +19,7 @@ const loginUser = async (user: AuthUser) => {
   const urlencoded = changeObjToFormUrlencoded(user)
   // console.log('urlencoded', urlencoded)
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_NEURALSIGHT_API_BASE_URL}/user/login`,
+    `${process.env.NEXT_PUBLIC_NEURALSIGHT_API_BASE_URL}/login/access-token`,
     {
       mode: 'cors',
       method: 'POST',
