@@ -26,6 +26,6 @@ export default async function getPatients(
     token: api_token,
   })
   const data: Data = (await response.json()) as Data
-  console.log('data', data)
+  // console.log('inference_path', data['patient report'][0].inference_path)
   res.status(response.status).json(data)
 }
