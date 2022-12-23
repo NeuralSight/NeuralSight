@@ -10,10 +10,10 @@ const fetchObject = async (file: string) => {
   }
 }
 
-export default function useGetAWSfile(path: string) {
+export default function useGetAWSfile(path: string, reportId: string) {
   const pathsArr = path.split('/')
   const imagePathQuery = useQuery(
-    ['image', path],
+    [reportId, 'image'],
     async () => await fetchObject(pathsArr[pathsArr.length - 1]),
     {
       onSuccess: () => {
