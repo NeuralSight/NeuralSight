@@ -32,6 +32,7 @@ const EditReport = ({ isOpen, setModalOpen, reportId }: Props) => {
   const patientContext = useContext(PatientContext)
   const reportContext = useContext(ReportContext)
   const [report, setReport] = useState<string>('')
+  console.log('success', success)
   //  '<p>Opacity is observed in the right lung and left lower zone. Inhomogeneous Opacity, probable Consolidation is observed in bilateral lower zones. Pleural Effusion is observed in bilateral lower zones and right mid zone Blunting of CP angle is observed in bilateral lower zonesThe heart is enlarged. CardiomegalyBoth hila appear normalBony thorax appears unremarkable</p>'
 
   const { isLoading, mutate, status } = useMutation(updatePatientReport, {
@@ -42,7 +43,7 @@ const EditReport = ({ isOpen, setModalOpen, reportId }: Props) => {
   })
 
   useEffect(() => {
-    setReport(reportContext?.getReportByKey()?.report || '')
+    setReport(reportContext?.getReportByKey()?.details.report || '')
   }, [reportContext])
   // handle Submit
   const handleSubmit = (e: SyntheticEvent) => {
@@ -63,7 +64,7 @@ const EditReport = ({ isOpen, setModalOpen, reportId }: Props) => {
         if (response.status === 201 || response.status === 200) {
           console.log('data', data)
           setSuccess(
-            `successfully updated ${reportId} report for patient with id ${patientContext?.patientId}`
+            `successfully updated report for patient with id ${patientContext?.patientId}`
           )
           setReport(data.report)
           currentClient.invalidateQueries([
@@ -94,13 +95,6 @@ const EditReport = ({ isOpen, setModalOpen, reportId }: Props) => {
     setError(null)
     console.log('close', close)
   }
-
-  useEffect(() => {
-    setTimeout(() => {
-      setSuccess(null)
-      setError(null)
-    }, 5000)
-  })
 
   return (
     <Modal
