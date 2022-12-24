@@ -1,20 +1,20 @@
 import { useState } from 'react'
-import { ImageDetails } from '../../typings'
+import { ImageDetails, PatientReportResult } from '../../typings'
 import Image from 'next/image'
 import { IconButton } from '@mui/material'
 import { Icon } from '@iconify/react'
 import MoreDetails from './more-details-popover'
-import { formatDate } from '../../helper/datesFormatter'
+import { formatDateFromString } from '../../helper/datesFormatter'
 
 type Props = {
   imageDetails: ImageDetails
+  patientDetailsResult: PatientReportResult
 }
 
 // placeholder date
 
-const GrdViewImageCard = ({ imageDetails }: Props) => {
+const GrdViewImageCard = ({ imageDetails, patientDetailsResult }: Props) => {
   // const [isImageHover, setIsImageHover] = React.useState<boolean>(false)
-  const [date, setDate] = useState<Date>(new Date())
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -79,7 +79,8 @@ const GrdViewImageCard = ({ imageDetails }: Props) => {
           </span>
         </div>
         <p className='text-gray-500 font-light italic h-full capitalize hidden group-hover:block'>
-          last edited {formatDate(date)}
+          last edited{' '}
+          {formatDateFromString(patientDetailsResult.details.created_at)}
         </p>
       </div>
       <MoreDetails
