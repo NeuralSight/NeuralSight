@@ -1,19 +1,36 @@
 import Image from 'next/image'
-import { ImageDetails } from '../../../typings'
-import { formatStringDecimalToPercentage } from '../../../helper/AIResponseFormats'
+import {
+  AnyObject,
+  ImageDetails,
+  Pathogen,
+  PatientReportResult,
+} from '../../../typings'
 import Button from '../../Button'
 import { Icon } from '@iconify/react'
 import ProgressBar from './ProgressBar'
 import Inference from './Inference'
-import { formatDate } from '../../../helper/datesFormatter'
-import { useState } from 'react'
+import { formatDateFromString } from '../../../helper/datesFormatter'
 
 type Props = {
   imageDetails: ImageDetails
+  patientDetailsResult: PatientReportResult
 }
 // placeholder date
-const ListViewImageCard = ({ imageDetails }: Props) => {
-  const [date, setDate] = useState<Date>(new Date())
+const ListViewImageCard = ({ imageDetails, patientDetailsResult }: Props) => {
+  const diseaseArr: Pathogen[] = []
+  const pathogens = patientDetailsResult.disease.split('\n')
+  // {
+  //   confidence:
+  //   type:
+  // }
+  for (let pathogen of pathogens) {
+    const pathogenArr = pathogen.split(' ')
+    const diseasesPresentObj: AnyObject = {}
+    diseasesPresentObj['confidence'] = pathogenArr[0]
+    diseasesPresentObj['type'] = pathogenArr[1]
+    diseaseArr.push(diseasesPresentObj)
+  }
+
   return (
     <div className='flex flex-col xl:flex-row w-full h-fit shadow-lg border-2 rounded-xl p-4 gap-6 bg-primary-lightest relative'>
       <button
@@ -35,7 +52,7 @@ const ListViewImageCard = ({ imageDetails }: Props) => {
           width={100}
           height={100}
           placeholder='blur'
-          blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=='
+          blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mPsrgcAAZsBDIKsyq4AAAAASUVORK5CYII='
           className='rounded-xl w-auto xl:w-full h-96 xl:h-80'
         />
         <div className='absolute top-4 left-4 z-10 p-2 rounded-2xl my-auto bg-primary-dark text-gray-50 font-semibold text-sm uppercase shadow-lg shadow-primary-dark/25 group-hover:shadow-none text-center align-middle'>
@@ -45,7 +62,8 @@ const ListViewImageCard = ({ imageDetails }: Props) => {
       <div className='w-full 2xl:w-2/3 flex flex-col space-y-8'>
         <div className='flex flex-col space-y-1'>
           <p className='text-gray-500 font-light italic h-full capitalize'>
-            Last Edited {formatDate(date)}
+            Last Edited{' '}
+            {formatDateFromString(patientDetailsResult.details.created_at)}
           </p>
           <h4 className='text-lg text-slate-500'>
             Disease &#8594;{' '}
@@ -67,7 +85,7 @@ const ListViewImageCard = ({ imageDetails }: Props) => {
           <h4 className='capitalize text-xl tracking-[4px] font-semibold underline decoration-slate-400 text-slate-700 mb-2 '>
             pathogens
           </h4>
-          {imageDetails.pathogens?.map((pathogen, key) => (
+          {diseaseArr.map((pathogen, key) => (
             <ProgressBar key={key} pathogen={pathogen} />
           ))}
         </div>
