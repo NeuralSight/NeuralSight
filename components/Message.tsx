@@ -1,18 +1,19 @@
 import { Icon } from '@iconify/react'
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
 type Props = {
   children: React.ReactNode
   isSuccess?: boolean
+  isOpen: boolean
+  setMessageOpen: Dispatch<SetStateAction<boolean>>
 }
 
 const ErrorMessage = (props: Props) => {
-  const [close, setClose] = useState<boolean>(false)
   return (
     <div
       id='toast-success'
-      className={` items-center p-4 mb-4 w-full text-gray-50  rounded-lg shadow ${
-        close ? 'hidden' : 'flex'
+      className={` items-center p-4 mb-4 w-full text-gray-50  rounded-sm shadow ${
+        props.isOpen ? 'flex' : 'hidden'
       } ${props.isSuccess ? 'bg-green-500' : 'bg-red-500'}`}
       role='alert'
     >
@@ -57,7 +58,7 @@ const ErrorMessage = (props: Props) => {
         className='ml-auto -mx-1.5 -my-1.5 bg-white/10 text-gray-50 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8  '
         data-dismiss-target='#toast-success'
         aria-label='Close'
-        onClick={() => setClose(true)}
+        onClick={() => props.setMessageOpen(false)}
       >
         <span className='sr-only'>Close</span>
         <svg
