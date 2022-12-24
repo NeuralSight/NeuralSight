@@ -115,7 +115,7 @@ const MainContentSection = () => {
   const allReport = reportContext?.getAllReport()
   const isError = reportContext?.isError
   const isLoading = reportContext?.isLoading
-  console.log('allReport', allReport)
+  // console.log('allReport', allReport)
 
   return (
     <div className='w-full h-[94%] flex flex-col gap-6'>
@@ -232,10 +232,13 @@ const MainContentSection = () => {
                       loading...
                     </div>
                   ) : (
-                    SampleImagesArr.map((item) => (
+                    allReport?.map((item, key) => (
                       <GridViewImageCard
-                        imageDetails={item}
-                        key={item.patientID}
+                        patientDetailsResult={item}
+                        imageDetails={
+                          SampleImagesArr[key % SampleImagesArr.length]
+                        }
+                        key={item.details.id}
                       />
                     ))
                   )}
@@ -255,10 +258,13 @@ const MainContentSection = () => {
                         loading...
                       </div>
                     ) : (
-                      SampleImagesArr.map((item) => (
+                      allReport?.map((item, key) => (
                         <ListViewImageCard
-                          imageDetails={item}
-                          key={item.patientID}
+                          patientDetailsResult={item}
+                          imageDetails={
+                            SampleImagesArr[key % SampleImagesArr.length]
+                          }
+                          key={item.details.id}
                         />
                       ))
                     )}
