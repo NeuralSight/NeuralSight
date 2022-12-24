@@ -5,8 +5,8 @@ interface AnyObject {
   [key: string]: any
 }
 interface Pathogen {
-  type: string
-  confidence: string
+  type?: string
+  confidence?: string
 }
 interface ImageDetails {
   patientID: string
