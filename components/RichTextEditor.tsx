@@ -40,10 +40,7 @@ class RichTextEditor extends Component<Props, State> {
   }
 
   //is invoked immediately after a component is mounted (inserted into the tree). Initialization that requires DOM nodes should go here. If you need to load data from a remote endpoint, this is a good place to instantiate the network request.
-  componentDidMount() {
-    this.state
-    this.onEditorStateChange
-  }
+
   onEditorStateChange: EditorType = (editorState: EditorState) => {
     this.setState({
       editorState,
@@ -51,6 +48,10 @@ class RichTextEditor extends Component<Props, State> {
     this.props.setReport(
       draftToHtml(convertToRaw(editorState.getCurrentContent()))
     )
+  }
+  componentDidMount() {
+    this.state
+    this.onEditorStateChange
   }
 
   //OPTIONS
