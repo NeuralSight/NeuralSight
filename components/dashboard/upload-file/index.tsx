@@ -26,6 +26,8 @@ type Props = {
 }
 
 const UploadFile = (props: Props) => {
+  const [messageOpen, setMessageOpen] = useState<boolean>(false)
+  const [successMessageOpen, setSuccessMessageOpen] = useState<boolean>(false)
   // states
   const [success, setSuccess] = useState<string | null>(null)
   // drag state
@@ -87,6 +89,7 @@ const UploadFile = (props: Props) => {
   }
 
   const handleFiles = (files: File[]) => {
+    setMessageOpen(true)
     for (let i = 0; i < files.length; i++) {
       if (
         files[i].type !== 'image/jpeg' &&
@@ -131,7 +134,8 @@ const UploadFile = (props: Props) => {
     e.preventDefault()
     // animate uploading the show when finished and list the file
     // if clicks save changes upload the files
-
+    setMessageOpen(true)
+    setSuccessMessageOpen(true)
     //image data
     const imageData = {
       file: fileInfo && fileInfo[0],
@@ -188,9 +192,19 @@ const UploadFile = (props: Props) => {
     >
       <div className='pb-3 flex flex-col space-x-2'>
         {error || fileError ? (
-          <ErrorMessage>{error || fileError?.message}</ErrorMessage>
+          <ErrorMessage isOpen={messageOpen} setMessageOpen={setMessageOpen}>
+            {error || fileError?.message}
+          </ErrorMessage>
         ) : null}
-        {success && <ErrorMessage isSuccess>{success}</ErrorMessage>}
+        {success && (
+          <ErrorMessage
+            isSuccess
+            isOpen={successMessageOpen}
+            setMessageOpen={setSuccessMessageOpen}
+          >
+            {success}
+          </ErrorMessage>
+        )}
       </div>
       <input
         ref={inputRef}
