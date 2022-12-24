@@ -162,7 +162,7 @@ const ModelResults = ({ disease, patientId, selected }: Props) => {
         key: generateRandomString(128),
         type: 'Blunted Constophrenic Angile',
         category: 'p',
-        confidence: '0.90',
+        confidence: '0.00',
       },
       {
         key: generateRandomString(128),
@@ -225,14 +225,14 @@ const ModelResults = ({ disease, patientId, selected }: Props) => {
   for (let i = 0; i < diseaseArr.length; i++) {
     const disArr: string[] = diseaseArr[i].split(' ')
     console.log(disArr)
-    diseasesPresentObj[disArr[0]] = disArr[1]
+    diseasesPresentObj[disArr[1]] = disArr[0]
     for (let pathogen of ModelResultsObj.pathogens) {
       if (pathogen.name) {
         if (
-          pathogen.name.toLocaleLowerCase() == disArr[0].toLocaleLowerCase()
+          pathogen.name.toLocaleLowerCase() == disArr[1].toLocaleLowerCase()
         ) {
           // equal to the confidence put up by the model
-          pathogen.confidence = disArr[1]
+          pathogen.confidence = disArr[0]
         }
       }
     }
