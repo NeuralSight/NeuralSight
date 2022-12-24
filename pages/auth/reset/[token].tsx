@@ -15,7 +15,6 @@ import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Footer from '../../../components/Footer'
 import useReset from '../../../hooks/use-reset'
-import { ErrorDetails } from '../../../typings'
 import {
   FIELD_REQUIRED_ERR_MSG,
   PASSWORD_LENGTH_ERR_MSG,
@@ -32,6 +31,9 @@ type State = {
 type Props = {}
 
 function ChangePassword({}: Props) {
+  const [messageOpen, setMessageOpen] = useState<boolean>(false)
+  const [successMessageOpen, setSuccessMessageOpen] = useState<boolean>(false)
+
   // getting token
   const router = useRouter()
   const { token } = router.query
@@ -81,6 +83,8 @@ function ChangePassword({}: Props) {
 
   //submit new password
   const onSubmit: SubmitHandler<State> = (data) => {
+    setMessageOpen(true)
+    setSuccessMessageOpen(true)
     return mutate(
       {
         token: typeof token == 'string' ? token : '',
@@ -135,11 +139,19 @@ function ChangePassword({}: Props) {
   return (
     <div>
       {errors.password?.message || errors.confirmPassword?.message || error ? (
-        <Message>
+        <Message isOpen={messageOpen} setMessageOpen={setMessageOpen}>
           {errors.confirmPassword?.message || errors.password?.message || error}
         </Message>
       ) : null}
-      {isSuccess && success ? <Message isSuccess>{success}</Message> : null}
+      {isSuccess && success ? (
+        <Message
+          isOpen={successMessageOpen}
+          setMessageOpen={setSuccessMessageOpen}
+          isSuccess
+        >
+          {success}
+        </Message>
+      ) : null}
       <Head>
         <title>Reset Password</title>
       </Head>

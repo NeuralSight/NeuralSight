@@ -15,15 +15,18 @@ import {
 } from '../../../lang/errorMessages'
 import useRecover from '../../../hooks/use-recover'
 import { useState } from 'react'
-import { ErrorDetails } from '../../../typings'
 import Message from '../../../components/Message'
 import useErrorMsgHandler from '../../../hooks/use-error-msg-handler'
+
 type Props = {}
 
 type State = {
   email: string
 }
 function Reset({}: Props) {
+  const [messageOpen, setMessageOpen] = useState<boolean>(false)
+  const [successMessageOpen, setSuccessMessageOpen] = useState<boolean>(false)
+
   const {
     register,
     handleSubmit,
@@ -40,6 +43,8 @@ function Reset({}: Props) {
   const { mutate, isLoading, status, isSuccess } = useRecover()
 
   const onSubmit: SubmitHandler<State> = (data) => {
+    setMessageOpen(true)
+    setSuccessMessageOpen(true)
     console.log('data', data)
     return mutate(data.email, {
       onSuccess: (response, variable, context) => {
@@ -72,9 +77,19 @@ function Reset({}: Props) {
   return (
     <div className=' bg-gray-50 '>
       {errors.email?.message || error ? (
-        <Message>{errors.email?.message || error}</Message>
+        <Message isOpen={messageOpen} setMessageOpen={setMessageOpen}>
+          {errors.email?.message || error}
+        </Message>
       ) : null}
-      {isSuccess && success && <Message isSuccess>{success}</Message>}
+      {isSuccess && success && (
+        <Message
+          isOpen={successMessageOpen}
+          setMessageOpen={setSuccessMessageOpen}
+          isSuccess
+        >
+          {success}
+        </Message>
+      )}
       <Head>
         <title>Reset Password</title>
       </Head>

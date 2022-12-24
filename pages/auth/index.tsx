@@ -48,6 +48,7 @@ function Auth({}: Props) {
   // create authContext
   const currentClient = useQueryClient()
   const authContext = useContext<AuthContextType | null>(AuthContext)
+  const [messageOpen, setMessageOpen] = useState<boolean>(false)
   const route = useRouter()
 
   useEffect(() => {
@@ -65,6 +66,7 @@ function Auth({}: Props) {
   const { mutate, isLoading, status } = useLogin()
 
   const onSubmit: SubmitHandler<State> = (data) => {
+    setMessageOpen(true)
     return mutate(
       {
         username: data.email,
@@ -127,7 +129,7 @@ function Auth({}: Props) {
   return (
     <div className=' bg-gray-50'>
       {errors.email?.message || errors.password?.message || error ? (
-        <Message>
+        <Message isOpen={messageOpen} setMessageOpen={setMessageOpen}>
           {errors.email?.message || errors.password?.message || error}
         </Message>
       ) : null}
@@ -151,9 +153,9 @@ function Auth({}: Props) {
             <Image
               src={RobotImage}
               alt='a robot'
-              layout='fill'
-              objectFit='contain'
+              fill
               priority
+              className='object-cover'
             />
           </div>
           <div className='block lg:hidden absolute rounded-full h-80 w-80 bg-primary-light -top-[13em] -right-[13em] blur-3xl' />

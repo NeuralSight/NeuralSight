@@ -25,6 +25,7 @@ type Props = {
 }
 
 const EditReport = ({ isOpen, setModalOpen, reportId }: Props) => {
+  const [messageOpen, setMessageOpen] = useState<boolean>(false)
   const currentClient = useQueryClient()
   const [error, setError] = useState<string | null>(null)
   const { setDetails } = useErrorMsgHandler({ setError })
@@ -50,7 +51,7 @@ const EditReport = ({ isOpen, setModalOpen, reportId }: Props) => {
     e.preventDefault()
     // animate uploading the show when finished and list the file
     // if clicks save changes upload the files
-
+    setMessageOpen(true)
     //image data
     const patientData: PatientReport = {
       reportId: reportId,
@@ -117,8 +118,20 @@ const EditReport = ({ isOpen, setModalOpen, reportId }: Props) => {
     >
       <form onSubmit={handleSubmit} className='flex flex-col space-y-4'>
         <div className='pb-3 flex flex-col space-x-2'>
-          {error ? <ErrorMessage>{error}</ErrorMessage> : null}
-          {success && <ErrorMessage isSuccess>{success}</ErrorMessage>}
+          {error ? (
+            <ErrorMessage isOpen={messageOpen} setMessageOpen={setMessageOpen}>
+              {error}
+            </ErrorMessage>
+          ) : null}
+          {success && (
+            <ErrorMessage
+              isOpen={messageOpen}
+              setMessageOpen={setMessageOpen}
+              isSuccess
+            >
+              {success}
+            </ErrorMessage>
+          )}
         </div>
         <RichTextEditor report={report} setReport={setReport} />
         <div className='flex w-full space-x-4'>
