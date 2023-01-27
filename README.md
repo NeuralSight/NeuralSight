@@ -9,3 +9,32 @@ This repository contain frontend code for NeuralSight Image Viewer Platform.
 3. [NeuralSight AI Backend Repository](https://github.com/NeuralSight/NeuralSight_AI)
 4. [Company Charter](https://github.com/NeuralSight/NeuralSight_Docs)
 5. [Have a new Feature or an Issue you want fixed?](https://github.com/NeuralSight/NeuralSight_AI/tree/main/.github/ISSUE_TEMPLATE)
+
+
+<b>## Disclaimer!!</b>
+> NeuralSight Frontend is currently under development. You might encounter errors while setting up on your local environment.
+
+
+## Login Page
+<img align="centre" src="https://github.com/NeuralSight/NeuralSight_AI/blob/main/images/login.png" width="840" height="256" />
+
+## Signup Page
+<img align="centre" src="https://github.com/NeuralSight/NeuralSight_AI/blob/main/images/signup.png" width="840" height="256" />
+
+
+## Dashboard
+<img align="centre" src="https://github.com/NeuralSight/NeuralSight_AI/blob/main/images/dashboard.png" width="840" height="256" />
+
+## Alternative Dashboard Page
+<img align="centre" src="https://github.com/NeuralSight/NeuralSight_AI/blob/main/images/dashboard2.png" width="840" height="256" />
+
+## Image Upload Page
+<img align="centre" src="https://github.com/NeuralSight/NeuralSight_AI/blob/main/images/upload-image.png" width="840" height="256" />
+
+
+## Model Report Page
+<img align="centre" src="https://github.com/NeuralSight/NeuralSight_AI/blob/main/images/model-report.png" width="840" height="256" />
+
+
+## User Profile Page
+<img align="centre" src="https://github.com/NeuralSight/NeuralSight_AI/blob/main/images/user-profile.png" width="840" height="256" />
