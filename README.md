@@ -20,7 +20,7 @@ This repository contain frontend code for NeuralSight Image Viewer Platform.
 5. [Have a new Feature or an Issue you want fixed?](https://github.com/NeuralSight/NeuralSight_AI/tree/main/.github/ISSUE_TEMPLATE)
 
 
-<b>## Disclaimer!!</b>
+## <b><i>Disclaimer!!</i></b>
 > NeuralSight Frontend is currently under development. You might encounter errors while setting up on your local environment.
 
 
