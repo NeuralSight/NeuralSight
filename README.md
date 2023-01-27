@@ -2,6 +2,15 @@
 ## What is in this Repository?
 This repository contain frontend code for NeuralSight Image Viewer Platform.
 
+## Tables of Content:
+* Login Page
+* Signup Page
+* Dashboard Page
+* Alternative Dashboard Page
+* Image Upload Page
+* Model Report Page
+* User Profile Page
+
 
 ## 1. Important Resources
 1. [What is NeuralSight](https://github.com/NeuralSight/Get-to-Understand-NeuralSight-AI)
@@ -22,7 +31,7 @@ This repository contain frontend code for NeuralSight Image Viewer Platform.
 <img align="centre" src="https://github.com/NeuralSight/NeuralSight_frontend/blob/main/images/signup.png" width="840" height="512" />
 
 
-## Dashboard
+## Dashboard Page
 <img align="centre" src="https://github.com/NeuralSight/NeuralSight_frontend/blob/main/images/dashboard.png" width="840" height="512" />
 
 ## Alternative Dashboard Page
@@ -36,5 +45,5 @@ This repository contain frontend code for NeuralSight Image Viewer Platform.
 <img align="centre" src="https://github.com/NeuralSight/NeuralSight_frontend/blob/main/images/model-report.png" width="840" height="512" />
 
 
-## User Profile Page
+## User Profile Page 
 <img align="centre" src="https://github.com/NeuralSight/NeuralSight_frontend/blob/main/images/user-profile.png" width="840" height="512" />
