@@ -16,25 +16,25 @@ This repository contain frontend code for NeuralSight Image Viewer Platform.
 
 
 ## Login Page
-<img align="centre" src="https://github.com/NeuralSight/NeuralSight_AI/blob/main/images/login.png" width="840" height="256" />
+<img align="centre" src="https://github.com/NeuralSight/NeuralSight_frontend/blob/main/images/login.png" width="840" height="256" />
 
 ## Signup Page
-<img align="centre" src="https://github.com/NeuralSight/NeuralSight_AI/blob/main/images/signup.png" width="840" height="256" />
+<img align="centre" src="https://github.com/NeuralSight/NeuralSight_frontend/blob/main/images/signup.png" width="840" height="256" />
 
 
 ## Dashboard
-<img align="centre" src="https://github.com/NeuralSight/NeuralSight_AI/blob/main/images/dashboard.png" width="840" height="256" />
+<img align="centre" src="https://github.com/NeuralSight/NeuralSight_frontend/blob/main/images/dashboard.png" width="840" height="256" />
 
 ## Alternative Dashboard Page
-<img align="centre" src="https://github.com/NeuralSight/NeuralSight_AI/blob/main/images/dashboard2.png" width="840" height="256" />
+<img align="centre" src="https://github.com/NeuralSight/NeuralSight_frontend/blob/main/images/dashboard2.png" width="840" height="256" />
 
 ## Image Upload Page
-<img align="centre" src="https://github.com/NeuralSight/NeuralSight_AI/blob/main/images/upload-image.png" width="840" height="256" />
+<img align="centre" src="https://github.com/NeuralSight/NeuralSight_frontend/blob/main/images/upload-image.png" width="840" height="256" />
 
 
 ## Model Report Page
-<img align="centre" src="https://github.com/NeuralSight/NeuralSight_AI/blob/main/images/model-report.png" width="840" height="256" />
+<img align="centre" src="https://github.com/NeuralSight/NeuralSight_frontend/blob/main/images/model-report.png" width="840" height="256" />
 
 
 ## User Profile Page
-<img align="centre" src="https://github.com/NeuralSight/NeuralSight_AI/blob/main/images/user-profile.png" width="840" height="256" />
+<img align="centre" src="https://github.com/NeuralSight/NeuralSight_frontend/blob/main/images/user-profile.png" width="840" height="256" />
