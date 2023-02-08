@@ -1,16 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { ContentType } from '../lang/content-type'
-import {
-  changeObjToFormUrlencoded,
-  changeObjToFormData,
-} from '../helper/changeObjToOtherFormats'
+import { changeObjToFormUrlencoded } from '../helper/changeObjToOtherFormats'
 import { Patient, PatientPredictImage, PatientUpdateReport } from '../typings'
 
 const Url = `${process.env.NEXT_PUBLIC_NEURALSIGHT_API_BASE_URL}/patient`
 
 // post image
 export const postPatient = async ({ patientId, token }: Patient) => {
-  const response = await fetch(Url, {
+  const response = await fetch(Url + '/', {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,
