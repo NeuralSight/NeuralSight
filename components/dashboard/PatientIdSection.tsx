@@ -15,6 +15,7 @@ import usePostPatient from '../../hooks/use-post-patient'
 import PatientIdCardSkeleton from '../skeletons/PatientIdCard'
 import { PatientContext } from '../../context/patient-context'
 import { PatientContextType, PatientResult } from '../../typings'
+import { getStorageItem } from '../../helper/localStorageAccess'
 
 type State = {
   patientId: string
@@ -117,7 +118,7 @@ function PatientIdSection() {
               icon={
                 <button
                   type='submit'
-                  className='absolute rounded-[25px] bg-gray-500/70 group-focus:group-hover:bg-primary-light flex justify-center items-center p-1.5 right-1 transition-all duration-200'
+                  className='absolute rounded-[25px] bg-gray-500/70 hover:bg-primary-light flex justify-center items-center p-1.5 right-1 transition-all duration-200'
                   title='add patient'
                 >
                   <Icon
@@ -128,6 +129,7 @@ function PatientIdSection() {
                 </button>
               }
             />
+            {/* messages */}
             {errors.patientId?.message || error ? (
               <p className='text-red-500 text-bold text-sm italic py-1 w-full rounded-md bg-red-100/80 px-2'>
                 {errors.patientId?.message || error}
@@ -153,10 +155,12 @@ function PatientIdSection() {
           <PatientIdCard
             key={patient.id}
             idKey={patient.id}
-            active={patient.id === patientContext?.patientId}
+            active={patient.id === getStorageItem('activePatient')}
             setActive={patientContext?.setPatientInfo}
             className={`justify-center ${
-              patient.id === patientContext?.patientId ? 'font-semibold' : ''
+              patient.id === getStorageItem('activePatient')
+                ? 'font-semibold'
+                : ''
             }`}
           >
             {patient.id}
