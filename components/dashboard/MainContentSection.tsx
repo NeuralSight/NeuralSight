@@ -27,6 +27,7 @@ import PatientIdSection from './PatientIdSection'
 import MainSectionNavBar from '../MainSectionNavBar'
 import { PatientContext } from '../../context/patient-context'
 import { ReportContext } from '../../context/report-context'
+import { getStorageItem } from '../../helper/localStorageAccess'
 
 type Props = {
   active: string
@@ -110,7 +111,9 @@ const MainContentSection = () => {
   const reportContext = useContext(ReportContext)
 
   useEffect(() => {
-    reportContext?.setPatientId(patientContext?.patientId || '')
+    reportContext?.setPatientId(
+      getStorageItem('activePatient') || patientContext?.patientId
+    )
   }, [patientContext?.patientId, reportContext])
   const allReport = reportContext?.getAllReport()
   const isError = reportContext?.isError
@@ -293,7 +296,13 @@ const MainContentSection = () => {
               >
                 {/* <AddImageModalContent/> */}
                 <div className='my-5'>
-                  <UploadFile setOpen={setModalOpen} patientId={''} />
+                  <UploadFile
+                    setOpen={setModalOpen}
+                    patientId={
+                      getStorageItem('activePatient') ||
+                      patientContext?.patientId
+                    }
+                  />
                 </div>
               </Modal>
             </div>
