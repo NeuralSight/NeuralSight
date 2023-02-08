@@ -11,7 +11,7 @@ import {
   useContext,
   useEffect,
 } from 'react'
-import { FileInfo, FileTypeError, PatientPredictImage } from '../../../typings'
+import { FileInfo, FileTypeError } from '../../../typings'
 import Button from '../../Button'
 import ErrorMessage from '../../Message'
 import FilePreviewCard from './FilePreviewCard'
@@ -60,7 +60,7 @@ const UploadFile = (props: Props) => {
     if (e.type === 'dragenter' || e.type === 'dragover') {
       setDragActive(true)
     } else if (e.type === 'dragleave') {
-      console.log('drag leave')
+      // console.log('drag leave')
       setDragActive(false)
     }
   }
@@ -139,8 +139,9 @@ const UploadFile = (props: Props) => {
     //image data
     const imageData = {
       file: fileInfo && fileInfo[0],
-      patientId: props.patientId || 'testid',
+      patientId: props.patientId,
     }
+    console.log('imageData', imageData)
 
     mutate(imageData, {
       onSuccess: async (response, variable, context) => {
@@ -169,6 +170,7 @@ const UploadFile = (props: Props) => {
 
   // handle clear all files
   const handleClearSelectedFile = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
     setFileInfo(undefined)
     if (inputRef.current?.value !== undefined) {
       inputRef.current.value = ''
@@ -180,7 +182,7 @@ const UploadFile = (props: Props) => {
       setFileError(null)
       setError(null)
       // setSuccess(null)
-    }, 5000)
+    }, 9000)
   })
 
   return (
