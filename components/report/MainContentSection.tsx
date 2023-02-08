@@ -34,7 +34,9 @@ const MainContentSection = () => {
 
   const reportContext = useContext<ReportContextType | null>(ReportContext)
   useEffect(() => {
-    reportContext?.setPatientId(patientContext?.patientId || '')
+    reportContext?.setPatientId(
+      getStorageItem('activePatient') || patientContext?.patientId
+    )
   }, [patientContext?.patientId, reportContext])
   const report = reportContext?.getReportByKey()
   const isLoading = reportContext?.isLoading
