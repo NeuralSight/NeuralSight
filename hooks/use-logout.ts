@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { removeItemFromStorage } from '../helper/localStorageAccess'
 
 async function logoutRequest(url: string) {
   try {
@@ -10,6 +11,7 @@ async function logoutRequest(url: string) {
       },
     })
     const data = await response.json()
+
     return data
   } catch (err: any) {
     return { error: err }
@@ -25,6 +27,7 @@ export default function useLogout(url: string) {
     setIsLoggingOut(true)
     const data = await logoutRequest(url)
     if (data.success) {
+      removeItemFromStorage('activePatient') // remove the current active patient
       setIsLoggingOut(false)
       setIsSuccessfull(true)
     } else {
