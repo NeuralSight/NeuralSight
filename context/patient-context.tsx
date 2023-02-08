@@ -5,6 +5,7 @@ import { PatientResult } from '../typings'
 import { reverse } from '../helper/reverseArray'
 import { fetchPatients } from '../utils/config'
 import { PatientContextType } from '../typings'
+import { getStorageItem } from '../helper/localStorageAccess'
 
 type Props = {
   children: ReactNode
@@ -25,7 +26,7 @@ const PatientProvider = ({ children }: Props) => {
       onSuccess: (data: PatientResult[]) => {
         currentClient.setQueryData(['patients'], data)
         // only if their is an id then set it
-        data[0] && setPatient(data[0].id)
+        data[0] && setPatient(data[data.length - 1].id)
       },
     }
   )
