@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react'
 import { ReactNode } from 'react'
+import { setStorageItem, getStorageItem } from '../helper/localStorageAccess'
 
 type Props = {
   children: ReactNode
@@ -12,7 +13,8 @@ type Props = {
 const ListNavigationCard = (props: Props) => {
   const activePatientId = () => {
     if (props.setActive) {
-      return props.setActive(props.idKey)
+      setStorageItem('activePatient', props.idKey)
+      return props.setActive(getStorageItem('activePatient') || props.idKey)
     }
     return
   }

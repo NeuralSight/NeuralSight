@@ -27,9 +27,11 @@ import {
   PASSWORD_REQUIRED_ERR_MSG,
   SERVER_ERR_MSG,
 } from '../../lang/errorMessages'
-import { AuthContextType } from '../../typings'
+import { AuthContextType, PatientContextType } from '../../typings'
 import useErrorMsgHandler from '../../hooks/use-error-msg-handler'
 import { useQueryClient } from '@tanstack/react-query'
+import { PatientContext } from '../../context/patient-context'
+import { setStorageItem } from '../../helper/localStorageAccess'
 type Props = {}
 
 type State = {
@@ -48,6 +50,7 @@ function Auth({}: Props) {
   // create authContext
   const currentClient = useQueryClient()
   const authContext = useContext<AuthContextType | null>(AuthContext)
+  const patientContext = useContext<PatientContextType | null>(PatientContext)
   const [messageOpen, setMessageOpen] = useState<boolean>(false)
   const route = useRouter()
 
@@ -78,6 +81,7 @@ function Auth({}: Props) {
             if (data?.data?.access_token) {
               // console.log('data', data)
               authContext?.setAuthState(data.data)
+              setStorageItem('activePatient', patientContext?.patientId)
               currentClient.invalidateQueries()
               // go to dashboard
               route.push('/')
