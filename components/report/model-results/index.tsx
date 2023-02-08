@@ -222,17 +222,19 @@ const ModelResults = ({ disease, patientId, selected }: Props) => {
     modality: 'CT scan',
   }
 
-  for (let i = 0; i < diseaseArr.length; i++) {
-    const disArr: string[] = diseaseArr[i].split(' ')
-    console.log(disArr)
-    diseasesPresentObj[disArr[1]] = disArr[0]
-    for (let pathogen of ModelResultsObj.pathogens) {
-      if (pathogen.name) {
-        if (
-          pathogen.name.toLocaleLowerCase() == disArr[1].toLocaleLowerCase()
-        ) {
-          // equal to the confidence put up by the model
-          pathogen.confidence = disArr[0]
+  if (diseaseArr.length > 1) {
+    for (let i = 0; i < diseaseArr.length; i++) {
+      const disArr: string[] = diseaseArr[i].split(' ')
+      console.log(disArr)
+      diseasesPresentObj[disArr[1]] = disArr[0]
+      for (let pathogen of ModelResultsObj.pathogens) {
+        if (pathogen.name) {
+          if (
+            pathogen.name.toLocaleLowerCase() == disArr[1].toLocaleLowerCase()
+          ) {
+            // equal to the confidence put up by the model
+            pathogen.confidence = disArr[0]
+          }
         }
       }
     }
