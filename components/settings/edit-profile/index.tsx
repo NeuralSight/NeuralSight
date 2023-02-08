@@ -63,7 +63,7 @@ const EditProfile = (props: Props) => {
   })
 
   const onSubmit: SubmitHandler<NewUser> = (newData: NewUser) => {
-    if (!newData || !profileImage) {
+    if (!newData && !profileImage) {
       setError('Change atleast one field')
     } else {
       let newTel = newData.phone
@@ -98,6 +98,7 @@ const EditProfile = (props: Props) => {
         phone: newTel,
         location,
       }
+      console.log('fullname', `${new_firstname} ${new_lastname}`)
       const UpdatedUserWithoutFile: UserWithoutFile = {
         full_name: `${new_firstname} ${new_lastname}`,
         address,
