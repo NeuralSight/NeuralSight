@@ -12,6 +12,7 @@ const MAX_DIGIT_TEL_NO_ERR_MSG = 'max length 9 digits after country code'
 
 // api errors
 const METHOD_NOT_ALLOWED_ERR_MSG = 'Method Not Allowed!'
+const BAD_REQUEST_ERR_MSG = 'bad request'
 export {
   PASSWORD_REQUIRED_ERR_MSG,
   PASSWORD_LENGTH_ERR_MSG,
@@ -24,4 +25,5 @@ export {
   MAX_DIGIT_TEL_NO_ERR_MSG,
   TEL_INCORRECT_ERR_MSG,
   METHOD_NOT_ALLOWED_ERR_MSG,
+  BAD_REQUEST_ERR_MSG,
 }
