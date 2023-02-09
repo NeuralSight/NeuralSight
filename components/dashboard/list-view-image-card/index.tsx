@@ -23,6 +23,13 @@ const ListViewImageCard = ({ imageDetails, patientDetailsResult }: Props) => {
   //   confidence:
   //   type:
   // }
+  const inferencePath = patientDetailsResult.details.inference_path
+  // split
+  const inferenceArr = inferencePath.split('/')
+
+  const imageType = inferenceArr[1]
+  const fileName = inferenceArr[2]
+
   for (let pathogen of pathogens) {
     const pathogenArr = pathogen.split(' ')
     const diseasesPresentObj: AnyObject = {}
@@ -47,11 +54,12 @@ const ListViewImageCard = ({ imageDetails, patientDetailsResult }: Props) => {
       </button>
       <div className='xl:w-1/3 w-full rounded-xl flex justify-center '>
         <Image
-          src={imageDetails.src}
+          src={`${process.env.NEXT_PUBLIC_NEURALSIGHT_API_BASE_URL}/patient/file/${imageType}/${fileName}`}
           alt={`patient's image testing ${imageDetails.disease}`}
           width={100}
           height={100}
-          placeholder='blur'
+          // fill
+          // placeholder='blur'
           blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mPsrgcAAZsBDIKsyq4AAAAASUVORK5CYII='
           className='rounded-xl w-auto xl:w-full h-96 xl:h-80'
         />

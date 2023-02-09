@@ -2,6 +2,7 @@ import React from 'react'
 import { ImageDetails, PatientReportResult } from '../../../typings'
 import Image from 'next/legacy/image'
 import useGetAWSfile from '../../../hooks/use-get-aws-file'
+import { log } from 'console'
 
 type Props = {
   imageDetails: ImageDetails
@@ -9,10 +10,17 @@ type Props = {
 }
 
 const ImageCard = ({ imageDetails, patientReportResult }: Props) => {
+  console.log('patient report', patientReportResult)
   // const imageQuery = useGetAWSfile(
   //   patientReportResult.details.inference_path,
   //   patientReportResult.details.id
   // )
+  const inferencePath = patientReportResult.details.inference_path
+  // split
+  const inferenceArr = inferencePath.split('/')
+
+  const imageType = inferenceArr[1]
+  const fileName = inferenceArr[2]
 
   return (
     <div
@@ -20,7 +28,7 @@ const ImageCard = ({ imageDetails, patientReportResult }: Props) => {
       title='click to edit on OHIF'
     >
       <Image
-        src={imageDetails.src}
+        src={`${process.env.NEXT_PUBLIC_NEURALSIGHT_API_BASE_URL}/patient/file/${imageType}/${fileName}`}
         alt={`patient's image testing ${imageDetails.disease}`}
         objectFit={'cover'}
         priority

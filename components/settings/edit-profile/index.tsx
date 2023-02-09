@@ -9,15 +9,18 @@ import {
   EMAIL_INCORRECT_ERR_MSG,
   MAX_DIGIT_TEL_NO_ERR_MSG,
   TEL_INCORRECT_ERR_MSG,
-} from '../../../lang/errorMessages'
+} from '../../../lang/error-messages'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { fetchUserInfo, updateUser } from '../../../utils/config'
 import { NewUser, User, UserWithoutFile } from '../../../typings'
 import useErrorMsgHandler from '../../../hooks/use-error-msg-handler'
+import DefaultProfile from '../../../public/user-solid.svg'
 
 type Props = {}
 
 const EditProfile = (props: Props) => {
+  let imageType = ''
+  let fileName = ''
   let firstname = ''
   let lastname = ''
 
@@ -36,6 +39,7 @@ const EditProfile = (props: Props) => {
     ['user'],
     async () => (await fetchUserInfo()) as User
   )
+  console.log('user', data)
 
   if (data) {
     const names = data?.full_name.split(' ')
@@ -48,7 +52,15 @@ const EditProfile = (props: Props) => {
         lastname = names[1]
       }
     }
+
+    const userprofile = data?.userProfile
+    if (typeof userprofile == 'string') {
+      const userProfileArr = userprofile.split('/')
+      imageType = userProfileArr[1]
+      fileName = userProfileArr[2]
+    }
   }
+
   const {
     control,
     handleSubmit,
@@ -156,6 +168,10 @@ const EditProfile = (props: Props) => {
 
         <Profile
           profileImage={profileImage}
+          url={
+            `${process.env.NEXT_PUBLIC_NEURALSIGHT_API_BASE_URL}/patient/file/${imageType}/${fileName}` ||
+            DefaultProfile
+          }
           setProfileImage={setProfileImage}
         />
         <div className='hidden xl:block' />

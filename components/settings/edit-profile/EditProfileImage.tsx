@@ -12,10 +12,11 @@ import { FileTypeError } from '../../../typings'
 
 type Props = {
   profileImage: File | null
+  url: string
   setProfileImage: Dispatch<SetStateAction<File | null>>
 }
 
-const EditProfileImage = ({ profileImage, setProfileImage }: Props) => {
+const EditProfileImage = ({ profileImage, url, setProfileImage }: Props) => {
   const [selectedFile, setSelectedFile] = useState<File | undefined>()
   const [preview, setPreview] = useState<string | undefined>()
   const [imageError, setError] = useState<FileTypeError | null>(null)
@@ -69,10 +70,7 @@ const EditProfileImage = ({ profileImage, setProfileImage }: Props) => {
       )}
       <Image
         className='relative h-24 w-24 lg:h-32 lg:w-32 rounded-full border-2 border-primary-light object-cover'
-        src={
-          preview ||
-          'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1760&q=80'
-        }
+        src={preview || url}
         width={200}
         height={200}
         alt='profile image'
