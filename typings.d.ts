@@ -13,7 +13,7 @@ interface ImageDetails {
   modality: string
   src: string | import('../dist/client/image').StaticImageData
   disease: string
-  inference: number | string
+  inference: number
   pathogens: Pathogen[]
   totalPathogens: string | number
 }
