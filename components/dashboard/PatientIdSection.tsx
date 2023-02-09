@@ -10,7 +10,7 @@ import { generateRandomString } from '../../helper/randomStringGenerator'
 import {
   FIELD_REQUIRED_ERR_MSG,
   SERVER_ERR_MSG,
-} from '../../lang/errorMessages'
+} from '../../lang/error-messages'
 import usePostPatient from '../../hooks/use-post-patient'
 import PatientIdCardSkeleton from '../skeletons/PatientIdCard'
 import { PatientContext } from '../../context/patient-context'

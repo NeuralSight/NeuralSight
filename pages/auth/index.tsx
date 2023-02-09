@@ -26,7 +26,7 @@ import {
   PASSWORD_LENGTH_ERR_MSG,
   PASSWORD_REQUIRED_ERR_MSG,
   SERVER_ERR_MSG,
-} from '../../lang/errorMessages'
+} from '../../lang/error-messages'
 import { AuthContextType, PatientContextType } from '../../typings'
 import useErrorMsgHandler from '../../hooks/use-error-msg-handler'
 import { useQueryClient } from '@tanstack/react-query'

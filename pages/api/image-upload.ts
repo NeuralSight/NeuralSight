@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { METHOD_NOT_ALLOWED_ERR_MSG } from '../../lang/errorMessages'
+import { METHOD_NOT_ALLOWED_ERR_MSG } from '../../lang/error-messages'
 import { predictPatientImage } from '../../services/patient-api'
 
 export const config = {

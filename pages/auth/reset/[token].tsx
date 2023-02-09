@@ -21,7 +21,7 @@ import {
   PASSWORD_MISMATCH_ERR_MSG,
   PASSWORD_REQUIRED_ERR_MSG,
   SERVER_ERR_MSG,
-} from '../../../lang/errorMessages'
+} from '../../../lang/error-messages'
 import useErrorHandler from '../../../hooks/use-error-msg-handler'
 
 type State = {

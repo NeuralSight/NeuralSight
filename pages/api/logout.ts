@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import cookie from 'cookie'
-import { METHOD_NOT_ALLOWED_ERR_MSG } from '../../lang/errorMessages'
+import { METHOD_NOT_ALLOWED_ERR_MSG } from '../../lang/error-messages'
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   try {

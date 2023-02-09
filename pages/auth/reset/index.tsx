@@ -12,7 +12,7 @@ import {
   EMAIL_INCORRECT_ERR_MSG,
   EMAIL_REQUIRED_ERR_MSG,
   SERVER_ERR_MSG,
-} from '../../../lang/errorMessages'
+} from '../../../lang/error-messages'
 import useRecover from '../../../hooks/use-recover'
 import { useState } from 'react'
 import Message from '../../../components/Message'
