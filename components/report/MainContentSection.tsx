@@ -178,24 +178,24 @@ const MainContentSection = () => {
                       />
                     </button>
                   </div>
-                  <div className='break-all text-zinc-700 font-regular text-sm lg:text-base leading-loose print:first-letter:font-bold tracking-wider print:first-letter:text-7xl print:first-letter:text-white print:first-letter:mr-3 print:first-letter:float-left '>
-                    {report.details?.report ? (
-                      parse(report.details.report)
-                    ) : (
-                      <div className='flex flex-col space-y-10 mt-6 lg:mt-11 w-full h-full justify-center items-center px-4 '>
-                        <p className='text-xl capitalize w-full text-center  font-regular italic text-secondary-dark'>
-                          No Report
-                        </p>
-                        <Button
-                          type='button'
-                          outlined
-                          onClick={() => setModalOpen(true)}
-                        >
-                          add a report
-                        </Button>
-                      </div>
-                    )}
-                  </div>
+                  {report.details?.report ? (
+                    <div className='break-all text-zinc-700 font-regular text-sm lg:text-base leading-loose print:first-letter:font-bold tracking-wider print:first-letter:text-7xl print:first-letter:text-white print:first-letter:mr-3 print:first-letter:float-left '>
+                      {parse(report.details.report)}
+                    </div>
+                  ) : (
+                    <div className='flex flex-col space-y-10 mt-6 lg:mt-11 w-full h-full justify-center items-center px-4 '>
+                      <p className='text-xl capitalize w-full text-center  font-regular italic text-secondary-dark'>
+                        No Report
+                      </p>
+                      <Button
+                        type='button'
+                        outlined
+                        onClick={() => setModalOpen(true)}
+                      >
+                        add a report
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className='w-full xl:w-[58%]'>
