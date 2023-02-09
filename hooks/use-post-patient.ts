@@ -1,7 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { postPatient } from '../utils/config'
 import useErrorMsgHandler from './use-error-msg-handler'
+import { BAD_REQUEST_ERR_MSG } from '../lang/error-messages'
 
 export default function usePostPatient() {
   const [error, setError] = useState<string | null>(null)
@@ -18,17 +19,23 @@ export default function usePostPatient() {
   })
 
   const onClick = (patientId: string) => {
+    console.log('patientId', patientId)
     mutate(patientId, {
       onSuccess: async (response, variable, context) => {
         const data = await response.json()
-        if (response.status === 201 || response.status === 200) {
+        console.log('response status', response.status)
+        if (response.status === 201 || response.status == 200) {
           console.log('data', data)
           setPatient(data?.patient?.id)
           currentClient.invalidateQueries(['patients'])
         } else {
-          const detail = data.detail
-          console.log('detail', detail)
-          setDetails(detail)
+          if (response.status == 400) {
+            setDetails(data.detail || BAD_REQUEST_ERR_MSG)
+          } else {
+            const detail = data.detail
+            console.log('detail', detail)
+            setDetails(detail)
+          }
         }
       },
       onError: async (err: any, variables, context) => {
