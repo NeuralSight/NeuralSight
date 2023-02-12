@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, useEffect, useState } from 'react'
+import { ChangeEvent, MouseEvent, useContext, useEffect, useState } from 'react'
 import { CountryCodes } from '../../../helper/countryCodes'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import Profile from './EditProfileImage'
@@ -12,9 +12,15 @@ import {
 } from '../../../lang/error-messages'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { fetchUserInfo, updateUser } from '../../../utils/config'
-import { NewUser, User, UserWithoutFile } from '../../../typings'
+import {
+  NewUser,
+  User,
+  UserContextType,
+  UserWithoutFile,
+} from '../../../typings'
 import useErrorMsgHandler from '../../../hooks/use-error-msg-handler'
 import DefaultProfile from '../../../public/user-solid.svg'
+import { UserContext } from '../../../context/user-context'
 
 type Props = {}
 
@@ -35,11 +41,15 @@ const EditProfile = (props: Props) => {
   const handleCountryCode = (e: ChangeEvent<HTMLSelectElement>) => {
     setCountryCode(e.target.value)
   }
-  const { data } = useQuery(
-    ['user'],
-    async () => (await fetchUserInfo()) as User
-  )
-  console.log('user', data)
+
+  const userContext = useContext<UserContextType | null>(UserContext)
+  const data = userContext?.getUserInfo()
+
+  // const { data } = useQuery(
+  //   ['user'],
+  //   async () => (await fetchUserInfo()) as User
+  // )
+  // console.log('user', data)
 
   if (data) {
     const names = data?.full_name.split(' ')
@@ -169,8 +179,9 @@ const EditProfile = (props: Props) => {
         <Profile
           profileImage={profileImage}
           url={
-            `${process.env.NEXT_PUBLIC_NEURALSIGHT_API_BASE_URL}/patient/file/${imageType}/${fileName}` ||
-            DefaultProfile
+            imageType && fileName
+              ? `${process.env.NEXT_PUBLIC_NEURALSIGHT_API_BASE_URL}/patient/file/${imageType}/${fileName}`
+              : DefaultProfile
           }
           setProfileImage={setProfileImage}
         />
