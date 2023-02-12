@@ -37,6 +37,9 @@ const GrdViewImageCard = ({ imageDetails, patientDetailsResult }: Props) => {
         src={`${process.env.NEXT_PUBLIC_NEURALSIGHT_API_BASE_URL}/patient/file/${imageType}/${fileName}`}
         alt={`patient's image testing ${imageDetails.disease}`}
         fill
+        sizes='max-width: 768px) 100vw,
+              (max-width: 1200px) 50vw,
+              33vw'
         placeholder='blur'
         blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mPsrgcAAZsBDIKsyq4AAAAASUVORK5CYII='
         className='rounded-3xl object-cover'
