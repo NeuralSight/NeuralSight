@@ -5,7 +5,6 @@ import { PatientResult } from '../typings'
 import { reverse } from '../helper/reverseArray'
 import { fetchPatients } from '../utils/config'
 import { PatientContextType } from '../typings'
-import { getStorageItem } from '../helper/localStorageAccess'
 
 type Props = {
   children: ReactNode

@@ -26,6 +26,7 @@ const Provider = ReportContext.Provider
 
 const ReportProvider = ({ children }: Props) => {
   const [patientId, setPatientId] = useState<string>('')
+  console.log('patientId', patientId)
   const [error, setError] = useState<string | null>(null)
   const { detail, setDetails } = useErrorMsgHandler({ setError })
   const [currentId, setSetCurrentId] = useState<number>(0)
