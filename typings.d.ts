@@ -50,6 +50,14 @@ interface PatientContextType {
   isSuccess: () => boolean
 }
 
+interface UserContextType {
+  // setUserInfo: () => Dispatch
+  getUserInfo: () => User | undefined
+  isLoading: () => boolean
+  isError: () => boolean
+  isSuccess: () => boolean
+}
+
 interface ReportContextType {
   error: string | null
   detail: string | ErrorDetails[] | undefined
@@ -104,6 +112,11 @@ interface NewUser {
   location: string
   phone: string
 }
+interface PasswordUpdate {
+  oldpass: string
+  newpass: string
+  confirmpass: string
+}
 // user types
 interface User {
   email?: string
@@ -115,6 +128,9 @@ interface User {
   hospital?: string
   is_active?: boolean
   is_superuser?: boolean
+}
+interface UserError {
+  detail: string
 }
 interface UserWithoutFile {
   email?: string
