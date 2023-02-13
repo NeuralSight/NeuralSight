@@ -1,9 +1,9 @@
 import { ReactNode, useState } from 'react'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 import { createContext } from 'react'
 import { PatientResult } from '../typings'
 import { reverse } from '../helper/reverseArray'
-import { fetchPatients } from '../utils/config'
+import { fetchPatients, deleteAPatient } from '../utils/config'
 import { PatientContextType } from '../typings'
 
 type Props = {
@@ -17,6 +17,8 @@ const PatientContext = createContext<PatientContextType | null>(null)
 const PatientProvider = ({ children }: Props) => {
   const currentClient = useQueryClient()
   const [patient, setPatient] = useState<string>('')
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState<string | null>(null)
   const query = useQuery(
     ['patients'],
     async () => (await fetchPatients()).json() as Promise<PatientResult[]>,
@@ -29,9 +31,13 @@ const PatientProvider = ({ children }: Props) => {
       },
     }
   )
+
+  // delete mutation
+  const { mutate, isLoading, isSuccess } = useMutation(deleteAPatient)
+
   // query status
-  const isLoading = () => query.isLoading
-  const isSuccess = () => query.isSuccess
+  const isLoadingQuery = () => query.isLoading
+  const isSuccessQuery = () => query.isSuccess
   const isError = () => query.isError
 
   /**
@@ -62,6 +68,23 @@ const PatientProvider = ({ children }: Props) => {
     return patientFound
   }
 
+  const deleteSelectedPatient = (patientId: string) => {
+    mutate(patientId, {
+      onSuccess: (data, variable, context) => {
+        if (data.status === 200) {
+          console.log('data', data)
+          currentClient.invalidateQueries()
+        }
+      },
+      onError: (error, variables, context) => {
+        console.log(error)
+      },
+      onSettled: (data, error, variables, context) => {
+        console.log('settled')
+      },
+    })
+  }
+
   /**
    * @param {number} NO number of ids to show by default
    * @param {PatientResult[]} patientIds this the array return of all patients ids sorted by date
@@ -82,8 +105,10 @@ const PatientProvider = ({ children }: Props) => {
     getPatientsInfo,
     getLatestPatient: NoOfPatientDisplayByDefault,
     getSearchedPatient,
-    isLoading,
-    isSuccess,
+    deletePatient: deleteSelectedPatient,
+    isLoadingDeletion: isLoading,
+    isLoading: isLoadingQuery,
+    isSuccess: isSuccessQuery,
     isError,
   }
   return (
