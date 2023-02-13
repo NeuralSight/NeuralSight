@@ -13,6 +13,7 @@ type Props = {
 
 const DeletePatientModal = (props: Props) => {
   const patientContext = useContext<PatientContextType | null>(PatientContext)
+
   const handleDeletePatient = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     patientContext?.deletePatient(getStorageItem('activePatient'))
@@ -52,10 +53,10 @@ const DeletePatientModal = (props: Props) => {
             className='w-full max-h-[24px] flex items-center justify-center cursor-pointer rounded-xl fill-current border-2 border-red-500  px-4 py-6 bg-red-500 hover:bg-red-600 text-white'
             onClick={handleDeletePatient}
           >
-            Delete
+            {patientContext?.isLoadingDeletion ? 'Deleting...' : 'Delete'}
           </button>
           <Button outlined onClick={() => props.setOpen(false)}>
-            cancel
+            Cancel
           </Button>
         </div>
       </div>

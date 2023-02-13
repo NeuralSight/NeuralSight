@@ -13,10 +13,10 @@ type Props = {
 }
 
 const DeletePatientModal = (props: Props) => {
-  const patientContext = useContext<ReportContextType | null>(ReportContext)
+  const reportContext = useContext<ReportContextType | null>(ReportContext)
   const handleDeletePatientReport = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    patientContext?.deleteSelectedPatientReport(props.reportId)
+    reportContext?.deleteSelectedPatientReport(props.reportId)
   }
   return (
     <Modal
@@ -54,10 +54,10 @@ const DeletePatientModal = (props: Props) => {
             className='w-full max-h-[24px] flex items-center justify-center cursor-pointer rounded-xl fill-current border-2 border-red-500  px-4 py-6 bg-red-500 hover:bg-red-600 text-white'
             onClick={handleDeletePatientReport}
           >
-            Delete
+            {reportContext?.isDeletionLoading ? 'Deleting...' : 'delete'}
           </button>
           <Button outlined onClick={() => props.setOpen(false)}>
-            cancel
+            Cancel
           </Button>
         </div>
       </div>

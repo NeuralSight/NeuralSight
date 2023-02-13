@@ -71,6 +71,8 @@ interface ReportContextType {
   isLoading: boolean
   isError: boolean
   isSuccess: boolean
+  isDeletionLoading: boolean
+  isDeletionSuccess: boolean
 }
 interface AuthContextType {
   authState: string | undefined | null
