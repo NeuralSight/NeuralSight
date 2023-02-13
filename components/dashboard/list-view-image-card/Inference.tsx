@@ -1,5 +1,5 @@
 type Props = {
-  inference: string | number
+  inference: number
 }
 
 const Inference = ({ inference }: Props) => {
