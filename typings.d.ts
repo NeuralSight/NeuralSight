@@ -45,6 +45,8 @@ interface PatientContextType {
   getPatientsInfo: () => PatientResult[]
   getSearchedPatient: (searchValueKey: string) => PatientResult[]
   getLatestPatient: (NO: number) => PatientResult[]
+  deletePatient: (patientId: string) => void
+  isLoadingDeletion: boolean
   isLoading: () => boolean
   isError: () => boolean
   isSuccess: () => boolean
@@ -101,6 +103,7 @@ interface PatientUpdateReport extends Report {
   token: string
   report: string
 }
+
 interface PatientReport extends Report {
   report: string
 }
