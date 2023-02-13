@@ -67,6 +67,7 @@ export const deleteAPatientReport = async (reportId: string) => {
   const response = await fetch(`/api/delete-patient-report/${reportId}`, {
     method: 'DELETE',
   })
+  return response
 }
 // get user info
 
