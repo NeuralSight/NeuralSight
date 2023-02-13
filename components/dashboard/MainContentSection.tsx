@@ -28,6 +28,7 @@ import MainSectionNavBar from '../MainSectionNavBar'
 import { PatientContext } from '../../context/patient-context'
 import { ReportContext } from '../../context/report-context'
 import { getStorageItem } from '../../helper/localStorageAccess'
+import DeletePatientModal from './DeletePatientModal'
 
 type Props = {
   active: string
@@ -98,6 +99,7 @@ export const SampleImagesArr: ImageDetails[] = [
 
 const MainContentSection = () => {
   const [isOpen, setModalOpen] = useState<boolean>(false)
+  const [isDeletionOpen, setDeletionModalOpen] = useState<boolean>(false)
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false)
 
   // toggle state between listView and grid
@@ -200,6 +202,7 @@ const MainContentSection = () => {
               className='p-2 flex items-center justify-center bg-zinc-300/80 rounded-full hover:bg-red-500/30 active:bg-red-500/30'
               arial-label='delete patient details'
               title='delete patient details'
+              onClick={() => setDeletionModalOpen(true)}
             >
               {/* delete button will prompt the user if sure he want to delete in a small modal*/}
               <Icon
@@ -207,6 +210,10 @@ const MainContentSection = () => {
                 className='h-6 w-6 fill-current text-zinc-800'
               />
             </button>
+            <DeletePatientModal
+              open={isDeletionOpen}
+              setOpen={setDeletionModalOpen}
+            />
           </div>
         </div>
         {isError && !isLoading ? (
