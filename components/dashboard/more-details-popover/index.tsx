@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react'
 import CustomPopover from '../../Popover'
 import MoreDetailsBtn from './MoreDetailsBtn'
 
@@ -7,6 +8,7 @@ type Props = {
   open: boolean
   anchorEl: null | HTMLElement
   setAnchorElement: React.Dispatch<React.SetStateAction<HTMLElement | null>>
+  setDeleteModal: Dispatch<SetStateAction<boolean>>
 }
 
 const MoreDetailsLinks = [
@@ -16,11 +18,11 @@ const MoreDetailsLinks = [
   },
   {
     name: 'View Report',
-    link: '#',
+    link: '/report',
   },
   {
     name: 'delete',
-    link: '#',
+    // link: '#',
   },
 ]
 
@@ -29,7 +31,11 @@ export default function MoreDetails({
   open,
   anchorEl,
   setAnchorElement,
+  setDeleteModal,
 }: Props) {
+  const handleDelete = () => {
+    setDeleteModal(true)
+  }
   return (
     <CustomPopover
       id={id}
@@ -42,7 +48,11 @@ export default function MoreDetails({
       }}
     >
       {MoreDetailsLinks.map((item, key) => (
-        <MoreDetailsBtn key={key} link={item.link}>
+        <MoreDetailsBtn
+          key={key}
+          link={item.link}
+          handleDelete={item.name == 'delete' ? handleDelete : undefined}
+        >
           {item.name}
         </MoreDetailsBtn>
       ))}
