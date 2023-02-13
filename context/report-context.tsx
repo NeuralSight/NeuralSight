@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { ReactNode, createContext, useState } from 'react'
-import { fetchPatientReport } from '../utils/config'
+import { deleteAPatientReport, fetchPatientReport } from '../utils/config'
 
 import {
   ErrorDetails,
@@ -25,8 +25,10 @@ const ReportContext = createContext<null | ReportContextType>(null)
 const Provider = ReportContext.Provider
 
 const ReportProvider = ({ children }: Props) => {
+  const currentClient = useQueryClient()
+
   const [patientId, setPatientId] = useState<string>('')
-  console.log('patientId', patientId)
+  const [success, setSuccess] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const { detail, setDetails } = useErrorMsgHandler({ setError })
   const [currentId, setSetCurrentId] = useState<number>(0)
@@ -45,8 +47,7 @@ const ReportProvider = ({ children }: Props) => {
     }
   )
 
-  // const imageQuery= useQuery([patientId,"image"], async () =>
-  //     (await (patientId || '')).json() as Promise<Data>)
+  const { mutate, isLoading, isSuccess } = useMutation(deleteAPatientReport)
 
   const getAllReport = (): PatientReportResult[] => {
     const patientReportArray: PatientReportResult[] = query.data?.patient || []
@@ -60,6 +61,23 @@ const ReportProvider = ({ children }: Props) => {
 
     return report
   }
+
+  const deleteSelectedPatientReport = (reportId: string) => {
+    mutate(reportId, {
+      onSuccess: (data, variable, context) => {
+        if (data.status === 200) {
+          console.log('data', data)
+          currentClient.invalidateQueries()
+        }
+      },
+      onError: (error, variables, context) => {
+        console.log(error)
+      },
+      onSettled: (data, error, variables, context) => {
+        console.log('settled')
+      },
+    })
+  }
   return (
     <Provider
       value={{
@@ -68,6 +86,7 @@ const ReportProvider = ({ children }: Props) => {
         setSetCurrentId,
         getAllReport,
         getReportByKey,
+        deleteSelectedPatientReport,
         setPatientId,
         isLoading: query.isLoading,
         isSuccess: query.isSuccess,
