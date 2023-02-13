@@ -5,6 +5,7 @@ import { IconButton } from '@mui/material'
 import { Icon } from '@iconify/react'
 import MoreDetails from './more-details-popover'
 import { formatDateFromString } from '../../helper/datesFormatter'
+import DeleteReportModal from './DeleteReportModal'
 
 type Props = {
   imageDetails: ImageDetails
@@ -14,7 +15,7 @@ type Props = {
 // placeholder date
 
 const GrdViewImageCard = ({ imageDetails, patientDetailsResult }: Props) => {
-  // const [isImageHover, setIsImageHover] = React.useState<boolean>(false)
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -53,7 +54,12 @@ const GrdViewImageCard = ({ imageDetails, patientDetailsResult }: Props) => {
           aria-describedby={id}
         >
           {/* icon button with relevant icon onClick dropDown*/}
-          <IconButton size='small' type='button' onClick={handleClick}>
+          <IconButton
+            size='small'
+            type='button'
+            onClick={handleClick}
+            // sx={{ background: '' }}
+          >
             <Icon
               icon='akar-icons:more-horizontal'
               className='h-6 w-6 fill-current text-gray-50'
@@ -98,6 +104,12 @@ const GrdViewImageCard = ({ imageDetails, patientDetailsResult }: Props) => {
         anchorEl={anchorEl}
         open={open}
         setAnchorElement={setAnchorEl}
+        setDeleteModal={setIsOpenModal}
+      />
+      <DeleteReportModal
+        open={isOpenModal}
+        setOpen={setIsOpenModal}
+        reportId={patientDetailsResult.details.id}
       />
     </div>
   )

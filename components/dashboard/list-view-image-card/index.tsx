@@ -10,6 +10,8 @@ import { Icon } from '@iconify/react'
 import ProgressBar from './ProgressBar'
 import Inference from './Inference'
 import { formatDateFromString } from '../../../helper/datesFormatter'
+import { useState } from 'react'
+import DeleteReportModal from '../DeleteReportModal'
 
 type Props = {
   imageDetails: ImageDetails
@@ -17,6 +19,7 @@ type Props = {
 }
 // placeholder date
 const ListViewImageCard = ({ imageDetails, patientDetailsResult }: Props) => {
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
   const diseaseArr: Pathogen[] = []
   const pathogens = patientDetailsResult.disease.split('\n')
   // {
@@ -45,6 +48,7 @@ const ListViewImageCard = ({ imageDetails, patientDetailsResult }: Props) => {
         className='absolute top-4 right-[1%] p-2 h-fit w-fit flex items-center justify-center bg-zinc-300/80 rounded-full hover:bg-red-500/30 active:bg-red-500/30'
         arial-label='delete image'
         title='delete image'
+        onClick={() => setIsOpenModal(true)}
       >
         {/* delete button will prompt the user if sure he want to delete in a small modal*/}
         <Icon
@@ -60,7 +64,7 @@ const ListViewImageCard = ({ imageDetails, patientDetailsResult }: Props) => {
           height={100}
           // fill
           // placeholder='blur'
-          blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mPsrgcAAZsBDIKsyq4AAAAASUVORK5CYII='
+          // blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mPsrgcAAZsBDIKsyq4AAAAASUVORK5CYII='
           className='rounded-xl w-auto xl:w-full h-96 xl:h-80'
         />
         <div className='absolute top-4 left-4 z-10 p-2 rounded-2xl my-auto bg-primary-dark text-gray-50 font-semibold text-sm uppercase shadow-lg shadow-primary-dark/25 group-hover:shadow-none text-center align-middle'>
@@ -93,9 +97,10 @@ const ListViewImageCard = ({ imageDetails, patientDetailsResult }: Props) => {
           <h4 className='capitalize text-xl tracking-[4px] font-semibold underline decoration-slate-400 text-slate-700 mb-2 '>
             pathogens
           </h4>
-          {diseaseArr.map((pathogen, key) => (
-            <ProgressBar key={key} pathogen={pathogen} />
-          ))}
+          {diseaseArr.length > 1 &&
+            diseaseArr.map((pathogen, key) => (
+              <ProgressBar key={key} pathogen={pathogen} />
+            ))}
         </div>
         <div className='flex flex-col space-y-2.5 '>
           <Inference inference={imageDetails.inference} />
@@ -112,6 +117,11 @@ const ListViewImageCard = ({ imageDetails, patientDetailsResult }: Props) => {
           </div>
         </div>
       </div>
+      <DeleteReportModal
+        open={isOpenModal}
+        setOpen={setIsOpenModal}
+        reportId={patientDetailsResult.details.id}
+      />
     </div>
   )
 }
