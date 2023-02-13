@@ -23,6 +23,7 @@ export const postPatient = async (patientId: string) => {
     body: JSON.stringify(patientId),
   })
 }
+
 // fetch patients reports
 
 export const fetchPatientReport = async (patientId: string | number) => {
@@ -53,7 +54,20 @@ export const updatePatientReport = async ({
     body: stringified,
   })
 }
+// delete patient
+export const deleteAPatient = async (patientId: string) => {
+  const response = await fetch(`/api/delete-patient/${patientId}`, {
+    method: 'DELETE',
+  })
+  return response
+}
 
+// delete patient report
+export const deleteAPatientReport = async (reportId: string) => {
+  const response = await fetch(`/api/delete-patient-report/${reportId}`, {
+    method: 'DELETE',
+  })
+}
 // get user info
 
 export const fetchUserInfo = async () => {
