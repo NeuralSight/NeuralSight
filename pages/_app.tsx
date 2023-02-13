@@ -16,6 +16,7 @@ import { ErrorBoundary } from 'react-error-boundary'
 import Button from '../components/Button'
 import { PatientProvider } from '../context/patient-context'
 import { ReportProvider } from '../context/report-context'
+import { UserProvider } from '../context/user-context'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(
@@ -48,22 +49,24 @@ function MyApp({ Component, pageProps }: AppProps) {
         >
           <QueryClientProvider client={queryClient}>
             <AuthProvider>
-              <PatientProvider>
-                <ReportProvider>
-                  <Head>
-                    <meta
-                      name='viewport'
-                      content='width=device-width, initial-scale=1.0'
-                    ></meta>
-                  </Head>
-                  <Hydrate state={pageProps.dehydratedState}>
-                    <Component {...pageProps} />
-                  </Hydrate>
-                  {process.env.NODE_ENV == 'production' || (
-                    <ReactQueryDevtools initialIsOpen={false} />
-                  )}
-                </ReportProvider>
-              </PatientProvider>
+              <UserProvider>
+                <PatientProvider>
+                  <ReportProvider>
+                    <Head>
+                      <meta
+                        name='viewport'
+                        content='width=device-width, initial-scale=1.0'
+                      ></meta>
+                    </Head>
+                    <Hydrate state={pageProps.dehydratedState}>
+                      <Component {...pageProps} />
+                    </Hydrate>
+                    {process.env.NODE_ENV == 'production' || (
+                      <ReactQueryDevtools initialIsOpen={false} />
+                    )}
+                  </ReportProvider>
+                </PatientProvider>
+              </UserProvider>
             </AuthProvider>
           </QueryClientProvider>
         </ErrorBoundary>
