@@ -67,6 +67,7 @@ interface ReportContextType {
   setPatientId: Dispatch<SetStateAction<string>>
   getAllReport: () => PatientReportResult[]
   getReportByKey: () => PatientReportResult | undefined
+  deleteSelectedPatientReport: (reportId: string) => void
   isLoading: boolean
   isError: boolean
   isSuccess: boolean
