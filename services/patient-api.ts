@@ -1,7 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { ContentType } from '../lang/content-type'
 import { changeObjToFormUrlencoded } from '../helper/changeObjToOtherFormats'
-import { Patient, PatientPredictImage, PatientUpdateReport } from '../typings'
+import { Patient, PatientUpdateReport } from '../typings'
+
+type DeletePatientReport = {
+  reportId: string
+  token: string
+}
 
 const Url = `${process.env.NEXT_PUBLIC_NEURALSIGHT_API_BASE_URL}/patient`
 
@@ -35,6 +40,17 @@ export const predictPatientImage = async (
     body: req,
   })
   // response.pipe(res)
+  return response
+}
+
+// get patient images
+export const getPatientImage = async (token: string) => {
+  const response = await fetch(`${Url}/file/filer`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      // 'Content-Type': ContentType.FormData,
+    },
+  })
   return response
 }
 
@@ -86,5 +102,21 @@ export const deletePatient = async ({ patientId, token }: Patient) => {
       'Content-Type': ContentType.FormData,
     },
   })
+  return response
+}
+
+// delete patient report
+export const deletePatientReport = async ({
+  token,
+  reportId,
+}: DeletePatientReport) => {
+  const response = await fetch(`${Url}/report/${reportId}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': ContentType.FormData,
+    },
+  })
+
   return response
 }
