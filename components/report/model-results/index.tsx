@@ -48,16 +48,16 @@ const ModelResults = ({ disease, patientId, selected }: Props) => {
         key: generateRandomString(128),
         confidence: '0.00',
         category: 'p',
-        name: 'Pulmonary fibrosis',
         type: 'plumonary fiborisis',
+        name: 'Pulmonary fibrosis',
       },
       {
         key: generateRandomString(128),
 
         confidence: '0.00',
         category: 'p',
-        name: 'Pleural thickening',
         type: 'pleural Thikening',
+        name: 'Pleural thickening',
       },
       {
         key: generateRandomString(128),
@@ -222,17 +222,18 @@ const ModelResults = ({ disease, patientId, selected }: Props) => {
     modality: 'CT scan',
   }
 
-  if (diseaseArr.length > 1) {
+  if (diseaseArr.length > 0) {
     for (let i = 0; i < diseaseArr.length; i++) {
       const disArr: string[] = diseaseArr[i].split(' ')
-      console.log(disArr)
+      console.log('disease arr', disArr)
       diseasesPresentObj[disArr[1]] = disArr[0]
       for (let pathogen of ModelResultsObj.pathogens) {
-        if (pathogen.name) {
+        if (pathogen.name && disArr.length > 1) {
           if (
             pathogen.name.toLocaleLowerCase() == disArr[1].toLocaleLowerCase()
           ) {
             // equal to the confidence put up by the model
+
             pathogen.confidence = disArr[0]
           }
         }
