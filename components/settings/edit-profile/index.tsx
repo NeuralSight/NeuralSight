@@ -2,7 +2,7 @@ import { ChangeEvent, MouseEvent, useContext, useEffect, useState } from 'react'
 import { CountryCodes } from '../../../helper/countryCodes'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import Profile from './EditProfileImage'
-import InputField from '../../inputs/CustomInput'
+import InputField from './CustomInput'
 import Button from '../../Button'
 import Title from '../Title'
 import {

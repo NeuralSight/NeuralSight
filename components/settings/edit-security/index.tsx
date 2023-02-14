@@ -1,5 +1,5 @@
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
-import InputField from '../../inputs/CustomInput'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import InputField from './CustomInput'
 import Button from '../../Button'
 import Title from '../Title'
 import * as Yup from 'yup'
@@ -10,6 +10,7 @@ import {
   PASSWORD_MISMATCH_ERR_MSG,
   PASSWORD_REQUIRED_ERR_MSG,
 } from '../../../lang/error-messages'
+import { PasswordUpdate } from '../../../typings'
 
 type Props = {}
 
@@ -32,10 +33,10 @@ const EditPassword = (props: Props) => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<FieldValues>(formOptions)
+  } = useForm<PasswordUpdate>(formOptions)
 
   console.log('errors', errors)
-  const onSubmit: SubmitHandler<FieldValues> = (data) =>
+  const onSubmit: SubmitHandler<PasswordUpdate> = (data) =>
     console.log('data', data)
   return (
     <form

@@ -25,13 +25,13 @@ export const postPatient = async ({ patientId, token }: Patient) => {
 
 // post patient image for prediction
 export const predictPatientImage = async (
-  req: NextApiRequest,
-  res: NextApiResponse,
+  req: any,
+  res: any,
   token: string
 ) => {
   const response = await fetch(`${Url}/predict`, {
     method: 'POST',
-    responseType: 'stream',
+    // responseType: 'stream',
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': req.headers['content-type'],
@@ -39,7 +39,6 @@ export const predictPatientImage = async (
     }, // which is multipart/form-data with boundary included
     body: req,
   })
-  // response.pipe(res)
   return response
 }
 

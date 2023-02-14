@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { Control, FieldError, useController } from 'react-hook-form'
-import { NewUser } from '../../typings'
+import { PasswordUpdate } from '../../../typings'
 
 type Props = {
   label: string
   type: 'text' | 'tel' | 'password' | 'number' | 'email'
   icon?: React.ReactNode | undefined
-  control: Control<NewUser>
-  fieldName: 'firstname' | 'lastname' | 'address' | 'location' | 'phone'
+  control?: Control<PasswordUpdate>
+  fieldName: 'oldpass' | 'newpass' | 'confirmpass'
   rules?: object
   spaceY?: '1' | '2' | '3' | '4' | '5' | '6'
   placeholder?: string | undefined
@@ -23,12 +23,13 @@ const CustomInput = (props: Props) => {
     field: { onChange, onBlur, name, value, ref },
     fieldState: { isTouched, isDirty },
     formState: { touchedFields, dirtyFields },
-  } = useController({
+  } = useController<PasswordUpdate>({
     name: props.fieldName,
     control: props.control,
     rules: props.rules,
     defaultValue: props.defaultValue,
   })
+
   const [UIValue, setUIValue] = useState(value)
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const handleFocus = () => {

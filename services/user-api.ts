@@ -28,14 +28,10 @@ export const postUser = async (user: NewUser, token: string) => {
 }
 // update user information
 
-export const updateUserInfo = async (
-  req: NextApiRequest,
-  res: NextApiResponse,
-  token: string
-) => {
+export const updateUserInfo = async (req: any, res: any, token: string) => {
   const response = await fetch(`${Url}/profile/update`, {
     method: 'PUT',
-    responseType: 'stream',
+    // responseType: 'stream',
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': req.headers['content-type'],
