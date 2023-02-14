@@ -90,29 +90,37 @@ const UploadFile = (props: Props) => {
 
   const handleFiles = (files: File[]) => {
     setMessageOpen(true)
-    for (let i = 0; i < files.length; i++) {
-      if (
-        files[i].type !== 'image/jpeg' &&
-        files[i].type !== 'image/png' &&
-        files[i].type !== 'image/dicom'
-      ) {
-        // raise an error
-        setFileError({
-          type: 'FILETYPE_ERR',
-          message: 'wrong file type only images allowed!',
-        })
-        return
+    if (files.length > 0) {
+      for (let i = 0; i < files.length; i++) {
+        if (
+          files[i].type !== 'image/jpeg' &&
+          files[i].type !== 'image/png' &&
+          files[i].type !== 'image/dicom'
+        ) {
+          // raise an error
+          setFileError({
+            type: 'FILETYPE_ERR',
+            message: 'wrong file type only images allowed!',
+          })
+          return
+        }
+        if (files[i].size > 100000000) {
+          setFileError({
+            type: 'FILESIZE_ERR',
+            message: 'file allowed <strong>MUST</strong> be 100mbs and below',
+          })
+          return
+        }
+        // set file info in the file state handler
+        setFileInfo(files)
+        setFileError(null)
       }
-      if (files[i].size > 100000000) {
-        setFileError({
-          type: 'FILESIZE_ERR',
-          message: 'file allowed <strong>MUST</strong> be 100mbs and below',
-        })
-        return
-      }
-      // set file info in the file state handler
-      setFileInfo(files)
-      setFileError(null)
+    } else {
+      setFileError({
+        type: 'FILES_SELECTED_ERR',
+        message:
+          'no file as been selected, please select a image file to upload',
+      })
     }
   }
 
@@ -143,29 +151,37 @@ const UploadFile = (props: Props) => {
     }
     console.log('imageData', imageData)
 
-    mutate(imageData, {
-      onSuccess: async (response, variable, context) => {
-        const data = await response.json()
-        if (response.status === 201 || response.status === 200) {
-          console.log('data', data)
-          setSuccess(data.message)
-          currentClient.invalidateQueries(['patients'])
-        } else {
-          const detail = data.detail
-          console.log('detail', detail)
-          setDetails(detail)
-        }
-      },
-      onError: async (err: any, variables, context) => {
-        // currentClient.setQueryData('patient', context.previousPatients)
-        setError(err)
-        console.log('Error while posting...', err)
-        console.log('data sent is', variables)
-      },
-      onSettled: async () => {
-        // currentClient.invalidateQueries('patient')
-      },
-    })
+    if (fileInfo && fileInfo.length > 0) {
+      mutate(imageData, {
+        onSuccess: async (response, variable, context) => {
+          const data = await response.json()
+          if (response.status === 201 || response.status === 200) {
+            console.log('data', data)
+            setSuccess(data.message)
+            currentClient.invalidateQueries(['patients'])
+          } else {
+            const detail = data.detail
+            console.log('detail', detail)
+            setDetails(detail)
+          }
+        },
+        onError: async (err: any, variables, context) => {
+          // currentClient.setQueryData('patient', context.previousPatients)
+          setError(err)
+          console.log('Error while posting...', err)
+          console.log('data sent is', variables)
+        },
+        onSettled: async () => {
+          // currentClient.invalidateQueries('patient')
+        },
+      })
+    } else {
+      setFileError({
+        type: 'FILES_SELECTED_ERR',
+        message:
+          'no file as been selected, please select a image file to upload',
+      })
+    }
   }
 
   // handle clear all files
