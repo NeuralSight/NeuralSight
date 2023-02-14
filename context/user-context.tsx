@@ -15,7 +15,7 @@ const UserProvider = ({ children }: Props) => {
     async () => (await fetchUserInfo()) as User
   )
   const getUserInfo = () => {
-    if (data?.detail) {
+    if (isError) {
       return
     }
     return data
