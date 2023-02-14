@@ -91,6 +91,8 @@ const ReportProvider = ({ children }: Props) => {
         isLoading: query.isLoading,
         isSuccess: query.isSuccess,
         isError: query.isError,
+        isDeletionLoading: isLoading,
+        isDeletionSuccess: isSuccess,
       }}
     >
       {children}

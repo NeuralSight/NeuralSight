@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
 
 const fetchObject = async (file: string) => {
   try {

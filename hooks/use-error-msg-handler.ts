@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import { CONNECTION_ERR_MSG } from '../lang/errorMessages'
+import { CONNECTION_ERR_MSG } from '../lang/error-messages'
 import { ErrorDetails } from '../typings'
 
 interface ErrorHandler {
