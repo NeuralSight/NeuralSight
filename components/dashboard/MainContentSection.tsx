@@ -237,7 +237,7 @@ const MainContentSection = () => {
                       </p>
                     </div>
                   ) : isLoading ? (
-                    <div>
+                    <div className='h-full w-full'>
                       {/* add skeleton for loading */}
                       loading...
                     </div>
