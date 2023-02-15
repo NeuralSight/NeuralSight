@@ -16,10 +16,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       res.setHeader(
         'Set-Cookie',
         cookie.serialize('user', req.body.user, {
-          // httpOnly: true, // only read in backend
+          httpOnly: true, // only read in backend
           secure: process.env.NODE_ENV !== 'development', //secure while in production
           maxAge: req.body.remember ? 7 * 24 * 60 * 60 : 24 * 60 * 60, // max Age by default 1 day if remember is true then 1 week
-          // sameSite: 'strict', // for more about same site - https://web.dev/samesite-cookies-expl...
+          sameSite: 'strict', // for more about same site - https://web.dev/samesite-cookies-expl...
           path: '/',
         })
       )
