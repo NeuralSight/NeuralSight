@@ -20,6 +20,7 @@ import Link from 'next/link'
 import { ReportContext } from '../../context/report-context'
 import ToolTip from '../ToolTip'
 import { setStorageItem, getStorageItem } from '../../helper/localStorageAccess'
+import { PATIENT_ID_STORAGE_KEY } from '../../lang/constants'
 
 const MainContentSection = () => {
   const KEY = 'isPercentageSelected'
@@ -35,7 +36,7 @@ const MainContentSection = () => {
   const reportContext = useContext<ReportContextType | null>(ReportContext)
   useEffect(() => {
     reportContext?.setPatientId(
-      getStorageItem('activePatient') || patientContext?.patientId
+      getStorageItem(PATIENT_ID_STORAGE_KEY) || patientContext?.patientId
     )
   }, [patientContext?.patientId, reportContext])
   const report = reportContext?.getReportByKey()

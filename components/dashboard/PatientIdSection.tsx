@@ -5,7 +5,6 @@ import { useContext } from 'react'
 import InputField from '../inputs/MUIInput'
 import ListNavigationWrapper from '../ListNavigationWrapper'
 import PatientIdCard from '../ListNavigationCard'
-import Loading from '../../pages/loading'
 import { generateRandomString } from '../../helper/randomStringGenerator'
 import {
   FIELD_REQUIRED_ERR_MSG,
@@ -15,7 +14,8 @@ import usePostPatient from '../../hooks/use-post-patient'
 import PatientIdCardSkeleton from '../skeletons/PatientIdCard'
 import { PatientContext } from '../../context/patient-context'
 import { PatientContextType, PatientResult } from '../../typings'
-import { getStorageItem } from '../../helper/localStorageAccess'
+import { getStorageItem, setStorageItem } from '../../helper/localStorageAccess'
+import { PATIENT_ID_STORAGE_KEY } from '../../lang/constants'
 
 type State = {
   patientId: string
@@ -50,6 +50,7 @@ function PatientIdSection() {
 
   const onHandleSubmit: SubmitHandler<State> = (data) => {
     onClick(data.patientId)
+    setStorageItem(PATIENT_ID_STORAGE_KEY, data.patientId)
   }
 
   let patientIdsArr: PatientResult[] = []
@@ -155,10 +156,10 @@ function PatientIdSection() {
           <PatientIdCard
             key={patient.id}
             idKey={patient.id}
-            active={patient.id === getStorageItem('activePatient')}
+            active={patient.id === getStorageItem(PATIENT_ID_STORAGE_KEY)}
             setActive={patientContext?.setPatientInfo}
             className={`justify-center ${
-              patient.id === getStorageItem('activePatient')
+              patient.id === getStorageItem(PATIENT_ID_STORAGE_KEY)
                 ? 'font-semibold'
                 : ''
             }`}

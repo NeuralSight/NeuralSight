@@ -29,6 +29,7 @@ import { PatientContext } from '../../context/patient-context'
 import { ReportContext } from '../../context/report-context'
 import { getStorageItem } from '../../helper/localStorageAccess'
 import DeletePatientModal from './DeletePatientModal'
+import { PATIENT_ID_STORAGE_KEY } from '../../lang/constants'
 
 type Props = {
   active: string
@@ -114,7 +115,7 @@ const MainContentSection = () => {
 
   useEffect(() => {
     reportContext?.setPatientId(
-      getStorageItem('activePatient') || patientContext?.patientId
+      getStorageItem(PATIENT_ID_STORAGE_KEY) || patientContext?.patientId
     )
   }, [patientContext?.patientId, reportContext])
   const allReport = reportContext?.getAllReport()
@@ -306,7 +307,7 @@ const MainContentSection = () => {
                   <UploadFile
                     setOpen={setModalOpen}
                     patientId={
-                      getStorageItem('activePatient') ||
+                      getStorageItem(PATIENT_ID_STORAGE_KEY) ||
                       patientContext?.patientId
                     }
                   />
