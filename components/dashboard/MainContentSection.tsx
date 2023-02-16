@@ -30,6 +30,7 @@ import { ReportContext } from '../../context/report-context'
 import { getStorageItem } from '../../helper/localStorageAccess'
 import DeletePatientModal from './DeletePatientModal'
 import { PATIENT_ID_STORAGE_KEY } from '../../lang/constants'
+import LoadingTwo from '../LoadingTwo'
 
 type Props = {
   active: string
@@ -232,15 +233,16 @@ const MainContentSection = () => {
                   {isLargeDevice && <AddImageBtn setOpen={setModalOpen} />}{' '}
                   {/* for grid view only large device for list view it would be place next to filter button and for small devices as floating action bar maybe*/}
                   {allReport?.length == 0 && !isLoading ? (
-                    <div className='h-full w-full flex justify-center items-center'>
+                    <div className='h-full max-h-screen w-full flex justify-center items-center'>
                       <p className='text-lg font-medium text-gray-800'>
                         No Image
                       </p>
                     </div>
                   ) : isLoading ? (
-                    <div className='h-full w-full'>
+                    <div className='h-full max-h-screen justify-center items-center w-full flex gap-3'>
                       {/* add skeleton for loading */}
-                      loading...
+                      <LoadingTwo />
+                      {/* <span>loading...</span> */}
                     </div>
                   ) : (
                     allReport?.map((item, key) => (
@@ -264,9 +266,10 @@ const MainContentSection = () => {
                         </p>
                       </div>
                     ) : isLoading ? (
-                      <div>
+                      <div className='h-full max-h-screen justify-center items-center w-full flex gap-3'>
                         {/* add skeleton for loading */}
-                        loading...
+                        <LoadingTwo />
+                        {/* <span></span> */}
                       </div>
                     ) : (
                       allReport?.map((item, key) => (

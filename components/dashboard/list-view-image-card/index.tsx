@@ -56,17 +56,17 @@ const ListViewImageCard = ({ imageDetails, patientDetailsResult }: Props) => {
           className='h-6 w-6 fill-current text-zinc-800'
         />
       </button>
-      <div className='xl:w-1/3 w-full rounded-xl flex justify-center '>
-        <Image
-          src={`${process.env.NEXT_PUBLIC_NEURALSIGHT_API_BASE_URL}/patient/file/${imageType}/${fileName}`}
-          alt={`patient's image testing ${imageDetails.disease}`}
-          width={100}
-          height={100}
-          // fill
-          // placeholder='blur'
-          // blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mPsrgcAAZsBDIKsyq4AAAAASUVORK5CYII='
-          className='rounded-xl w-auto xl:w-full h-96 xl:h-80'
-        />
+      <div className='xl:w-1/3 w-full rounded-xl flex justify-center'>
+        <div className='relative rounded-3xl border-2 border-gray-500/20 group h-[387px] lg:h-[300px] 2xl:h-[430px] w-full lg:w-[240px] 2xl:w-[300px] cursor-pointer'>
+          <Image
+            src={`${process.env.NEXT_PUBLIC_NEURALSIGHT_API_BASE_URL}/patient/file/${imageType}/${fileName}`}
+            alt={`patient's image testing ${imageDetails.disease}`}
+            fill
+            placeholder='blur'
+            blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mPsrgcAAZsBDIKsyq4AAAAASUVORK5CYII='
+            className='rounded-xl object-cover'
+          />
+        </div>
         <div className='absolute top-4 left-4 z-10 p-2 rounded-2xl my-auto bg-primary-dark text-gray-50 font-semibold text-sm uppercase shadow-lg shadow-primary-dark/25 group-hover:shadow-none text-center align-middle'>
           {imageDetails.modality}
         </div>

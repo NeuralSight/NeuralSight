@@ -5,6 +5,12 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --b: transparent;
+  --w: #16c2d5;
+  --s: transparent;
+}
+
 html,
 body {
   padding: 0;

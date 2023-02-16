@@ -1,0 +1,79 @@
+.content {
+  width: 50px;
+  height: 50px;
+  position: relative;
+}
+
+span.dot {
+  --dot: 5px;
+  background: radial-gradient(
+    circle at 50% calc(5px + 2px),
+    var(--w) var(--dot),
+    #fff0 calc(var(--dot) + 2px)
+  );
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  animation: spin 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0s infinite;
+}
+
+@keyframes spin {
+  0%,
+  20% {
+    transform: rotate(0deg);
+    filter: drop-shadow(0 0 0 #fff0);
+  }
+  60% {
+    filter: drop-shadow(-0.25px 0 0 var(--s)) drop-shadow(-0.25px 0 0 var(--s))
+      drop-shadow(-0.25px 0 0 var(--s));
+  }
+  100% {
+    transform: rotate(360deg);
+    filter: drop-shadow(0 0 0 #fff0);
+  }
+}
+
+span.dot:nth-child(2) {
+  --dot: 4.5px;
+  animation-delay: 0.05s;
+}
+
+span.dot:nth-child(3) {
+  --dot: 4px;
+  animation-delay: 0.1s;
+}
+
+span.dot:nth-child(4) {
+  --dot: 3.5px;
+  animation-delay: 0.15s;
+}
+
+span.dot:nth-child(5) {
+  --dot: 3px;
+  animation-delay: 0.2s;
+}
+
+span.dot:nth-child(6) {
+  --dot: 2.5px;
+  animation-delay: 0.25s;
+}
+
+span.dot:nth-child(7) {
+  --dot: 2px;
+  animation-delay: 0.3s;
+}
+
+span.dot:nth-child(8) {
+  --dot: 1.5px;
+  animation-delay: 0.35s;
+}
+
+span.dot:nth-child(9) {
+  --dot: 1px;
+  animation-delay: 0.4s;
+}
+
+span.dot:nth-child(10) {
+  --dot: 0.5px;
+  animation-delay: 0.45s;
+}
