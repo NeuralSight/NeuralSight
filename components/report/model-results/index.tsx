@@ -33,7 +33,7 @@ const ModelResults = ({ disease, patientId, selected }: Props) => {
     patientID: patientId,
     disease: 'TB',
     totalPathogens: 13,
-    abnormal: diseaseArr.length > 0,
+    abnormal: diseaseArr.length !== 0,
     inference: '0.4',
     src: '#',
     pathogens: [
