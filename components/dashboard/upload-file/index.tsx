@@ -157,6 +157,7 @@ const UploadFile = (props: Props) => {
           const data = await response.json()
           if (response.status === 201 || response.status === 200) {
             console.log('data', data)
+            setFileInfo(undefined)
             setSuccess(data.message)
             currentClient.invalidateQueries(['patients'])
           } else {
