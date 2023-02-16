@@ -1,4 +1,4 @@
-# Use an official Node.js runtime as a parent image
+# Use an official Node runtime as a parent image
 FROM node:18-alpine
 
 # Set the working directory to /app
