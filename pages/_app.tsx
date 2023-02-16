@@ -1,5 +1,6 @@
 import '../styles/globals.css'
 import '../styles/loading.css'
+import '../styles/loadingTwo.css'
 import Head from 'next/head'
 import { AppProps } from 'next/app'
 import { useState } from 'react'
