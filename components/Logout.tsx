@@ -1,8 +1,7 @@
-import { MouseEvent } from 'react'
 import { Icon } from '@iconify/react'
-import { useRouter } from 'next/router'
 import useLogout from '../hooks/use-logout'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 type Props = {}
 
@@ -12,7 +11,9 @@ const Logout = (props: Props) => {
 
   const handleLogout = async () => {
     await logout()
+    route.push('/auth')
   }
+
   return (
     <button
       type='button'
@@ -20,16 +21,14 @@ const Logout = (props: Props) => {
       onClick={handleLogout}
       title='logout'
     >
-      <Link href={''}>
-        <Icon
-          icon={'uiw:logout'}
-          className={`lg:w-8 lg:h-8 fill-current ${
-            isLoggingOut && 'animate-bounceX'
-          }`}
-        />
+      <Icon
+        icon={'uiw:logout'}
+        className={`lg:w-8 lg:h-8 fill-current ${
+          isLoggingOut && 'animate-bounceX'
+        }`}
+      />
 
-        <p className='text-sm lowercase'>{'logout'}</p>
-      </Link>
+      <p className='text-sm lowercase'>{'logout'}</p>
     </button>
   )
 }
