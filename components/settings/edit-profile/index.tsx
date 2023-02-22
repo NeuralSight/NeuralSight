@@ -120,6 +120,7 @@ const EditProfile = (props: Props) => {
         phone: newTel,
         location,
       }
+      console.log('profile image', profileImage)
       console.log('fullname', `${new_firstname} ${new_lastname}`)
       const UpdatedUserWithoutFile: UserWithoutFile = {
         full_name: `${new_firstname} ${new_lastname}`,
