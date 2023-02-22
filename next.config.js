@@ -43,6 +43,15 @@ const nextConfig = {
   images: {
     domains: ['images.unsplash.com', 'backend.neuralsight.ai'],
   },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/auth',
+        permanent: true,
+      },
+    ]
+  },
   // async rewrites() {
   //   return [
   //     {
