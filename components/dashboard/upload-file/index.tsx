@@ -152,14 +152,15 @@ const UploadFile = (props: Props) => {
     console.log('imageData', imageData)
 
     if (fileInfo && fileInfo.length > 0) {
+      setFileInfo(undefined)
       mutate(imageData, {
         onSuccess: async (response, variable, context) => {
           const data = await response.json()
           if (response.status === 201 || response.status === 200) {
             console.log('data', data)
-            setFileInfo(undefined)
             setSuccess(data.message)
             currentClient.invalidateQueries(['patients'])
+            props.setOpen(false)
           } else {
             const detail = data.detail
             console.log('detail', detail)
