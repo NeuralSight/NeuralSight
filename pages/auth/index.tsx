@@ -9,9 +9,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import useLogin from '../../hooks/use-login'
-import { AuthContext } from '../../context/auth-context'
 import { useRouter } from 'next/router'
-import Loading from '../loading'
 
 // illustration
 import RobotImage from '../../public/robot.svg'
@@ -27,7 +25,7 @@ import {
   PASSWORD_REQUIRED_ERR_MSG,
   SERVER_ERR_MSG,
 } from '../../lang/error-messages'
-import { AuthContextType, PatientContextType } from '../../typings'
+import { AuthUser, PatientContextType } from '../../typings'
 import useErrorMsgHandler from '../../hooks/use-error-msg-handler'
 import { useQueryClient } from '@tanstack/react-query'
 import { PatientContext } from '../../context/patient-context'
@@ -49,49 +47,46 @@ function Auth({}: Props) {
   } = useForm<State>()
   // create authContext
   const currentClient = useQueryClient()
-  const authContext = useContext<AuthContextType | null>(AuthContext)
+  const [isRemembered, setIsRemembered] = useState<boolean>(false)
+  // const authContext = useContext<AuthContextType | null>(AuthContext)
   const patientContext = useContext<PatientContextType | null>(PatientContext)
   const [messageOpen, setMessageOpen] = useState<boolean>(false)
   const route = useRouter()
-
-  useEffect(() => {
-    authContext?.getAuthState()
-    // checks if the user is authenticated
-    authContext?.authState == null && !authContext?.isUserAuthenticated()
-      ? null
-      : route.replace('/', undefined, { shallow: true })
-  }, [authContext, route])
 
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
   const { setDetails, detail } = useErrorMsgHandler({ setError })
 
-  const { mutate, isLoading, status } = useLogin()
+  const { mutate, isLoading, isError, status } = useLogin()
 
   const onSubmit: SubmitHandler<State> = (data) => {
     setMessageOpen(true)
+    const user: AuthUser = { username: data.email, password: data.password }
+
     return mutate(
       {
-        username: data.email,
-        password: data.password,
+        user,
+        isRemembered,
       },
       {
         onSuccess: (data, variable, context) => {
+          console.log('data', data)
           if (data.status === 200) {
             if (data?.data?.access_token) {
               // console.log('data', data)
-              authContext?.setAuthState(data.data)
+              // authContext?.setAuthState(data.data)
               setStorageItem('activePatient', patientContext?.patientId)
               currentClient.invalidateQueries()
               // go to dashboard
-              route.push('/')
+              route.push('/dashboard')
 
               // clear all the error message
               setError(null)
               clearErrors('email')
               clearErrors('password')
             } else {
-              setError('data is not in the right format')
+              console.error('data not in the right format')
+              setError(SERVER_ERR_MSG)
             }
           } else {
             const detail = data.data.detail
@@ -99,7 +94,7 @@ function Auth({}: Props) {
           }
         },
         onError: (err) => {
-          console.error('error', err)
+          console.error('Login error', err)
           setError(SERVER_ERR_MSG)
         },
         onSettled: () => {
@@ -125,10 +120,6 @@ function Auth({}: Props) {
     )
     return () => subscription.unsubscribe()
   }, [watch])
-
-  if (authContext?.authState != null) {
-    return <Loading />
-  }
 
   return (
     <div className=' bg-gray-50'>
@@ -162,7 +153,7 @@ function Auth({}: Props) {
               className='object-cover'
             />
           </div>
-          <div className='block lg:hidden absolute rounded-full h-80 w-80 bg-primary-light -top-[13em] -right-[13em] blur-3xl' />
+          <div className='block lg:hidden absolute rounded-full h-80 w-80 bg-primary-light -top-[13em] -right-[13em] blur-3xl z-[1000]' />
           <div className='flex flex-col space-y-2 text-center justify-center w-full items-center'>
             {/* Inputs */}
             {/* Logo section */}
@@ -236,9 +227,7 @@ function Auth({}: Props) {
               <div className='flex text-zinc-500 font-medium gap-x-2 text-sm lg:text-base justify-center items'>
                 <input
                   type='checkbox'
-                  onChange={(e) =>
-                    authContext?.setIsRemembered(e.target.checked)
-                  }
+                  onChange={(e) => setIsRemembered(e.target.checked)}
                   className='appearance-none checked:bg-primary-light/30'
                 />{' '}
                 Remember me
@@ -255,7 +244,7 @@ function Auth({}: Props) {
                 outlined={false}
                 disable={watchField[0] && watchField[1] ? false : true}
               >
-                {isLoading ? 'logging in...' : ' login'}
+                {isLoading && !isError ? 'logging in...' : ' login'}
               </Button>
               <ThirdPartyBtn type='button'>
                 {/* animate google icon to rotate once */}
@@ -311,8 +300,8 @@ function Auth({}: Props) {
             >
               <Image
                 src={AccessBotIllustration}
-                layout='fill'
-                object-fit='contain'
+                fill
+                className='object-contain'
                 priority
                 alt='access power of ai in health an illustation of a girl communicating to a bot'
               />
