@@ -1,47 +1,29 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { changeObjToFormUrlencoded } from '../helper/changeObjToOtherFormats'
-import { ContentType } from '../lang/content-type'
+import { timeoutSignal } from './../helper/timeoutSignal'
+import { useMutation } from '@tanstack/react-query'
+import { AuthUser } from '../typings'
 
-type AuthUser = {
-  grant_type?: 'password' | string
-  username: string
-  password: string
-  scope?: '' | string | null | undefined
-  client_id?: string | null | undefined
-  client_secret?: string | null | undefined
+type AuthInfo = {
+  user: AuthUser
+  isRemembered: boolean
 }
 
-const headers = new Headers({
-  'Content-Type': ContentType.FormData,
-})
-
-const loginUser = async (user: AuthUser) => {
-  const urlencoded = changeObjToFormUrlencoded(user)
-  // console.log('urlencoded', urlencoded)
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_NEURALSIGHT_API_BASE_URL}/login/access-token`,
-    {
-      mode: 'cors',
-      method: 'POST',
-      headers: headers,
-      body: urlencoded,
-    }
-  )
+const setUserAuthInfo = async ({ user, isRemembered }: AuthInfo) => {
+  console.log('user', user)
+  //store in react-cookies of access later instead
+  const response = await fetch('/api/login', {
+    signal: timeoutSignal(10).signal,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ user, remember: isRemembered }),
+  })
   const data = await response.json()
-  // console.log('data', data)
+  console.log('data', data)
   return { data, status: response.status }
 }
 
 export default function useLogin() {
-  const currentClient = useQueryClient()
-  const onSubmit = useMutation(loginUser, {
-    onSuccess(data) {
-      // console.log('data', data)
-      currentClient.invalidateQueries(['user'])
-    },
-    onError(err) {
-      console.log('err', err)
-    },
-  })
+  const onSubmit = useMutation(setUserAuthInfo)
   return onSubmit
 }
