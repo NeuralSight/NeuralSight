@@ -13,7 +13,6 @@ import {
   QueryErrorResetBoundary,
 } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { AuthProvider } from '../context/auth-context'
 import { ErrorBoundary } from 'react-error-boundary'
 import Button from '../components/Button'
 import { PatientProvider } from '../context/patient-context'
@@ -50,26 +49,24 @@ function MyApp({ Component, pageProps }: AppProps) {
           )}
         >
           <QueryClientProvider client={queryClient}>
-            <AuthProvider>
-              <UserProvider>
-                <PatientProvider>
-                  <ReportProvider>
-                    <Head>
-                      <meta
-                        name='viewport'
-                        content='width=device-width, initial-scale=1.0'
-                      ></meta>
-                    </Head>
-                    <Hydrate state={pageProps.dehydratedState}>
-                      <Component {...pageProps} />
-                    </Hydrate>
-                    {process.env.NODE_ENV == 'production' || (
-                      <ReactQueryDevtools initialIsOpen={false} />
-                    )}
-                  </ReportProvider>
-                </PatientProvider>
-              </UserProvider>
-            </AuthProvider>
+            <UserProvider>
+              <PatientProvider>
+                <ReportProvider>
+                  <Head>
+                    <meta
+                      name='viewport'
+                      content='width=device-width, initial-scale=1.0'
+                    ></meta>
+                  </Head>
+                  <Hydrate state={pageProps.dehydratedState}>
+                    <Component {...pageProps} />
+                  </Hydrate>
+                  {process.env.NODE_ENV == 'production' || (
+                    <ReactQueryDevtools initialIsOpen={false} />
+                  )}
+                </ReportProvider>
+              </PatientProvider>
+            </UserProvider>
           </QueryClientProvider>
         </ErrorBoundary>
       )}
