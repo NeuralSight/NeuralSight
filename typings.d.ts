@@ -1,3 +1,4 @@
+import { NextApiRequest } from 'next'
 import { Dispatch, SetStateAction } from 'react'
 
 // ImageDetails
@@ -73,13 +74,6 @@ interface ReportContextType {
   isSuccess: boolean
   isDeletionLoading: boolean
   isDeletionSuccess: boolean
-}
-interface AuthContextType {
-  authState: string | undefined | null
-  setAuthState: (user: UserInfo) => void
-  getAuthState: () => void
-  setIsRemembered: Dispatch<SetStateAction<boolean>>
-  isUserAuthenticated: () => boolean
 }
 
 // fast api error
@@ -176,4 +170,13 @@ interface PatientInfoData {
   report: PatientReportResult[]
   updated_at: string
   user_id: number
+}
+
+interface AuthUser {
+  grant_type?: 'password' | string
+  username: string
+  password: string
+  scope?: '' | string | null | undefined
+  client_id?: string | null | undefined
+  client_secret?: string | null | undefined
 }
