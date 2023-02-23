@@ -12,6 +12,7 @@ import Inference from './Inference'
 import { formatDateFromString } from '../../../helper/datesFormatter'
 import { useState } from 'react'
 import DeleteReportModal from '../DeleteReportModal'
+import Link from 'next/link'
 
 type Props = {
   imageDetails: ImageDetails
@@ -104,16 +105,18 @@ const ListViewImageCard = ({ imageDetails, patientDetailsResult }: Props) => {
         </div>
         <div className='flex flex-col space-y-2.5 '>
           <Inference inference={imageDetails.inference} />
-          <div className='flex md:flex-nowrap lg:flex-wrap flex-wrap 2xl:flex-nowrap w-auto gap-3 justify-center items-center'>
+          <div className='grid grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2 w-auto gap-3 justify-center items-center'>
             <Button type='button'>
               <Icon icon={'eva:edit-2-fill'} className='ml-2 h-5 w-5' />{' '}
               <div className='text-sm font-bold'>Edit </div>
             </Button>
-            <Button type='button' outlined>
-              {' '}
-              <Icon icon={'eos-icons:ai'} className='ml-2 h-5 w-5' />{' '}
-              <div className='text-sm font-bold'>View Report</div>
-            </Button>
+            <Link href={'/report'}>
+              <Button type='button' outlined>
+                {' '}
+                <Icon icon={'eos-icons:ai'} className='ml-2 h-5 w-5' />{' '}
+                <div className='text-sm font-bold'>View Report</div>
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
