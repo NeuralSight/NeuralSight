@@ -68,6 +68,10 @@ const PatientProvider = ({ children }: Props) => {
     return patientFound
   }
 
+  /**
+   * dElete the selected patient
+   * @param patientId Patient Id
+   */
   const deleteSelectedPatient = (patientId: string) => {
     mutate(patientId, {
       onSuccess: (data, variable, context) => {
@@ -101,7 +105,7 @@ const PatientProvider = ({ children }: Props) => {
   const samplePatientContext: PatientContextType = {
     patientId: patient,
     query: query,
-    setPatientInfo: setPatient,
+    setPatientId: setPatient,
     getPatientsInfo,
     getLatestPatient: NoOfPatientDisplayByDefault,
     getSearchedPatient,

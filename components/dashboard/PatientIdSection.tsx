@@ -16,6 +16,7 @@ import { PatientContext } from '../../context/patient-context'
 import { PatientContextType, PatientResult } from '../../typings'
 import { getStorageItem, setStorageItem } from '../../helper/localStorageAccess'
 import { PATIENT_ID_STORAGE_KEY } from '../../lang/constants'
+import { useQueryClient } from '@tanstack/react-query'
 
 type State = {
   patientId: string
@@ -37,6 +38,7 @@ function PatientIdSection() {
     error,
     onClick,
   } = usePostPatient()
+  const currentClient = useQueryClient()
 
   const patientContext = useContext<PatientContextType | null>(PatientContext)
 
@@ -157,7 +159,7 @@ function PatientIdSection() {
             key={patient.id}
             idKey={patient.id}
             active={patient.id === getStorageItem(PATIENT_ID_STORAGE_KEY)}
-            setActive={patientContext?.setPatientInfo}
+            setActive={patientContext?.setPatientId}
             className={`justify-center ${
               patient.id === getStorageItem(PATIENT_ID_STORAGE_KEY)
                 ? 'font-semibold'
