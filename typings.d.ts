@@ -42,7 +42,7 @@ interface UserInfo {
 interface PatientContextType {
   patientId: string | undefined
   query: UseQueryResult<PatientResult[]>
-  setPatientInfo: Dispatch<SetStateAction<string>>
+  setPatientId: Dispatch<SetStateAction<string>>
   getPatientsInfo: () => PatientResult[]
   getSearchedPatient: (searchValueKey: string) => PatientResult[]
   getLatestPatient: (NO: number) => PatientResult[]
