@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react'
 import React from 'react'
+import { getStorageItem, setStorageItem } from '../helper/localStorageAccess'
 
 type Props = {
   isListView: boolean
@@ -7,12 +8,20 @@ type Props = {
 }
 
 const ViewToggleBtn = (props: Props) => {
+  const handleGridView = () => {
+    setStorageItem('ListView', false)
+    props.setIsListView(false)
+  }
+  const handleListView = () => {
+    setStorageItem('ListView', true)
+    props.setIsListView(true)
+  }
   return (
     <div className='flex justify-center items-center space-x-1'>
       <button
         title='grid view'
         aria-label='grid view'
-        onClick={() => props.setIsListView(false)}
+        onClick={handleGridView}
         className='flex justify-center items-center p-1 hover:bg-primary-light/20 rounded transition-all duration-200 ease-in-out'
       >
         <Icon
@@ -25,7 +34,7 @@ const ViewToggleBtn = (props: Props) => {
       <button
         title={'listview'}
         aria-label={'list view'}
-        onClick={() => props.setIsListView(true)}
+        onClick={handleListView}
         className='flex justify-center items-center p-1 hover:bg-primary-light/20 rounded transition-all duration-200 ease-in-out'
       >
         <Icon
