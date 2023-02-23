@@ -103,6 +103,8 @@ const MainContentSection = () => {
   const [isOpen, setModalOpen] = useState<boolean>(false)
   const [isDeletionOpen, setDeletionModalOpen] = useState<boolean>(false)
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false)
+  const patientContext = useContext(PatientContext)
+  const reportContext = useContext(ReportContext)
 
   // toggle state between listView and grid
   const [isListView, setIsListView] = useState<boolean>(false)
@@ -111,14 +113,13 @@ const MainContentSection = () => {
   // query
   const isLargeDevice = useMediaQuery(`( min-width: ${SCREEN.lg} )`)
   const isMediumDevice = useMediaQuery(`( min-width: ${SCREEN.md} )`)
-  const patientContext = useContext(PatientContext)
-  const reportContext = useContext(ReportContext)
 
   useEffect(() => {
-    reportContext?.setPatientId(
-      getStorageItem(PATIENT_ID_STORAGE_KEY) || patientContext?.patientId
-    )
-  }, [patientContext?.patientId, reportContext])
+    setIsListView(getStorageItem('ListView'))
+    patientContext?.setPatientId(getStorageItem(PATIENT_ID_STORAGE_KEY))
+    reportContext?.setPatientId(getStorageItem(PATIENT_ID_STORAGE_KEY))
+    return
+  }, [isListView, patientContext, reportContext])
   const allReport = reportContext?.getAllReport()
   const isError = reportContext?.isError
   const isLoading = reportContext?.isLoading
@@ -215,13 +216,14 @@ const MainContentSection = () => {
             <DeletePatientModal
               open={isDeletionOpen}
               setOpen={setDeletionModalOpen}
+              patientId={patientContext?.patientId || ''}
             />
           </div>
         </div>
         {isError && !isLoading ? (
           <div className=' h-full w-full px-4 flex items-center justify-center'>
             <p className='text-lg font-medium text-gray-700'>
-              The patient does not exist
+              No patient added
             </p>
           </div>
         ) : (
@@ -260,7 +262,7 @@ const MainContentSection = () => {
                 isMediumDevice && (
                   <div className='h-full flex flex-col space-y-6 px-5 py-5'>
                     {allReport?.length == 0 && !isLoading ? (
-                      <div className='h-full w-full flex justify-center items-center'>
+                      <div className='h-full max-h-screen w-full flex justify-center items-center'>
                         <p className='text-lg font-medium text-gray-800'>
                           No Image
                         </p>
@@ -309,10 +311,7 @@ const MainContentSection = () => {
                 <div className='my-5'>
                   <UploadFile
                     setOpen={setModalOpen}
-                    patientId={
-                      getStorageItem(PATIENT_ID_STORAGE_KEY) ||
-                      patientContext?.patientId
-                    }
+                    patientId={patientContext?.patientId || ''}
                   />
                 </div>
               </Modal>

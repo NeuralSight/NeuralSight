@@ -1,7 +1,13 @@
-import { Dispatch, SetStateAction, MouseEvent, useContext } from 'react'
+import {
+  Dispatch,
+  SetStateAction,
+  MouseEvent,
+  useContext,
+  useState,
+  useEffect,
+} from 'react'
 import Modal from '../Modal'
 import Button from '../Button'
-import { getStorageItem } from '../../helper/localStorageAccess'
 import { PatientContext } from '../../context/patient-context'
 import { PatientContextType } from '../../typings'
 import { Icon } from '@iconify/react'
@@ -9,14 +15,14 @@ import { Icon } from '@iconify/react'
 type Props = {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
+  patientId: string
 }
 
 const DeletePatientModal = (props: Props) => {
   const patientContext = useContext<PatientContextType | null>(PatientContext)
-
   const handleDeletePatient = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    patientContext?.deletePatient(getStorageItem('activePatient'))
+    patientContext?.deletePatient(props.patientId)
   }
   return (
     <Modal
@@ -44,7 +50,7 @@ const DeletePatientModal = (props: Props) => {
           />
           <p className='font-medium text-sm '>
             Are you sure you want to delete patient with id{' '}
-            <strong>{getStorageItem('activePatient')} </strong>
+            <strong>{props.patientId} </strong>
           </p>
         </div>
 

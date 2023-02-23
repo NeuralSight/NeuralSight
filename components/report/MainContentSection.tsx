@@ -25,20 +25,23 @@ import { PATIENT_ID_STORAGE_KEY } from '../../lang/constants'
 const MainContentSection = () => {
   const KEY = 'isPercentageSelected'
 
-  const [selected, setSelected] = useState<boolean>(
-    getStorageItem(KEY) || false
-  )
+  const [selected, setSelected] = useState<boolean>(false)
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false)
   const isLargeDevice = useMediaQuery(`( min-width: ${SCREEN.lg} )`)
   const [isOpenModal, setModalOpen] = useState<boolean>(false)
   const patientContext = useContext<PatientContextType | null>(PatientContext)
-
   const reportContext = useContext<ReportContextType | null>(ReportContext)
+
   useEffect(() => {
     reportContext?.setPatientId(
       getStorageItem(PATIENT_ID_STORAGE_KEY) || patientContext?.patientId
     )
   }, [patientContext?.patientId, reportContext])
+
+  useEffect(() => {
+    setSelected(getStorageItem(KEY))
+  }, [])
+
   const report = reportContext?.getReportByKey()
   const isLoading = reportContext?.isLoading
   const isError = reportContext?.isError
