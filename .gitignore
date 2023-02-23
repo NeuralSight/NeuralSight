@@ -18,7 +18,8 @@
 # misc
 .DS_Store
 *.pem
-
+.env
+.github*
 # debug
 npm-debug.log*
 yarn-debug.log*
