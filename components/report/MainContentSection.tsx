@@ -47,9 +47,7 @@ const MainContentSection = () => {
   const handlePrintReport = () => {
     window.print()
   }
-  const handleDownloadPdf = () => {
-    // handle download the report to pdf
-  }
+
   const handleShowPercentage = (e: ChangeEvent<HTMLInputElement>) => {
     setSelected(e.target.checked)
     setStorageItem(KEY, e.target.checked)
