@@ -51,11 +51,10 @@ jobs:
         uses: appleboy/ssh-action@master
         
         with:
-          host: 172.12.12.1
+          host: ${{ secrets.PUBLIC_HOST }}
           username: ubuntu
-          key: ${{ env.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             # Pull the latest image and start the container
             sudo docker-compose -f docker-compose.yml pull
             sudo docker-compose -f docker-compose.yml up -d
-
