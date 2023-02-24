@@ -10,7 +10,7 @@ on:
 
 
 env:
-  DOCKER_USERNAME: stiveckamash
+  DOCKER_USERNAME: neuralsight
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
 jobs:
