@@ -55,7 +55,7 @@ jobs:
             
         run: |
           echo "$PRIVATE_KEY" > FastApi.pem && chmod 400 FastApi.pem
-          ssh -o -t StrictHostKeyChecking=no -i FastApi.pem ${USER_NAME}@${HOSTNAME}
+          ssh -t -o StrictHostKeyChecking=no -i FastApi.pem ${USER_NAME}@${HOSTNAME}
           
             #Now we have got the access of EC2 and we will start the deploy .
             #cd NeuralSight_frontend/ &&
