@@ -54,13 +54,13 @@ jobs:
             USER_NAME : ${{ secrets.USER_NAME  }}
             
         run: |
-          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+          echo "$PRIVATE_KEY" > FastApi.pem && chmod 400 FastApi.pem
+          ssh -o StrictHostKeyChecking=no -i FastApi.pem ${USER_NAME}@${HOSTNAME}
           
             #Now we have got the access of EC2 and we will start the deploy .
-            cd NeuralSight_frontend/ &&
-            git checkout main &&
-            git fetch --all &&
-            git reset --hard origin/main &&
-            git pull origin main &&
-            sudo docker-compose -f docker-compose.yml up -d --build '
+            #cd NeuralSight_frontend/ &&
+            #git checkout main &&
+            #git fetch --all &&
+            #git reset --hard origin/main &&
+            #git pull origin main &&
+            #sudo docker-compose -f docker-compose.yml up -d --build '
