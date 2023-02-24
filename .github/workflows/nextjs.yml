@@ -55,8 +55,9 @@ jobs:
             
         run: |
           echo "$PRIVATE_KEY" > FastApi.pem && chmod 400 FastApi.pem
-          ssh -T -i FastApi.pem ${USER_NAME}@${HOSTNAME}
+          ssh -T -i FastApi.pem ubuntu@ec2-54-221-126-9.compute-1.amazonaws.com
           
+    
             #Now we have got the access of EC2 and we will start the deploy .
             #cd NeuralSight_frontend/ &&
             #git checkout main &&
