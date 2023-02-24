@@ -48,7 +48,6 @@ jobs:
 
 
       - name: Deploy Docker image to EC2
-      - name: Deploy in EC2
         env:
             PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY  }}
             HOSTNAME : ${{ secrets.PUBLIC_HOST  }}
