@@ -10,7 +10,7 @@ on:
 
 
 env:
-  DOCKER_USERNAME: stiveckamash
+  DOCKER_USERNAME: neuralsight
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
 jobs:
@@ -21,13 +21,16 @@ jobs:
       - name: Checkout code After Push to Git Action
         uses: actions/checkout@v2
 
-      - name: Make Environment File for the Image.
-        uses: SpicyPizza/create-envfile@v1
+
+      - name: Make Environment File for the Image
+        uses: SpicyPizza/create-envfile@v1.3
         with:
-          DEBUG: false
-          NEXT_PUBLIC_NEURALSIGHT_API_BASE_URL: https://backend.neuralsight.ai/api/v1
-          ALLOWED_ORGINS: https://neuralsight.ai
+          envkey_DEBUG: false
+          envkey_NEXT_PUBLIC_NEURALSIGHT_API_BASE_URL: https://backend.neuralsight.ai/api/v1
+          envkey_ALLOWED_ORGINS: https://neuralsight.ai
+          some_other_variable: foobar
           file_name: .env
+          fail_on_empty: false
 
       - name: Login to DockerHub for Nsight Account
         uses: docker/login-action@v1
@@ -48,3 +51,17 @@ jobs:
 
 
 
+      - name: Deploy Docker image to EC2 Automatically
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.PUBLIC_HOST  }}
+          username: ${{ secrets.USER_NAME  }}
+          key: ${{ secrets.SSH_PRIVATE_KEY  }}
+          port: 22
+          script: |
+            echo "I'm At EC2 Server running deployment commands"
+            cd NeuralSight_frontend &&
+            git pull origin main &&
+            sudo docker-compose -f docker-compose.yml up -d --build
+            echo "Done Deployning the new Image"
+          
