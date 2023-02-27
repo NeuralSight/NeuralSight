@@ -36,15 +36,15 @@ jobs:
           password: ${{ env.DOCKER_PASSWORD }}
 
 
-#      - name: Build Docker image for the Nsight App
-#        uses: docker/build-push-action@v2
-#        with:
-#          context: .
-#          push: true
-#          tags: ${{ env.DOCKER_USERNAME }}/nsightfrontend:latest
+      - name: Build Docker image for the Nsight App
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ env.DOCKER_USERNAME }}/nsightfrontend:latest
 
-#      - name: Push Docker image to DockerHub Nsight Account
-#        run: docker push ${{ env.DOCKER_USERNAME }}/nsightfrontend:latest
+      - name: Push Docker image to DockerHub Nsight Account
+        run: docker push ${{ env.DOCKER_USERNAME }}/nsightfrontend:latest
 
 
 
@@ -63,22 +63,4 @@ jobs:
             echo "Done Deployning the new Image"
           
           
-      - name: Deploy Docker image to EC2
-        env:
-            PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY  }}
-            HOSTNAME : ${{ secrets.PUBLIC_HOST  }}
-            USER_NAME : ${{ secrets.USER_NAME  }}
-            
-        run: |
-          echo "$PRIVATE_KEY"
-          echo "$PRIVATE_KEY" > FastApi.pem && chmod 400 FastApi.pem
-#          ssh -T -i FastApi.pem ubuntu@ec2-54-221-126-9.compute-1.amazonaws.com
-          
-    
-            #Now we have got the access of EC2 and we will start the deploy .
-            #cd NeuralSight_frontend/ &&
-            #git checkout main &&
-            #git fetch --all &&
-            #git reset --hard origin/main &&
-            #git pull origin main &&
-            #sudo docker-compose -f docker-compose.yml up -d --build '
+      - name: Done All tasks for the Docker image to EC2
