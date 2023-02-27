@@ -48,14 +48,20 @@ jobs:
 
 
 
-      - name: executing remote ssh commands using ssh key
+      - name: Deploy Docker image to EC2 Automatically
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.PUBLIC_HOST  }}
           username: ${{ secrets.USER_NAME  }}
           key: ${{ secrets.SSH_PRIVATE_KEY  }}
           port: 22
-          script: whoami
+          script: |
+            echo "I'm At EC2 Server running deployment commands"
+            cd NeuralSight_frontend &&
+            git pull origin main &&
+            sudo docker-compose -f docker-compose.yml up -d --build
+            echo "Done Deployning the new Image"
+          
           
       - name: Deploy Docker image to EC2
         env:
