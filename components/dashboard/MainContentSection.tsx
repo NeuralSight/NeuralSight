@@ -115,11 +115,9 @@ const MainContentSection = () => {
   const isMediumDevice = useMediaQuery(`( min-width: ${SCREEN.md} )`)
 
   useEffect(() => {
-    setIsListView(getStorageItem('ListView'))
     patientContext?.setPatientId(getStorageItem(PATIENT_ID_STORAGE_KEY))
     reportContext?.setPatientId(getStorageItem(PATIENT_ID_STORAGE_KEY))
-    return
-  }, [isListView, patientContext, reportContext])
+  }, [patientContext, reportContext])
   const allReport = reportContext?.getAllReport()
   const isError = reportContext?.isError
   const isLoading = reportContext?.isLoading
