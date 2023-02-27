@@ -62,5 +62,3 @@ jobs:
             sudo docker-compose -f docker-compose.yml up -d --build
             echo "Done Deployning the new Image"
           
-          
-      - name: Done All tasks for the Docker image to EC2
