@@ -17,6 +17,8 @@ import useErrorMsgHandler from '../../hooks/use-error-msg-handler'
 import ErrorMessage from '../Message'
 import { PatientContext } from '../../context/patient-context'
 import { ReportContext } from '../../context/report-context'
+import { getStorageItem } from '../../helper/localStorageAccess'
+import { PATIENT_ID_STORAGE_KEY } from '../../lang/constants'
 
 type Props = {
   isOpen: boolean
@@ -70,7 +72,7 @@ const EditReport = ({ isOpen, setModalOpen, reportId }: Props) => {
           setReport(data.report)
           currentClient.invalidateQueries([
             'patients',
-            patientContext?.patientId,
+            getStorageItem(PATIENT_ID_STORAGE_KEY),
           ])
         } else {
           const detail = data.detail
