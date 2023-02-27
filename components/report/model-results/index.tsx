@@ -235,6 +235,12 @@ const ModelResults = ({ disease, patientId, selected }: Props) => {
             // equal to the confidence put up by the model
 
             pathogen.confidence = disArr[0]
+
+            // if (pathogen.confidence !== '0.00') {
+            //   let total = 0
+            //   total = parseInt(pathogen.confidence) + parseInt(disArr[0])
+            //   pathogen.confidence = total.toString()
+            // }
           }
         }
       }
