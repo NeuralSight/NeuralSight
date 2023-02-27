@@ -34,7 +34,7 @@ class RichTextEditor extends Component<Props, State> {
   state: State = {
     editorState: EditorState.createWithContent(
       ContentState.createFromBlockArray(
-        htmlToDraft(this.props.report).contentBlocks
+        convertFromHTML(this.props.report).contentBlocks
       )
     ),
   }
