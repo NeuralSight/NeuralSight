@@ -21,13 +21,16 @@ jobs:
       - name: Checkout code After Push to Git Action
         uses: actions/checkout@v2
 
-      - name: Make Environment File for the Image.
-        uses: SpicyPizza/create-envfile@v1
+
+      - name: Make Environment File for the Image
+        uses: SpicyPizza/create-envfile@v1.3
         with:
-          DEBUG: false
-          NEXT_PUBLIC_NEURALSIGHT_API_BASE_URL: https://backend.neuralsight.ai/api/v1
-          ALLOWED_ORGINS: https://neuralsight.ai
+          envkey_DEBUG: false
+          envkey_NEXT_PUBLIC_NEURALSIGHT_API_BASE_URL: https://backend.neuralsight.ai/api/v1
+          envkey_ALLOWED_ORGINS: https://neuralsight.ai
+          some_other_variable: foobar
           file_name: .env
+          fail_on_empty: false
 
       - name: Login to DockerHub for Nsight Account
         uses: docker/login-action@v1
