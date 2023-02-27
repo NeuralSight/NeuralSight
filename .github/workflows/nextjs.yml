@@ -47,6 +47,16 @@ jobs:
 #        run: docker push ${{ env.DOCKER_USERNAME }}/nsightfrontend:latest
 
 
+
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.PUBLIC_HOST  }}
+          username: ${{ secrets.USER_NAME  }}
+          key: ${{ secrets.SSH_PRIVATE_KEY  }}
+          port: 22
+          script: whoami
+          
       - name: Deploy Docker image to EC2
         env:
             PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY  }}
