@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react'
 import React from 'react'
-import { Menu as MenuList } from '../../helper/menu'
+import { Menu as MenuList } from '../../helper/data/menu'
 import useLogout from '../../hooks/use-logout'
 import CustomPopover from '../Popover'
 import MenuCard from './MenuCard'
