@@ -50,6 +50,11 @@ const nextConfig = {
         destination: '/auth',
         permanent: true,
       },
+      {
+        source: '/open-live-chat',
+        destination: '/contact-us',
+        permanent: true,
+      },
     ]
   },
   // async rewrites() {
