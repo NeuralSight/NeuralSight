@@ -28,6 +28,7 @@
     "react-draft-wysiwyg": "^1.15.0",
     "react-error-boundary": "^3.1.4",
     "react-hook-form": "^7.39.1",
+    "react-social-icons": "^5.15.0",
     "swiper": "^8.4.5",
     "tailwind-scrollbar": "^2.0.1",
     "yup": "^0.32.11"
