@@ -61,7 +61,8 @@ jobs:
           script: |
             echo "I'm At EC2 Server running deployment commands"
             cd NeuralSight_frontend &&
-            git pull origin main &&
-            sudo docker-compose -f docker-compose.yml up -d --build
+            git pull origin main && 
+            sudo docker-compose pull && 
+            sudo docker-compose -f docker-compose.yml up -d
             echo "Done Deployning the new Image"
           
