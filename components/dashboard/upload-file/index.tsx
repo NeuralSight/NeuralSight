@@ -200,7 +200,7 @@ const UploadFile = (props: Props) => {
       setFileError(null)
       setError(null)
       // setSuccess(null)
-    }, 9000)
+    }, 30000)
   })
 
   return (
