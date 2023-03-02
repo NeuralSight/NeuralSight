@@ -13,13 +13,14 @@ import { formatDateFromString } from '../../../helper/datesFormatter'
 import { useState } from 'react'
 import DeleteReportModal from '../DeleteReportModal'
 import Link from 'next/link'
+import { TOTAL_PATHOGENS } from '../../../lang/constants'
 
 type Props = {
-  imageDetails: ImageDetails
   patientDetailsResult: PatientReportResult
 }
+
 // placeholder date
-const ListViewImageCard = ({ imageDetails, patientDetailsResult }: Props) => {
+const ListViewImageCard = ({ patientDetailsResult }: Props) => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
   const diseaseArr: Pathogen[] = []
   const pathogens = patientDetailsResult.disease.split('\n')
@@ -27,13 +28,6 @@ const ListViewImageCard = ({ imageDetails, patientDetailsResult }: Props) => {
   //   confidence:
   //   type:
   // }
-  const inferencePath = patientDetailsResult.details.inference_path
-  // split
-  const inferenceArr = inferencePath.split('/')
-
-  const imageType = inferenceArr[1]
-  const fileName = inferenceArr[2]
-
   for (let pathogen of pathogens) {
     const pathogenArr = pathogen.split(' ')
     const diseasesPresentObj: AnyObject = {}
@@ -41,6 +35,12 @@ const ListViewImageCard = ({ imageDetails, patientDetailsResult }: Props) => {
     diseasesPresentObj['type'] = pathogenArr[1]
     diseaseArr.push(diseasesPresentObj)
   }
+  const inferencePath = patientDetailsResult.details.inference_path
+  // split
+  const inferenceArr = inferencePath.split('/')
+
+  const imageType = inferenceArr[1]
+  const fileName = inferenceArr[2]
 
   return (
     <div className='flex flex-col xl:flex-row w-full h-fit shadow-lg border-2 rounded-xl p-4 gap-6 bg-primary-lightest relative'>
@@ -61,7 +61,7 @@ const ListViewImageCard = ({ imageDetails, patientDetailsResult }: Props) => {
         <div className='relative rounded-3xl border-2 border-gray-500/20 group h-[387px] lg:h-[300px] 2xl:h-[430px] w-full lg:w-[240px] 2xl:w-[300px] cursor-pointer'>
           <Image
             src={`${process.env.NEXT_PUBLIC_NEURALSIGHT_API_BASE_URL}/patient/file/${imageType}/${fileName}`}
-            alt={`patient's image testing ${imageDetails.disease}`}
+            alt={`patient's image testing `}
             fill
             placeholder='blur'
             blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mPsrgcAAZsBDIKsyq4AAAAASUVORK5CYII='
@@ -69,32 +69,31 @@ const ListViewImageCard = ({ imageDetails, patientDetailsResult }: Props) => {
           />
         </div>
         <div className='absolute top-4 left-4 z-10 p-2 rounded-2xl my-auto bg-primary-dark text-gray-50 font-semibold text-sm uppercase shadow-lg shadow-primary-dark/25 group-hover:shadow-none text-center align-middle'>
-          {imageDetails.modality}
+          CT
         </div>
       </div>
-      <div className='w-full 2xl:w-2/3 flex flex-col space-y-8'>
-        <div className='flex flex-col space-y-1'>
+      <div className='w-full 2xl:w-2/3 flex flex-col justify-between'>
+        <div className='flex flex-col mt-1'>
           <p className='text-gray-500 font-light italic h-full capitalize'>
             Last Edited{' '}
             {formatDateFromString(patientDetailsResult.details.created_at)}
           </p>
-          <h4 className='text-lg text-slate-500'>
+          {/* <h4 className='text-lg text-slate-500'>
             Disease &#8594;{' '}
             <span className='font-medium text-primary-dark'>
               {imageDetails.disease}
             </span>
-          </h4>
-          <div className='flex'>
-            <h4 className='text-lg text-slate-500'>
-              Pathogen&#91;found&#93; &#8594;{' '}
-              <span className='text-primary-dark font-medium'>
-                {`${imageDetails?.pathogens?.length} out of ${imageDetails?.totalPathogens}`}
-              </span>
-            </h4>
-            {/* add view more incase the pathogen are alot */}
-          </div>
+          </h4> */}
         </div>
         <div className='flex flex-col space-y-2'>
+          <h4 className='text-lg text-slate-500 mb-2'>
+            Pathogen&#91;found&#93; &#8594;{' '}
+            <span className='text-primary-dark font-medium'>
+              {`${
+                diseaseArr.length > 1 ? diseaseArr.length : 0
+              } out of ${TOTAL_PATHOGENS}`}
+            </span>
+          </h4>
           <h4 className='capitalize text-xl tracking-[4px] font-semibold underline decoration-slate-400 text-slate-700 mb-2 '>
             pathogens
           </h4>
@@ -104,7 +103,7 @@ const ListViewImageCard = ({ imageDetails, patientDetailsResult }: Props) => {
             ))}
         </div>
         <div className='flex flex-col space-y-2.5 '>
-          <Inference inference={imageDetails.inference} />
+          {/* <Inference inference={diseaseArr} /> */}
           <div className='grid grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2 w-auto gap-3 justify-center items-center'>
             <Button type='button'>
               <Icon icon={'eva:edit-2-fill'} className='ml-2 h-5 w-5' />{' '}
