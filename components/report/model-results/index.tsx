@@ -29,12 +29,14 @@ const ModelResults = ({ disease, patientId, selected }: Props) => {
   //  11: 'Calcification',
   //  12: 'Atelectasis',
   //  13: 'Pneumothorax'}
+
+  console.log('diseaseArr.length', diseaseArr.length)
   const ModelResultsObj = {
     patientID: patientId,
-    disease: 'TB',
+    // disease: 'TB',
     totalPathogens: 13,
-    abnormal: diseaseArr.length !== 0,
-    inference: '0.4',
+    abnormal: diseaseArr.length > 1 && diseaseArr[0] !== '',
+    // inference: '0.4',
     src: '#',
     pathogens: [
       {
@@ -275,7 +277,7 @@ const ModelResults = ({ disease, patientId, selected }: Props) => {
             showPercentage={selected}
             confidence={ModelResultsObj.abnormal ? '1' : '0'}
           />
-          <ResultCard
+          {/* <ResultCard
             showPercentage={selected}
             type={
               ModelResultsObj.disease == 'TB'
@@ -283,12 +285,12 @@ const ModelResults = ({ disease, patientId, selected }: Props) => {
                 : ModelResultsObj.disease
             }
             confidence={ModelResultsObj.inference}
-          />
-          <ResultCard
+          /> */}
+          {/* <ResultCard
             type={'pneumonia'}
             confidence={'0.90'}
             showPercentage={selected}
-          />
+          /> */}
         </div>
       </div>
       <div>
