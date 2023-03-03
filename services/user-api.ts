@@ -38,7 +38,7 @@ export const updateUserInfo = async (req: any, res: any, token: string) => {
       // api key
     }, // which is multipart/form-data with boundary included
     body: req,
-    duplex: 'half',
+    // duplex: 'half',
   })
   // response.pipe(res)
 
