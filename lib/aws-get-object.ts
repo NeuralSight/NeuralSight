@@ -17,12 +17,13 @@ export const getObject = async (Key: string, name: string, ext: string) => {
   // Get the object} from the Amazon S3 bucket. It is returned as a ReadableStream.
   // Key?
   try {
-    // Get the object} from the Amazon S3 bucket. It is returned as a ReadableStream.
+    // Get the object from the Amazon S3 bucket. It is returned as a ReadableStream.
     const data = await s3Bucket.send(
       new GetObjectCommand({ ...bucketParams, Key })
     )
     // Convert the ReadableStream to a string.
-    return await data.Body?.transformToString()
+    console.log('ContentType', data.ContentType)
+    return data.Body?.transformToWebStream
   } catch (err) {
     console.log('Error', err)
   }
