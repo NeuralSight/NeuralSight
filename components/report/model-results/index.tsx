@@ -1,7 +1,8 @@
-import React, { SetStateAction, Dispatch } from 'react'
+import { useEffect, useState } from 'react'
 import { generateRandomString } from '../../../helper/randomStringGenerator'
 import ResultCard from './ResultCard'
-import { AnyObject, PatientReportResult } from '../../../typings'
+import { AnyObject, Pathogen } from '../../../typings'
+import { TOTAL_PATHOGENS } from '../../../lang/constants'
 
 type Props = {
   disease: string
@@ -34,7 +35,7 @@ const ModelResults = ({ disease, patientId, selected }: Props) => {
   const ModelResultsObj = {
     patientID: patientId,
     // disease: 'TB',
-    totalPathogens: 13,
+    totalPathogens: TOTAL_PATHOGENS,
     abnormal: diseaseArr.length > 1 && diseaseArr[0] !== '',
     // inference: '0.4',
     src: '#',
@@ -80,104 +81,90 @@ const ModelResults = ({ disease, patientId, selected }: Props) => {
       {
         key: generateRandomString(128),
 
-        type: 'consolidation',
-        category: 'l',
-        confidence: '0.00',
-      },
-      {
-        key: generateRandomString(128),
-
-        type: 'fibrosis',
-        category: 'l',
-        confidence: '0.00',
-      },
-      {
-        key: generateRandomString(128),
-
         type: 'Nodule/Mass',
         name: 'Nodule/Mass',
         category: 'l',
         confidence: '0.00',
       },
-      {
-        key: generateRandomString(128),
+      // {
+      //   key: generateRandomString(128),
 
-        type: 'emphysema',
-        category: 'l',
-        confidence: '0.00',
-      },
-      {
-        key: generateRandomString(128),
+      //   type: 'emphysema',
+      //   category: 'l',
+      //   confidence: '0.00',
+      // },
+      // {
+      //   key: generateRandomString(128),
 
-        type: 'cavity',
-        category: 'l',
-        confidence: '0.00',
-      },
-      {
-        key: generateRandomString(128),
+      //   type: 'cavity',
+      //   category: 'l',
+      //   confidence: '0.00',
+      // },
+      // {
+      //   key: generateRandomString(128),
 
-        type: 'cardiomegaly',
-        category: 'h',
-        name: 'Cardiomegaly',
-        confidence: '0.00',
-      },
-      {
-        key: generateRandomString(128),
+      //   type: 'cardiomegaly',
+      //   category: 'h',
+      //   name: 'Cardiomegaly',
+      //   confidence: '0.00',
+      // },
+      // {
+      //   key: generateRandomString(128),
 
-        type: 'raised/tented diaphragm',
-        category: 'd',
-        confidence: '0.00',
-      },
-      {
-        key: generateRandomString(128),
+      //   type: 'raised/tented diaphragm',
+      //   category: 'd',
+      //   confidence: '0.00',
+      // },
+      // {
+      //   key: generateRandomString(128),
 
-        type: 'pneumoperitoneum',
-        category: 'l',
-        confidence: '0.00',
-      },
-      {
-        key: generateRandomString(128),
+      //   type: 'pneumoperitoneum',
+      //   category: 'l',
+      //   confidence: '0.00',
+      // },
+      // {
+      //   key: generateRandomString(128),
 
-        type: 'Degenerative Spine condition',
-        category: 'b',
-        confidence: '0.00',
-      },
-      {
-        key: generateRandomString(128),
-        type: 'rib fracture',
-        category: 'b',
-        confidence: '0.00',
-      },
+      //   type: 'Degenerative Spine condition',
+      //   category: 'b',
+      //   confidence: '0.00',
+      // },
+      // {
+      //   key: generateRandomString(128),
+      //   type: 'rib fracture',
+      //   category: 'b',
+      //   confidence: '0.00',
+      // },
       {
         key: generateRandomString(128),
         type: 'aortic enlargement',
         category: 'h',
         confidence: '0.00',
       },
-      {
-        key: generateRandomString(128),
-        type: 'scollosis',
-        category: 'l',
-        confidence: '0.00',
-      },
-      {
-        key: generateRandomString(128),
-        type: 'Blunted Constophrenic Angile',
-        category: 'p',
-        confidence: '0.00',
-      },
-      {
-        key: generateRandomString(128),
-        type: 'tracheal shift',
-        category: 'm',
-        confidence: '0.00',
-      },
-      {
-        key: generateRandomString(128),
-        type: 'hilar prominence',
-        category: 'm',
-        confidence: '0.00',
-      },
+      // {
+      //   key: generateRandomString(128),
+      //   type: 'scollosis',
+      //   category: 'l',
+      //   confidence: '0.00',
+      // },
+      // {
+      //   key: generateRandomString(128),
+      //   type: 'Blunted Constophrenic Angile',
+      //   category: 'p',
+      //   confidence: '0.00',
+      // },
+      // {
+      //   key: generateRandomString(128),
+      //   type: 'tracheal shift',
+      //   category: 'm',
+      //   confidence: '0.00',
+      // },
+      // {
+      //   key: generateRandomString(128),
+      //   type: 'hilar prominence',
+      //   category: 'm',
+      //   confidence: '0.00',
+      // },
       {
         key: generateRandomString(128),
         type: 'Interstitial lung disease (ILD)',
@@ -224,30 +211,23 @@ const ModelResults = ({ disease, patientId, selected }: Props) => {
     modality: 'CT scan',
   }
 
-  if (diseaseArr.length > 0) {
-    for (let i = 0; i < diseaseArr.length; i++) {
-      const disArr: string[] = diseaseArr[i].split(' ')
-      console.log('disease arr', disArr)
-      diseasesPresentObj[disArr[1]] = disArr[0]
-      for (let pathogen of ModelResultsObj.pathogens) {
-        if (pathogen.name && disArr.length > 1) {
-          if (
-            pathogen.name.toLocaleLowerCase() == disArr[1].toLocaleLowerCase()
-          ) {
-            // equal to the confidence put up by the model
+  for (let i = 0; i < diseaseArr.length; i++) {
+    const disArr: string[] = diseaseArr[i].split(' ')
+    diseasesPresentObj[disArr[1]] = disArr[0]
+    for (let pathogen of ModelResultsObj.pathogens) {
+      if (pathogen.name && disArr.length > 1) {
+        if (
+          pathogen.name.toLocaleLowerCase() == disArr[1].toLocaleLowerCase()
+        ) {
+          // equal to the confidence put up by the model
 
-            pathogen.confidence = disArr[0]
-
-            // if (pathogen.confidence !== '0.00') {
-            //   let total = 0
-            //   total = parseInt(pathogen.confidence) + parseInt(disArr[0])
-            //   pathogen.confidence = total.toString()
-            // }
-          }
+          console.log('disArr[1]', disArr[1])
+          pathogen.confidence = disArr[0]
         }
       }
     }
   }
+
   console.log('diseasePresentObj', diseasesPresentObj)
   const pathogens = ModelResultsObj.pathogens
   const lungs = pathogens.filter((item) => item.category.toLowerCase() == 'l')
@@ -293,97 +273,111 @@ const ModelResults = ({ disease, patientId, selected }: Props) => {
           /> */}
         </div>
       </div>
-      <div>
-        <div className='report-sub-title'>Lungs</div>
-        <div className='py-2 w-full space-y-1 flex flex-col'>
-          {lungs.map((item) => (
-            <ResultCard
-              showPercentage={selected}
-              key={item.key}
-              type={item.type}
-              confidence={item.confidence}
-            />
-          ))}
+      {lungs.length > 0 && (
+        <div>
+          <div className='report-sub-title'>Lungs</div>
+          <div className='py-2 w-full space-y-1 flex flex-col'>
+            {lungs.map((item) => (
+              <ResultCard
+                showPercentage={selected}
+                key={item.key}
+                type={item.type}
+                confidence={item.confidence}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-      <div>
-        <div className='report-sub-title'>Pleural</div>
-        <div className='py-2 w-full space-y-1 flex flex-col'>
-          {pleural.map((item) => (
-            <ResultCard
-              showPercentage={selected}
-              key={item.key}
-              type={item.type}
-              confidence={item.confidence}
-            />
-          ))}
+      )}
+      {pleural.length > 0 && (
+        <div>
+          <div className='report-sub-title'>Pleural</div>
+          <div className='py-2 w-full space-y-1 flex flex-col'>
+            {pleural.map((item) => (
+              <ResultCard
+                showPercentage={selected}
+                key={item.key}
+                type={item.type}
+                confidence={item.confidence}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-      <div>
-        <div className='report-sub-title'>Heart</div>
-        <div className='py-2 w-full space-y-1 flex flex-col'>
-          {heart.map((item) => (
-            <ResultCard
-              showPercentage={selected}
-              key={item.key}
-              type={item.type}
-              confidence={item.confidence}
-            />
-          ))}
+      )}
+      {heart.length > 0 && (
+        <div>
+          <div className='report-sub-title'>Heart</div>
+          <div className='py-2 w-full space-y-1 flex flex-col'>
+            {heart.map((item) => (
+              <ResultCard
+                showPercentage={selected}
+                key={item.key}
+                type={item.type}
+                confidence={item.confidence}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-      <div>
-        <div className='report-sub-title'>Mediastinum</div>
-        <div className='py-2 w-full space-y-1 flex flex-col'>
-          {medi.map((item) => (
-            <ResultCard
-              showPercentage={selected}
-              key={item.key}
-              type={item.type}
-              confidence={item.confidence}
-            />
-          ))}
+      )}
+      {medi.length > 0 && (
+        <div>
+          <div className='report-sub-title'>Mediastinum</div>
+          <div className='py-2 w-full space-y-1 flex flex-col'>
+            {medi.map((item) => (
+              <ResultCard
+                showPercentage={selected}
+                key={item.key}
+                type={item.type}
+                confidence={item.confidence}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-      <div>
-        <div className='report-sub-title'>Diaphragm</div>
-        <div className='py-2 w-full space-y-1 flex flex-col'>
-          {diaphragm.map((item) => (
-            <ResultCard
-              showPercentage={selected}
-              key={item.key}
-              type={item.type}
-              confidence={item.confidence}
-            />
-          ))}
+      )}
+      {diaphragm.length > 0 && (
+        <div>
+          <div className='report-sub-title'>Diaphragm</div>
+          <div className='py-2 w-full space-y-1 flex flex-col'>
+            {diaphragm.map((item) => (
+              <ResultCard
+                showPercentage={selected}
+                key={item.key}
+                type={item.type}
+                confidence={item.confidence}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-      <div>
-        <div className='report-sub-title'>Bones</div>
-        <div className='py-2 w-full space-y-1 flex flex-col'>
-          {bones.map((item) => (
-            <ResultCard
-              showPercentage={selected}
-              key={item.key}
-              type={item.type}
-              confidence={item.confidence}
-            />
-          ))}
+      )}
+      {bones.length > 0 && (
+        <div>
+          <div className='report-sub-title'>Bones</div>
+          <div className='py-2 w-full space-y-1 flex flex-col'>
+            {bones.map((item) => (
+              <ResultCard
+                showPercentage={selected}
+                key={item.key}
+                type={item.type}
+                confidence={item.confidence}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-      <div>
-        <div className='report-sub-title'>Others</div>
-        <div className='py-2 w-full space-y-1 flex flex-col'>
-          {others.map((item) => (
-            <ResultCard
-              showPercentage={selected}
-              key={item.key}
-              type={item.type}
-              confidence={item.confidence}
-            />
-          ))}
+      )}
+      {others.length > 0 && (
+        <div>
+          <div className='report-sub-title'>Others</div>
+          <div className='py-2 w-full space-y-1 flex flex-col'>
+            {others.map((item) => (
+              <ResultCard
+                showPercentage={selected}
+                key={item.key}
+                type={item.type}
+                confidence={item.confidence}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

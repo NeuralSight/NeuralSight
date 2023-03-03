@@ -8,11 +8,11 @@ type Props = {
 }
 
 const ResultCard = (props: Props) => {
+  const confidence = parseInt(formatStringDecimalToPercentage(props.confidence))
   const result =
-    formatStringDecimalToPercentage(props.confidence) >= '75'
+    confidence >= 75
       ? 'YES'
-      : formatStringDecimalToPercentage(props.confidence) >= '50' &&
-        formatStringDecimalToPercentage(props.confidence) <= '74'
+      : confidence >= 50 && confidence <= 74
       ? 'NOT SURE'
       : 'NO'
   return (
