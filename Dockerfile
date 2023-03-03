@@ -1,11 +1,12 @@
 # Use an official Node runtime as a parent image
-# FROM node:18-alpine
+
+FROM node:18-slim
 
 
 # install
-RUN sudo apt update
-RUN sudo apt install curl -y
-RUN npm install -g node@18.12.1
+# RUN sudo apt update
+# RUN sudo apt install curl -y
+# RUN npm install -g node@18.12.1
 
 
 # Set the working directory to /app
