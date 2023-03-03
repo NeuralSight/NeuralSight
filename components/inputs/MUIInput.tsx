@@ -17,11 +17,20 @@ type Props = {
   ref?: React.RefObject<unknown> | undefined
   icon?: React.ReactNode | undefined
   size?: 'medium' | 'small' | undefined
+  isColorWhite?: boolean
   borderRadius?: string | undefined
   isUsingReactHookForm?: boolean
   value?: number | string
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void
 }
+
+const CustomOutlinedInput = styled(OutlinedInput)({})
+/**
+ * Input field
+ * @param props.type 'text' | 'tel' | 'password' | 'number' | 'email'
+ *
+ * @returns
+ */
 
 const CustomFormControl = styled(FormControl)({
   '& label.Mui-focused': {
@@ -44,16 +53,33 @@ const CustomFormControl = styled(FormControl)({
       zIndex: '1',
       background: 'rgba(22, 194, 213, 0.1)',
     },
+    // color: 'black',
   },
 })
-
-const CustomOutlinedInput = styled(OutlinedInput)({})
-/**
- * Input field
- * @param props.type 'text' | 'tel' | 'password' | 'number' | 'email'
- *
- * @returns
- */
+const CustomFormControlWhite = styled(FormControl)({
+  '& label.Mui-focused': {
+    color: '#16C2D5',
+  },
+  '& .MuiInput-underline:after': {
+    borderBottomColor: '#16C2D5',
+  },
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: 'rbga(137, 137, 137,0.8)',
+      background: 'rgba(215, 186, 173, 0.2)',
+      zIndex: '1',
+    },
+    '&:hover fieldset': {
+      borderColor: 'rbga(24, 24, 24)',
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: '#16C2D5',
+      zIndex: '1',
+      background: 'rgba(22, 194, 213, 0.1)',
+    },
+    color: 'white',
+  },
+})
 
 const InputField = ({
   borderRadius,
@@ -66,10 +92,12 @@ const InputField = ({
   type,
   value,
   placeholder,
+  isColorWhite = false,
   isUsingReactHookForm = true,
   onChange,
 }: Props) => {
   let InputRadius = borderRadius || '10px'
+
   return (
     <Box
       sx={{
@@ -80,51 +108,99 @@ const InputField = ({
         fontWeight: '600',
       }}
     >
-      <CustomFormControl
-        color='warning'
-        fullWidth
-        variant='outlined'
-        size={size}
-      >
-        <InputLabel
-          htmlFor={id}
-          sx={{
-            textDecoration: 'capitalized',
-            width: 'fit',
-            textAlign: 'center',
-          }}
+      {isColorWhite ? (
+        <CustomFormControlWhite
+          color='warning'
+          fullWidth
+          variant='outlined'
+          size={size}
         >
-          {label}
-        </InputLabel>
-        {isUsingReactHookForm ? (
-          <OutlinedInput
-            sx={{ borderRadius: InputRadius }}
-            id={id}
-            ref={ref}
-            type={type}
-            {...register}
-            placeholder={placeholder}
-            endAdornment={
-              <InputAdornment position='end'>{icon}</InputAdornment>
-            }
-            label={label}
-          />
-        ) : (
-          <OutlinedInput
-            sx={{ borderRadius: InputRadius }}
-            id={id}
-            ref={ref}
-            type={type}
-            value={value}
-            onChange={onChange}
-            placeholder={placeholder}
-            endAdornment={
-              <InputAdornment position='end'>{icon}</InputAdornment>
-            }
-            label={label}
-          />
-        )}
-      </CustomFormControl>
+          <InputLabel
+            htmlFor={id}
+            sx={{
+              textDecoration: 'capitalized',
+              width: 'fit',
+              textAlign: 'center',
+            }}
+          >
+            {label}
+          </InputLabel>
+          {isUsingReactHookForm ? (
+            <OutlinedInput
+              sx={{ borderRadius: InputRadius }}
+              id={id}
+              ref={ref}
+              type={type}
+              {...register}
+              placeholder={placeholder}
+              endAdornment={
+                <InputAdornment position='end'>{icon}</InputAdornment>
+              }
+              label={label}
+            />
+          ) : (
+            <OutlinedInput
+              sx={{ borderRadius: InputRadius }}
+              id={id}
+              ref={ref}
+              type={type}
+              value={value}
+              onChange={onChange}
+              placeholder={placeholder}
+              endAdornment={
+                <InputAdornment position='end'>{icon}</InputAdornment>
+              }
+              label={label}
+            />
+          )}
+        </CustomFormControlWhite>
+      ) : (
+        <CustomFormControl
+          color='warning'
+          fullWidth
+          variant='outlined'
+          size={size}
+        >
+          <InputLabel
+            htmlFor={id}
+            sx={{
+              textDecoration: 'capitalized',
+              width: 'fit',
+              textAlign: 'center',
+            }}
+          >
+            {label}
+          </InputLabel>
+          {isUsingReactHookForm ? (
+            <OutlinedInput
+              sx={{ borderRadius: InputRadius }}
+              id={id}
+              ref={ref}
+              type={type}
+              {...register}
+              placeholder={placeholder}
+              endAdornment={
+                <InputAdornment position='end'>{icon}</InputAdornment>
+              }
+              label={label}
+            />
+          ) : (
+            <OutlinedInput
+              sx={{ borderRadius: InputRadius }}
+              id={id}
+              ref={ref}
+              type={type}
+              value={value}
+              onChange={onChange}
+              placeholder={placeholder}
+              endAdornment={
+                <InputAdornment position='end'>{icon}</InputAdornment>
+              }
+              label={label}
+            />
+          )}
+        </CustomFormControl>
+      )}
     </Box>
   )
 }

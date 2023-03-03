@@ -32,72 +32,10 @@ import DeletePatientModal from './DeletePatientModal'
 import { PATIENT_ID_STORAGE_KEY } from '../../lang/constants'
 import LoadingTwo from '../LoadingTwo'
 
-type Props = {
-  active: string
-  setActive: Dispatch<SetStateAction<string>>
-}
 type Data = {
   patient: PatientInfoData
   'patient report': PatientReportResult[]
 }
-
-// to removed when actual data is introduced
-export const SampleImagesArr: ImageDetails[] = [
-  {
-    patientID: '600d475fa96e305as2e48c9cfbb851qs',
-    disease: 'TB',
-    totalPathogens: 12,
-    inference: 0.7,
-    src: 'https://images.unsplash.com/photo-1516069677018-378515003435?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1829&q=80',
-    pathogens: [
-      {
-        confidence: '0.8',
-        type: 'some pathogen',
-      },
-    ],
-    modality: 'CT',
-  },
-  {
-    patientID: '600d475fa96e305as2e48c9cqw2b851qs',
-    disease: 'TB',
-    totalPathogens: 12,
-    inference: 0.4,
-    src: ImageSample,
-    pathogens: [
-      {
-        confidence: '0.56',
-        type: 'pleural thikening ',
-      },
-      {
-        confidence: '0.90',
-        type: 'plumonary fiborisis',
-      },
-    ],
-    modality: 'MRI',
-  },
-  {
-    patientID: '600d475fa96e305as2eas8c9cqw2b851qs',
-    disease: 'TB',
-    totalPathogens: 12,
-    inference: 0.4,
-    src: ImageSample,
-    pathogens: [
-      {
-        confidence: '0.3',
-        type: 'some pathogen',
-      },
-      {
-        confidence: '0.90',
-        type: 'plumonary fiborisis',
-      },
-      {
-        confidence: '0.20',
-        type: 'plumonary s',
-      },
-    ],
-    modality: 'CT scan',
-  },
-]
 
 const MainContentSection = () => {
   const [isOpen, setModalOpen] = useState<boolean>(false)
@@ -115,12 +53,12 @@ const MainContentSection = () => {
   const isMediumDevice = useMediaQuery(`( min-width: ${SCREEN.md} )`)
 
   useEffect(() => {
-    setIsListView(getStorageItem('ListView'))
     patientContext?.setPatientId(getStorageItem(PATIENT_ID_STORAGE_KEY))
     reportContext?.setPatientId(getStorageItem(PATIENT_ID_STORAGE_KEY))
-    return
-  }, [isListView, patientContext, reportContext])
+    setIsListView(getStorageItem('ListView'))
+  }, [patientContext, reportContext])
   const allReport = reportContext?.getAllReport()
+  const sortedReportByDate = reportContext?.sortByDate(allReport || [])
   const isError = reportContext?.isError
   const isLoading = reportContext?.isLoading
   // console.log('allReport', allReport)
@@ -234,7 +172,7 @@ const MainContentSection = () => {
                   {/* Here will contain add button and image cards */}
                   {isLargeDevice && <AddImageBtn setOpen={setModalOpen} />}{' '}
                   {/* for grid view only large device for list view it would be place next to filter button and for small devices as floating action bar maybe*/}
-                  {allReport?.length == 0 && !isLoading ? (
+                  {sortedReportByDate?.length == 0 && !isLoading ? (
                     <div className='h-full max-h-screen w-full flex justify-center items-center'>
                       <p className='text-lg font-medium text-gray-800'>
                         No Image
@@ -247,12 +185,9 @@ const MainContentSection = () => {
                       {/* <span>loading...</span> */}
                     </div>
                   ) : (
-                    allReport?.map((item, key) => (
+                    sortedReportByDate?.map((item, key) => (
                       <GridViewImageCard
                         patientDetailsResult={item}
-                        imageDetails={
-                          SampleImagesArr[key % SampleImagesArr.length]
-                        }
                         key={item.details.id}
                       />
                     ))
@@ -261,7 +196,7 @@ const MainContentSection = () => {
               ) : (
                 isMediumDevice && (
                   <div className='h-full flex flex-col space-y-6 px-5 py-5'>
-                    {allReport?.length == 0 && !isLoading ? (
+                    {sortedReportByDate?.length == 0 && !isLoading ? (
                       <div className='h-full max-h-screen w-full flex justify-center items-center'>
                         <p className='text-lg font-medium text-gray-800'>
                           No Image
@@ -274,12 +209,9 @@ const MainContentSection = () => {
                         {/* <span></span> */}
                       </div>
                     ) : (
-                      allReport?.map((item, key) => (
+                      sortedReportByDate?.map((item, key) => (
                         <ListViewImageCard
                           patientDetailsResult={item}
-                          imageDetails={
-                            SampleImagesArr[key % SampleImagesArr.length]
-                          }
                           key={item.details.id}
                         />
                       ))

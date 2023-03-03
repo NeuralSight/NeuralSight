@@ -3,7 +3,7 @@ export const Menu = [
     key: 1,
     text: 'home',
     icon: 'ci:home-fill',
-    link: '/',
+    link: '/dashboard',
   },
   {
     key: 2,

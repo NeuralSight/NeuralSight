@@ -17,8 +17,6 @@ const PatientContext = createContext<PatientContextType | null>(null)
 const PatientProvider = ({ children }: Props) => {
   const currentClient = useQueryClient()
   const [patient, setPatient] = useState<string>('')
-  const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState<string | null>(null)
   const query = useQuery(
     ['patients'],
     async () => (await fetchPatients()).json() as Promise<PatientResult[]>,

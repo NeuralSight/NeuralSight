@@ -50,6 +50,11 @@ const nextConfig = {
         destination: '/auth',
         permanent: true,
       },
+      {
+        source: '/open-live-chat',
+        destination: '/contact-us',
+        permanent: true,
+      },
     ]
   },
   // async rewrites() {
@@ -60,15 +65,15 @@ const nextConfig = {
   //     },
   //   ]
   // },
-  // async headers() {
-  //   return [
-  //     {
-  //       // Apply these headers to all routes in your application.
-  //       source: '/:path*',
-  //       headers: securityHeaders,
-  //     },
-  //   ]
-  // },
+  async headers() {
+    return [
+      {
+        // Apply these headers to all routes in your application.
+        source: '/:path*',
+        headers: securityHeaders,
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig

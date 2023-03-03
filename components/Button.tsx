@@ -33,7 +33,7 @@ const Button = ({
           : `   border-primary-light hover:border-secondary-dark ${
               outlined
                 ? 'bg-transparent text-primary-light'
-                : 'shadow-md  shadow-primary-light/25 hover:shadow-primary-dark/25 bg-primary-light text-white'
+                : 'shadow-md shadow-primary-light/25 hover:shadow-primary-dark/25 bg-primary-light text-white'
             } hover:bg-secondary-dark hover:text-white  hover:shadow transition-all duration-200 ease-in-out`
       } ${wSize} ${hSize} ${textBold} ${textSize} lg:text-base capitalize`}
       onClick={type == 'submit' ? undefined : onClick}

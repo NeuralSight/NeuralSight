@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { ContentType } from '../lang/content-type'
 import { changeObjToFormUrlencoded } from '../helper/changeObjToOtherFormats'
 import { Patient, PatientUpdateReport } from '../typings'
+import { request } from 'http'
 
 type DeletePatientReport = {
   reportId: string
@@ -38,6 +39,7 @@ export const predictPatientImage = async (
       // api key
     }, // which is multipart/form-data with boundary included
     body: req,
+    // duplex: 'half',
   })
   return response
 }

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import NavItemComponent from './NavItem'
 import Profile from './ProfileImage'
 import Logout from './Logout'
-import { Menu } from '../helper/menu'
+import { Menu } from '../helper/data/menu'
 
 // nav items
 

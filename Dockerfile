@@ -1,6 +1,6 @@
 # Use an official Node runtime as a parent image
-
-FROM node:18-slim
+FROM node:19.0.1-alpine3.16
+# FROM node:18-alpine
 
 
 # install

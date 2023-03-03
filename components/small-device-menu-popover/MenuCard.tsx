@@ -10,7 +10,7 @@ type Props = {
 
 const MenuCard = ({ icon, text, link, isClicked = false }: Props) => {
   return (
-    <Link href={link || ''}>
+    <Link href={link || '#'}>
       <div className='rounded-md flex w-full items-center space-x-1 text-slate-800 hover:text-slate-900 text-center hover:bg-gray-200 px-2 py-2 active:bg-zinc-500/50'>
         <Icon
           icon={icon}
