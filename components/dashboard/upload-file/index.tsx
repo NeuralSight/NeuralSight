@@ -104,7 +104,8 @@ const UploadFile = (props: Props) => {
           })
           return
         }
-        if (files[i].size > 100000000) {
+        if (files[i].size > 500000000) {
+          //if the file size is greater than 50Mbs
           setFileError({
             type: 'FILESIZE_ERR',
             message: 'file allowed <strong>MUST</strong> be 100mbs and below',
