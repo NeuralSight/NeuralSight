@@ -78,6 +78,22 @@ const ReportProvider = ({ children }: Props) => {
       },
     })
   }
+
+  // sorts by date
+  const sortByDate = (
+    patientResultArray: PatientReportResult[]
+  ): PatientReportResult[] => {
+    const patientResultArraySorted = patientResultArray.sort((a, b) => {
+      // 2023-03-03T10:30:01.296950
+      const dateA = Date.parse(a.details.created_at)
+      const dateB = Date.parse(b.details.created_at)
+      return dateB - dateA
+    })
+    return patientResultArraySorted
+  }
+
+  // reverse by date by alphabet etc used by the toggle to be creates
+
   return (
     <Provider
       value={{
@@ -87,6 +103,7 @@ const ReportProvider = ({ children }: Props) => {
         getAllReport,
         getReportByKey,
         deleteSelectedPatientReport,
+        sortByDate,
         setPatientId,
         isLoading: query.isLoading,
         isSuccess: query.isSuccess,
