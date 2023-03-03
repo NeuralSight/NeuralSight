@@ -1,5 +1,12 @@
 # Use an official Node runtime as a parent image
-FROM node:18-alpine
+# FROM node:18-alpine
+
+
+# install
+sudo apt update
+sudo apt install curl -y
+npm install -g node@18.12.1
+
 
 # Set the working directory to /app
 WORKDIR /app
