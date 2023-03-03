@@ -175,7 +175,7 @@ const ModelResults = ({ disease, patientId, selected }: Props) => {
       {
         key: generateRandomString(128),
         type: 'Other lesion',
-        name: 'Other lesion',
+        name: 'Other',
         category: 'o',
         confidence: '0.00',
       },
@@ -220,7 +220,6 @@ const ModelResults = ({ disease, patientId, selected }: Props) => {
           pathogen.name.toLocaleLowerCase() == disArr[1].toLocaleLowerCase()
         ) {
           // equal to the confidence put up by the model
-
           console.log('disArr[1]', disArr[1])
           pathogen.confidence = disArr[0]
         }
