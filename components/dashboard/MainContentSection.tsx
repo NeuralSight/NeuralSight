@@ -58,6 +58,7 @@ const MainContentSection = () => {
     setIsListView(getStorageItem('ListView'))
   }, [patientContext, reportContext])
   const allReport = reportContext?.getAllReport()
+  const sortedReportByDate = reportContext?.sortByDate(allReport || [])
   const isError = reportContext?.isError
   const isLoading = reportContext?.isLoading
   // console.log('allReport', allReport)
@@ -171,7 +172,7 @@ const MainContentSection = () => {
                   {/* Here will contain add button and image cards */}
                   {isLargeDevice && <AddImageBtn setOpen={setModalOpen} />}{' '}
                   {/* for grid view only large device for list view it would be place next to filter button and for small devices as floating action bar maybe*/}
-                  {allReport?.length == 0 && !isLoading ? (
+                  {sortedReportByDate?.length == 0 && !isLoading ? (
                     <div className='h-full max-h-screen w-full flex justify-center items-center'>
                       <p className='text-lg font-medium text-gray-800'>
                         No Image
@@ -184,7 +185,7 @@ const MainContentSection = () => {
                       {/* <span>loading...</span> */}
                     </div>
                   ) : (
-                    allReport?.map((item, key) => (
+                    sortedReportByDate?.map((item, key) => (
                       <GridViewImageCard
                         patientDetailsResult={item}
                         key={item.details.id}
@@ -195,7 +196,7 @@ const MainContentSection = () => {
               ) : (
                 isMediumDevice && (
                   <div className='h-full flex flex-col space-y-6 px-5 py-5'>
-                    {allReport?.length == 0 && !isLoading ? (
+                    {sortedReportByDate?.length == 0 && !isLoading ? (
                       <div className='h-full max-h-screen w-full flex justify-center items-center'>
                         <p className='text-lg font-medium text-gray-800'>
                           No Image
@@ -208,7 +209,7 @@ const MainContentSection = () => {
                         {/* <span></span> */}
                       </div>
                     ) : (
-                      allReport?.map((item, key) => (
+                      sortedReportByDate?.map((item, key) => (
                         <ListViewImageCard
                           patientDetailsResult={item}
                           key={item.details.id}
