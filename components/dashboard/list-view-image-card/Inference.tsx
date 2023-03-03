@@ -1,5 +1,7 @@
+import { formatStringDecimalToPercentage } from '../../../helper/AIResponseFormats'
+
 type Props = {
-  inference: number
+  inference: string
 }
 
 const Inference = ({ inference }: Props) => {
@@ -10,16 +12,18 @@ const Inference = ({ inference }: Props) => {
       </p>
       <div
         className={`px-2.5 py-1 rounded-lg font-bold ${
-          inference > 0.75
+          formatStringDecimalToPercentage(inference) > '75'
             ? 'bg-red-500/20 text-red-600'
-            : inference > 0.5 && inference < 0.75
+            : formatStringDecimalToPercentage(inference) > '50' &&
+              formatStringDecimalToPercentage(inference) < '75'
             ? 'bg-orange-500/20 text-orange-600'
             : 'bg-green-500/20 text-green-600'
         }`}
       >
-        {inference > 0.75
+        {formatStringDecimalToPercentage(inference) > '75'
           ? 'high'
-          : inference > 0.5 && inference < 0.75
+          : formatStringDecimalToPercentage(inference) > '50' &&
+            formatStringDecimalToPercentage(inference) < '75'
           ? 'medium'
           : 'low'}
       </div>

@@ -8,13 +8,10 @@ import 'swiper/css/effect-cards'
 import { EffectCards } from 'swiper'
 
 // get example image data
-import { SampleImagesArr } from '../../dashboard/MainContentSection'
 import ImageCard from './ImageCard'
 import { ReportContext } from '../../../context/report-context'
 
-type Props = {}
-
-const ImageSlides = (props: Props) => {
+const ImageSlides = () => {
   const reportContext = useContext(ReportContext)
   const reportAll = reportContext?.getAllReport()
 
@@ -33,10 +30,7 @@ const ImageSlides = (props: Props) => {
         reportAll?.length > 0 &&
         reportAll?.map((item, key) => (
           <SwiperSlide key={key}>
-            <ImageCard
-              patientReportResult={item}
-              imageDetails={SampleImagesArr[key % SampleImagesArr.length]}
-            />
+            <ImageCard patientReportResult={item} />
           </SwiperSlide>
         ))}
     </Swiper>

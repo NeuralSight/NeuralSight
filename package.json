@@ -33,6 +33,7 @@
     "react-error-boundary": "^3.1.4",
     "react-hook-form": "^7.39.1",
     "react-social-icons": "^5.15.0",
+    "sharp": "^0.31.3",
     "swiper": "^8.4.5",
     "tailwind-scrollbar": "^2.0.1",
     "yup": "^0.32.11"
@@ -44,7 +45,7 @@
     "@types/draftjs-to-html": "^0.8.1",
     "@types/html-to-draftjs": "^1.4.0",
     "@types/js-cookie": "^3.0.2",
-    "@types/node": "18.8.5",
+    "@types/node": "^18.14.5",
     "@types/react": "18.0.21",
     "@types/react-burger-menu": "^2.8.3",
     "@types/react-color": "^3.0.6",
