@@ -259,7 +259,7 @@ function Auth({}: Props) {
 
           <p className='text-sm lg:text-base text-slate-400 font-medium'>
             Want to give it a try?{' '}
-            <Link href='#'>
+            <Link href='mailto:info@neurallabs.africa?subject=Request Of A Demo &body=i would like to request a demo'>
               <span className='cursor-pointer capitalize text-primary-light hover:text-primary-dark transition-all duration-200'>
                 Request a Demo
               </span>
