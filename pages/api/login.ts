@@ -8,10 +8,10 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    res.setHeader(
-      'Access-Control-Allow-Origin',
-      process.env.ALLOWED_ORGINS || 'http://localhost:3000/'
-    )
+    // res.setHeader(
+    //   'Access-Control-Allow-Origin',
+    //   process.env.ALLOWED_ORGINS || 'http://localhost:3000/'
+    // )
     res.setHeader(
       'Access-Control-Allow-Headers',
       'Origin, X-Requested-With, Content-Type, Accept, Authorization'

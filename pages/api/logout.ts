@@ -4,10 +4,10 @@ import { METHOD_NOT_ALLOWED_ERR_MSG } from '../../lang/error-messages'
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    res.setHeader(
-      'Access-Control-Allow-Origin',
-      process.env.ALLOWED_ORGINS || 'http://localhost:3000/'
-    )
+    // res.setHeader(
+    //   'Access-Control-Allow-Origin',
+    //   process.env.ALLOWED_ORGINS || 'http://localhost:3000/'
+    // )
     res.setHeader(
       'Access-Control-Allow-Headers',
       'Origin, X-Requested-With, Content-Type, Accept, Authorization'

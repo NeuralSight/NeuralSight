@@ -35,13 +35,13 @@ const EditReport = ({ isOpen, setModalOpen, reportId }: Props) => {
   const patientContext = useContext(PatientContext)
   const reportContext = useContext(ReportContext)
   const [report, setReport] = useState<string>('')
-  console.log('success', success)
+
   //  '<p>Opacity is observed in the right lung and left lower zone. Inhomogeneous Opacity, probable Consolidation is observed in bilateral lower zones. Pleural Effusion is observed in bilateral lower zones and right mid zone Blunting of CP angle is observed in bilateral lower zonesThe heart is enlarged. CardiomegalyBoth hila appear normalBony thorax appears unremarkable</p>'
 
   const { isLoading, mutate, status } = useMutation(updatePatientReport, {
     onMutate: async (newReport) => {
       // optimistic update can be done here ⚠ not good if we do serverside
-      console.log('report', newReport)
+      // console.log('report', newReport)
     },
   })
 
@@ -63,9 +63,9 @@ const EditReport = ({ isOpen, setModalOpen, reportId }: Props) => {
     mutate(patientData, {
       onSuccess: async (response, variable, context) => {
         const data = await response.json()
-        console.log('data', data)
+        // console.log('data', data)
         if (response.status === 201 || response.status === 200) {
-          console.log('data', data)
+          // console.log('data', data)
           setSuccess(
             `successfully updated report for patient with id ${patientContext?.patientId}`
           )
@@ -76,12 +76,13 @@ const EditReport = ({ isOpen, setModalOpen, reportId }: Props) => {
           ])
         } else {
           const detail = data.detail
-          console.log('detail', detail)
+          // console.log('detail', detail)
           setDetails(detail)
         }
       },
       onError: async (err: any, variables, context) => {
         setError(err)
+        // create a server side logging system for frontend
         console.log('Error while posting...', err)
         console.log('data sent is', variables)
       },
@@ -96,7 +97,7 @@ const EditReport = ({ isOpen, setModalOpen, reportId }: Props) => {
     setModalOpen(false)
     setSuccess(null)
     setError(null)
-    console.log('close', close)
+    // console.log('close', close)
   }
 
   return (
