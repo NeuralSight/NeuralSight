@@ -1,3 +1,7 @@
+/**
+ * TODO: seperate each type into smaller files and in one folder"types"
+ */
+
 import { NextApiRequest } from 'next'
 import { Dispatch, SetStateAction } from 'react'
 
