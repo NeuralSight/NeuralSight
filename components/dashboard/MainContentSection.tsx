@@ -61,7 +61,6 @@ const MainContentSection = () => {
   const sortedReportByDate = reportContext?.sortByDate(allReport || [])
   const isError = reportContext?.isError
   const isLoading = reportContext?.isLoading
-  // console.log('allReport', allReport)
 
   return (
     <div className='w-full h-[94%] flex flex-col gap-6'>
