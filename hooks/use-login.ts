@@ -19,7 +19,7 @@ const setUserAuthInfo = async ({ user, isRemembered }: AuthInfo) => {
     body: JSON.stringify({ user, remember: isRemembered }),
   })
   const data = await response.json()
-  console.log('data', data)
+  // console.log('data', data)
   return { data, status: response.status }
 }
 

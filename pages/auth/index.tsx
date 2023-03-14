@@ -70,7 +70,7 @@ function Auth({}: Props) {
       },
       {
         onSuccess: (data, variable, context) => {
-          console.log('data', data)
+          // console.log('data', data)
           if (data.status === 200) {
             if (data?.data?.access_token) {
               // console.log('data', data)
@@ -115,9 +115,9 @@ function Auth({}: Props) {
   }
   useEffect(() => {
     // unsubcribe from watch once finished
-    const subscription = watch((value, { name, type }) =>
-      console.log(value, name, type)
-    )
+    const subscription = watch((value, { name, type }) => {
+      return null
+    })
     return () => subscription.unsubscribe()
   }, [watch])
 
