@@ -14,7 +14,7 @@ export function middleware(req: NextRequest) {
   config.matchers.forEach((matcher) => {
     matchers.push(createNewUrl(matcher, req))
   })
-  // console.log('matchers', matchers)
+  console.log('matchers', matchers)
   if (!api_token && matchers.includes(url)) {
     const urlClone = req.nextUrl.clone()
     urlClone.pathname = '/auth'
@@ -34,5 +34,5 @@ export function middleware(req: NextRequest) {
 }
 
 const config = {
-  matchers: ['dashboard', 'report', 'settings'],
+  matchers: ['/dashboard', '/report', '/settings', '/api/authorize'],
 }
