@@ -3,7 +3,7 @@ import React from 'react'
 type Props = {
   children: React.ReactNode | string | undefined
   type: 'button' | 'submit' | 'reset' | undefined
-  onClick: React.MouseEventHandler<HTMLButtonElement> | undefined
+  onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined
 }
 const ThirdPartyBtn = (props: Props) => {
   return (
