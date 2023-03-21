@@ -17,7 +17,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         'Set-Cookie',
         cookie.serialize('user', '', {
           httpOnly: true, // only read in backend
-          // secure: process.env.NODE_ENV !== 'development', //secure while in production
+          secure: process.env.NODE_ENV !== 'development', //secure while in production
           expires: new Date(0), // expired long time ago
           sameSite: 'strict', // for more about same site - https://web.dev/samesite-cookies-expl...
           path: '/',
