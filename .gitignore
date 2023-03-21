@@ -36,6 +36,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+#dev files
 *.csv
 TODO
 public/image/trial.jpeg

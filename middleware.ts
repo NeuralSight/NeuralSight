@@ -1,22 +1,29 @@
 import { NextRequest } from 'next/dist/server/web/spec-extension/request'
 import { NextResponse } from 'next/dist/server/web/spec-extension/response'
 
-export function middleware(req: NextRequest) {
-  // const secret = process.env.SECRET
+// helper function
+function createNewUrl(urlPath: string, req: NextRequest): string {
+  return new URL(urlPath, req.url).href
+}
 
-  // console.log('first', process.env.ALLOWED_ORGINS)
+export function middleware(req: NextRequest) {
   const api_token = req.cookies.get('user')
   const url = req.url
-  // console.log('api_token', api_token)
-  if (!api_token && config.matchers.includes(url)) {
+  const matchers: String[] = []
+
+  config.matchers.forEach((matcher) => {
+    matchers.push(createNewUrl(matcher, req))
+  })
+  // console.log('matchers', matchers)
+  if (!api_token && matchers.includes(url)) {
     const urlClone = req.nextUrl.clone()
     urlClone.pathname = '/auth'
-    console.log('url', urlClone)
     return NextResponse.redirect(urlClone)
   }
+  // console.log('auth', createNewUrl('/auth', req))
   if (
     api_token &&
-    url.startsWith('http://localhost:3000/auth') &&
+    url.startsWith(createNewUrl('/auth', req)) &&
     !config.matchers.includes(url)
   ) {
     const urlClone = req.nextUrl.clone()
@@ -26,10 +33,6 @@ export function middleware(req: NextRequest) {
   }
 }
 
-export const config = {
-  matchers: [
-    'http://localhost:3000/dashboard',
-    'http://localhost:3000/report',
-    'http://localhost:3000/settings',
-  ],
+const config = {
+  matchers: ['dashboard', 'report', 'settings'],
 }
