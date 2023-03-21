@@ -246,7 +246,10 @@ function Auth({}: Props) {
               >
                 {isLoading && !isError ? 'logging in...' : ' login'}
               </Button>
-              <ThirdPartyBtn type='button'>
+              <ThirdPartyBtn
+                type='button'
+                onClick={() => alert('Not yet supported')}
+              >
                 {/* animate google icon to rotate once */}
                 <Icon
                   icon='flat-color-icons:google'
