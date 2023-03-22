@@ -6,6 +6,13 @@ function createNewUrl(urlPath: string, req: NextRequest): string {
   return new URL(urlPath, req.url).href
 }
 
+/**
+ * Auth Middleware - Global middleware
+ * ----------------
+ * i understand from next 13 their can be middleware for every page{subfolder} which while run first for that page
+ * @param req
+ * @returns
+ */
 export function middleware(req: NextRequest) {
   const api_token = req.cookies.get('user')
   const url = req.url
@@ -14,13 +21,12 @@ export function middleware(req: NextRequest) {
   config.matchers.forEach((matcher) => {
     matchers.push(createNewUrl(matcher, req))
   })
-  console.log('matchers', matchers)
+  // console.log('matchers', matchers)
   if (!api_token && matchers.includes(url)) {
     const urlClone = req.nextUrl.clone()
     urlClone.pathname = '/auth'
     return NextResponse.redirect(urlClone)
   }
-  // console.log('auth', createNewUrl('/auth', req))
   if (
     api_token &&
     url.startsWith(createNewUrl('/auth', req)) &&
