@@ -15,6 +15,7 @@ function createNewUrl(urlPath: string, req: NextRequest): string {
  */
 export function middleware(req: NextRequest) {
   const api_token = req.cookies.get('user')
+  console.log('api_token', api_token)
   const url = req.url
   const matchers: String[] = []
 
@@ -22,13 +23,15 @@ export function middleware(req: NextRequest) {
     matchers.push(createNewUrl(matcher, req))
   })
   // console.log('matchers', matchers)
-  if (!api_token && matchers.includes(url)) {
+  if (api_token?.value == 'undefined' && matchers.includes(url)) {
     const urlClone = req.nextUrl.clone()
     urlClone.pathname = '/auth'
     return NextResponse.redirect(urlClone)
   }
   if (
     api_token &&
+    api_token.name == 'user' &&
+    api_token.value != 'undefined' &&
     url.startsWith(createNewUrl('/auth', req)) &&
     !config.matchers.includes(url)
   ) {
