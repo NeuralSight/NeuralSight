@@ -6,14 +6,14 @@ import { NextApiRequest } from 'next'
 import { Dispatch, SetStateAction } from 'react'
 
 // ImageDetails
-interface AnyObject {
+export interface AnyObject {
   [key: string]: any
 }
-interface Pathogen {
+export interface Pathogen {
   type?: string
   confidence?: string
 }
-interface ImageDetails {
+export interface ImageDetails {
   patientID: string
   modality: string
   src: string | import('../dist/client/image').StaticImageData
@@ -23,7 +23,7 @@ interface ImageDetails {
   totalPathogens: string | number
 }
 
-interface FileInfo {
+export interface FileInfo {
   lastModified?: number
   lastModifiedDate?: string
   name: string
@@ -32,18 +32,18 @@ interface FileInfo {
   webkitRelativePath: string
 }
 
-interface FileTypeError {
+export interface FileTypeError {
   type: 'FILETYPE_ERR' | 'FILESIZE_ERR' | 'FILES_SELECTED_ERR'
   message?: string | 'oops something went wrong'
 }
 
-interface UserInfo {
+export interface UserInfo {
   access_token: string
   token_type?: string
 }
 
 // context types
-interface PatientContextType {
+export interface PatientContextType {
   patientId: string | undefined
   query: UseQueryResult<PatientResult[]>
   setPatientId: Dispatch<SetStateAction<string>>
@@ -57,7 +57,7 @@ interface PatientContextType {
   isSuccess: () => boolean
 }
 
-interface UserContextType {
+export interface UserContextType {
   // setUserInfo: () => Dispatch
   getUserInfo: () => User | undefined
   isLoading: () => boolean
@@ -65,7 +65,7 @@ interface UserContextType {
   isSuccess: () => boolean
 }
 
-interface ReportContextType {
+export interface ReportContextType {
   error: string | null
   detail: string | ErrorDetails[] | undefined
   setSetCurrentId: Dispatch<SetStateAction<number>>
@@ -82,48 +82,48 @@ interface ReportContextType {
 }
 
 // fast api error
-interface ErrorDetails {
+export interface ErrorDetails {
   loc: Array<string>
   msg: string
   type: string
 }
 
 // patient types
-interface Patient {
+export interface Patient {
   patientId: string
   token: string
 }
-interface Report {
+export interface Report {
   reportId: string
 }
 
-interface PatientPredictImage {
+export interface PatientPredictImage {
   formdata: FormData
   token: string
 }
-interface PatientUpdateReport extends Report {
+export interface PatientUpdateReport extends Report {
   token: string
   report: string
 }
 
-interface PatientReport extends Report {
+export interface PatientReport extends Report {
   report: string
 }
 
-interface NewUser {
+export interface NewUser {
   firstname: string
   lastname: string
   address: string
   location: string
   phone: string
 }
-interface PasswordUpdate {
+export interface PasswordUpdate {
   oldpass: string
   newpass: string
   confirmpass: string
 }
 // user types
-interface User {
+export interface User {
   email?: string
   full_name: string
   address: string
@@ -134,10 +134,10 @@ interface User {
   is_active?: boolean
   is_superuser?: boolean
 }
-interface UserError {
+export interface UserError {
   detail: string
 }
-interface UserWithoutFile {
+export interface UserWithoutFile {
   email?: string
   full_name: string
   address: string
@@ -149,14 +149,14 @@ interface UserWithoutFile {
 }
 
 // backend data
-interface PatientResult {
+export interface PatientResult {
   created_at: string
   id: string
   updated_at: string
   user_id: number
 }
 
-interface PatientReportResult {
+export interface PatientReportResult {
   disease: string
   details: {
     annotation_path: string
@@ -169,7 +169,7 @@ interface PatientReportResult {
   }
 }
 
-interface PatientInfoData {
+export interface PatientInfoData {
   created_at: string
   id: string
   report: PatientReportResult[]
@@ -177,7 +177,7 @@ interface PatientInfoData {
   user_id: number
 }
 
-interface AuthUser {
+export interface AuthUser {
   grant_type?: 'password' | string
   username: string
   password: string
