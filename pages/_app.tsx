@@ -17,7 +17,7 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { PatientProvider } from '../context/patient-context'
 import { ReportProvider } from '../context/report-context'
 import { UserProvider } from '../context/user-context'
-import ErrorMessagePage from '../components/ErrorMessagePage'
+import ErrorBoundaryPage from '../components/ErrorBoundary'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(
@@ -37,7 +37,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           // reset the state of your app so the error doesn't happen again
           onReset={reset}
           fallbackRender={({ error, resetErrorBoundary }) => (
-            <ErrorMessagePage
+            <ErrorBoundaryPage
               error={error}
               resetErrorBoundary={resetErrorBoundary}
             />
