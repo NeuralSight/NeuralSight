@@ -9,6 +9,8 @@ const CONNECTION_ERR_MSG = 'failed to connect, try again!'
 const TEL_INCORRECT_ERR_MSG =
   'incorrect telephone number MUST be nine digits and numbers only'
 const MAX_DIGIT_TEL_NO_ERR_MSG = 'max length 9 digits after country code'
+const ON_ERR_PRODUCTION_ERR_MSG =
+  'Oops, please try again.If the error persist contact us'
 
 // api errors
 const METHOD_NOT_ALLOWED_ERR_MSG = 'Method Not Allowed!'
@@ -26,4 +28,5 @@ export {
   TEL_INCORRECT_ERR_MSG,
   METHOD_NOT_ALLOWED_ERR_MSG,
   BAD_REQUEST_ERR_MSG,
+  ON_ERR_PRODUCTION_ERR_MSG,
 }

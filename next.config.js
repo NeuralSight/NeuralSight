@@ -41,7 +41,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['images.unsplash.com', 'backend.neuralsight.ai'],
+    domains: ['images.unsplash.com', 'app.backend.neuralsight.ai'],
   },
   async redirects() {
     return [

@@ -1,4 +1,4 @@
-import { useState, useEffect, MouseEvent, useContext } from 'react'
+import { useState, useEffect, MouseEvent, useContext, useId } from 'react'
 import { Icon } from '@iconify/react'
 import { IconButton } from '@mui/material'
 import Head from 'next/head'
@@ -38,6 +38,7 @@ type State = {
 }
 
 function Auth({}: Props) {
+  const id = useId()
   const {
     register,
     handleSubmit,
@@ -194,6 +195,7 @@ function Auth({}: Props) {
             <InputField
               id='password'
               label='password'
+              //TODO:add hints aria-describedby={id + 'password'}
               type={showPassword ? 'text' : 'password'}
               register={register('password', {
                 required: PASSWORD_REQUIRED_ERR_MSG,
@@ -223,6 +225,11 @@ function Auth({}: Props) {
                 </IconButton>
               }
             />
+            {/*
+            TODO: add hints
+            <div>
+              <p aria-hint={id + 'password'}><Icon/> password must contain 8 characters</p>
+            </div> */}
             <div className='w-full flex justify-between px-4 items-center'>
               <div className='flex text-zinc-500 font-medium gap-x-2 text-sm lg:text-base justify-center items'>
                 <input

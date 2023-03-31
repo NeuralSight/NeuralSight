@@ -14,10 +14,10 @@ import {
 } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { ErrorBoundary } from 'react-error-boundary'
-import Button from '../components/Button'
 import { PatientProvider } from '../context/patient-context'
 import { ReportProvider } from '../context/report-context'
 import { UserProvider } from '../context/user-context'
+import ErrorBoundaryPage from '../components/ErrorBoundary'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(
@@ -37,15 +37,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           // reset the state of your app so the error doesn't happen again
           onReset={reset}
           fallbackRender={({ error, resetErrorBoundary }) => (
-            <div className='w-full h-full flex flex-col items-center justify-center space-y-6'>
-              <div className='text-black text-xl capitalize'>
-                There was an error!
-              </div>
-              <div className='text-red-500 font-medium italic '>
-                {process.env.NODE_ENV !== 'production' && error.message}
-              </div>
-              <Button onClick={() => resetErrorBoundary()}>Try again</Button>
-            </div>
+            <ErrorBoundaryPage
+              error={error}
+              resetErrorBoundary={resetErrorBoundary}
+            />
           )}
         >
           <QueryClientProvider client={queryClient}>
