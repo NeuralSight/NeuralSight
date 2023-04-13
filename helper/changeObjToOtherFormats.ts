@@ -7,7 +7,7 @@ import { AnyObject } from '../typings'
  * @returns {string} - A string with URL-encoded form data.
  */
 export function changeObjToFormUrlencoded(obj: AnyObject): string {
-  let str = []
+  let str: string[] = []
   for (let key in obj) {
     if (obj.hasOwnProperty(key)) {
       str.push(encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]))
