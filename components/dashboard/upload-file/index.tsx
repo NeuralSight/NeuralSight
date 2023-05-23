@@ -13,7 +13,7 @@ import {
 } from 'react'
 import { FileInfo, FileTypeError } from '../../../typings'
 import Button from '../../Button'
-import ErrorMessage from '../../Message'
+import Message from '../../Message'
 import FilePreviewCard from './FilePreviewCard'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { postPatientImage } from '../../../utils/config'
@@ -213,18 +213,18 @@ const UploadFile = (props: Props) => {
     >
       <div className='pb-3 flex flex-col space-x-2'>
         {error || fileError ? (
-          <ErrorMessage isOpen={messageOpen} setMessageOpen={setMessageOpen}>
+          <Message isOpen={messageOpen} setMessageOpen={setMessageOpen}>
             {error || fileError?.message}
-          </ErrorMessage>
+          </Message>
         ) : null}
         {success && (
-          <ErrorMessage
+          <Message
             isSuccess
             isOpen={successMessageOpen}
             setMessageOpen={setSuccessMessageOpen}
           >
             {success}
-          </ErrorMessage>
+          </Message>
         )}
       </div>
       <input
