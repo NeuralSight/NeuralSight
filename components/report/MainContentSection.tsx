@@ -98,7 +98,11 @@ const MainContentSection = () => {
           </p>
         </div>
         {isLargeDevice && <NeuralLabsTextLogo />}
-        <div className='italic text-gray-400 text-xs lg:text-sm'>
+        <div
+          className='italic text-gray-400 text-xs lg:text-sm'
+          title='patient ID'
+          aria-label={`patient ID ${patientContext?.patientId}`}
+        >
           {patientContext?.patientId || 'No ID'}
         </div>
       </MainSectionNavBar>
@@ -127,20 +131,22 @@ const MainContentSection = () => {
                   download
                 </Button> */}
                 <div className='flex items-center'>
-                  <label
-                    className='inline-flex relative items-center cursor-pointer h-fit'
-                    data-tooltip-target='percentage-toggle'
-                    data-tooltip-placement='top'
-                  >
+                  <label className='inline-flex relative items-center cursor-pointer h-fit'>
                     <input
                       type='checkbox'
                       value=''
                       className='sr-only peer'
                       checked={selected}
+                      data-tooltip-placement='top'
+                      data-tooltip-target='percentage-toggle'
                       onChange={handleShowPercentage}
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-primary-light/50 rounded-full peer dark:bg-gray-700/40 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-light"></div>
+                    <div
+                      className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-primary-light/50 rounded-full peer dark:bg-gray-700/40 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-light"
+                      title='check to see the percentage'
+                    ></div>
                   </label>
+                  {/* TODO: fix this tooltip possibly popper js library need*/}
                   <ToolTip target='percentage-toggle'>
                     check to see the percentage
                   </ToolTip>
