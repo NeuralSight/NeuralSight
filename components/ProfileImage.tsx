@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { use, useContext } from 'react'
+import { useContext } from 'react'
 import { UserContext } from '../context/user-context'
 import { UserContextType } from '../typings'
 import DefaultProfile from '../public/user-solid.svg'
