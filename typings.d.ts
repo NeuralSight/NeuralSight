@@ -185,3 +185,8 @@ export interface AuthUser {
   client_id?: string | null | undefined
   client_secret?: string | null | undefined
 }
+
+export interface Detail {
+  details?: string
+  detail?: string
+}
