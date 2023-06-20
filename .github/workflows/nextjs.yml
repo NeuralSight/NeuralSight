@@ -26,7 +26,7 @@ jobs:
         uses: SpicyPizza/create-envfile@v1.3
         with:
           envkey_DEBUG: false
-          envkey_NEXT_PUBLIC_NEURALSIGHT_API_BASE_URL: https://app.backend.neuralsight.ai/api/v1
+          envkey_NEXT_PUBLIC_NEURALSIGHT_API_BASE_URL: https://backend.neuralsight.ai/api/v1
           envkey_ALLOWED_ORGINS: https://www.neuralsight.ai
           some_other_variable: foobar
           file_name: .env
