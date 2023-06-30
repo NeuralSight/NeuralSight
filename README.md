@@ -1,4 +1,4 @@
-# [NeuralSight](https://app.neuralsight.ai/)
+# [NeuralSight](https://ohif.neuralsight.ai/)
 ## What is in this Repository?
 This repository contain frontend code for NeuralSight Image Viewer Platform.
 
